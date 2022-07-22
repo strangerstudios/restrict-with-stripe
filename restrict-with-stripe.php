@@ -1,12 +1,19 @@
 <?php
 /**
  * Plugin Name: Restrict With Stripe
+ * Description: Monotetize your content using Stripe.
  * Version: 0.0
  * Author: Stranger Studios
+ * Text Domain: restrict-with-stripe
  */
 define( 'RWSTRIPE_VERSION', '0.0' );
 define( 'RWSTRIPE_DIR', dirname( __FILE__ ) );
 define( 'RWSTRIPE_BASE_FILE', __FILE__ );
+
+function rwstripe_load_textdomain() {
+	load_plugin_textdomain( 'restrict-with-stripe', false, plugin_basename( RWSTRIPE_DIR ) . '/languages' );
+}
+add_action( 'plugins_loaded', 'rwstripe_load_textdomain' );
 
 require_once( RWSTRIPE_DIR . '/adminpages/settings.php' ); // Set up settings page in admin.
 

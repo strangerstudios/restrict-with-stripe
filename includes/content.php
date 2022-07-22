@@ -26,14 +26,14 @@ function rwstripe_the_content( $content ) {
 		// The user does not have access. Check if they can purchase access.
 		$price = $RWStripe_Stripe->get_default_price_for_product( $stripe_product_id );
 		if ( empty( $price ) ) {
-			return '<p>This product is not purchasable.</a>';
+			return '<p>' . esc_html__( 'This product is not purchasable.', 'restrict-with-stripe') . '</p>';
 		}
 
 		ob_start();
 		// Check if the current user is logged in. If not, we need to create an account for them.
 		if ( empty( $current_user->ID ) ) {
 			?>
-			<p>You must be create an account to purchase a product.</a><br/>
+			<p><?php esc_html_e( 'You must be create an account to purchase a product.', 'restrict-with-stripe' ); ?></a><br/>
 			<label for="rwstripe-email">Email:</label>
 			<input name="rwstripe-email" class="rwstripe-email" /><br/>
 			<?php
@@ -47,7 +47,7 @@ function rwstripe_the_content( $content ) {
 			$price_text = $price->unit_amount_decimal/100 . ' ' . $price->currency . ' / ' . $price->recurring->interval_count . ' ' . $price->recurring->interval;
 		}
 		?>
-			<button type="button" class="rwstripe-checkout-button" value="<?php esc_html_e( $price->id ) ?>">Buy Now for <?php esc_html_e( $price_text ) ?></button>
+			<button type="button" class="rwstripe-checkout-button" value="<?php esc_html_e( $price->id ) ?>"><?php printf( esc_html__( 'Buy Now for %s', 'restrict-with-stripe' ), esc_html( $price_text ) ); ?></button>
 		<?php
 		$content = ob_get_clean();
 	}
@@ -89,18 +89,18 @@ function rwstripe_create_checkout_session_ajax() {
     if ( empty( $_REQUEST['price_id'] ) ) {
         exit;
     }
-    $price_id    = $_REQUEST['price_id'];
+    $price_id    = sanitize_text_field( $_REQUEST['price_id'] );
 
 	if ( empty( $_REQUEST['redirect_url'] ) ) {
         exit;
     }
-    $redirect_url = $_REQUEST['redirect_url'];
+    $redirect_url = esc_url( $_REQUEST['redirect_url'] );
 
     $current_user_id = get_current_user_id();
     if ( empty( $current_user_id ) ) {
         if ( ! empty( $_REQUEST['email'] ) ) {
             // Create a new user with the email address.
-            $current_user_id = wp_create_user( $_REQUEST['email'], wp_generate_password(), $_REQUEST['email'] );
+            $current_user_id = wp_create_user( sanitize_email( $_REQUEST['email'] ), wp_generate_password(), sanitize_email( $_REQUEST['email'] ) );
 
             // Check that user was created successfully.
             if ( is_wp_error( $current_user_id ) ) {

@@ -6,7 +6,7 @@
  * @since TBD
  */
 function rwstripe_admin_menu() {
-	add_options_page('Restrict With Stripe', 'Restrict With Stripe', 'manage_options', 'rwstripe', 'rwstripe_settings_page');	
+	add_options_page( esc_html__( 'Restrict With Stripe', 'restrict-with-stripe' ),  esc_html__( 'Restrict With Stripe', 'restrict-with-stripe' ), 'manage_options', 'rwstripe', 'rwstripe_settings_page');	
 }
 add_action('admin_menu', 'rwstripe_admin_menu');
 
@@ -22,7 +22,7 @@ function rwstripe_settings_page() {
 	?>
 	<div class="wrap">
 		<div id="icon-options-general" class="icon32"><br></div>
-		<h2>Restrict With Stripe</h2>
+		<h2><?php  esc_html_e( 'Restrict With Stripe', 'restrict-with-stripe' ); ?></h2>
 
 		<?php
 		// Determine if the gateway is connected in live mode and set var.
@@ -38,7 +38,7 @@ function rwstripe_settings_page() {
 				$connect_url_base
 			);
 			?>
-			<a href="<?php echo esc_url_raw( $connect_url ); ?>" class="pmpro-stripe-connect"><span><?php esc_html_e( 'Disconnect From Stripe', 'paid-memberships-pro' ); ?></span></a>
+			<a href="<?php echo esc_url_raw( $connect_url ); ?>" class="pmpro-stripe-connect"><span><?php esc_html_e( 'Disconnect From Stripe', 'restrict-with-stripe' ); ?></span></a>
 			<?php
 		} else {
 			$connect_url = add_query_arg(
@@ -50,7 +50,7 @@ function rwstripe_settings_page() {
 				$connect_url_base
 			);
 			?>
-			<a href="<?php echo esc_url_raw( $connect_url ); ?>" class="pmpro-stripe-connect"><span><?php esc_html_e( 'Connect with Stripe', 'paid-memberships-pro' ); ?></span></a>
+			<a href="<?php echo esc_url_raw( $connect_url ); ?>" class="pmpro-stripe-connect"><span><?php esc_html_e( 'Connect with Stripe', 'restrict-with-stripe' ); ?></span></a>
 			<?php
 		}
 		?>
@@ -78,12 +78,12 @@ function rwstripe_handle_connect_to_stripe_response() {
 			|| ! isset( $_REQUEST['pmpro_stripe_user_id'] )
 			|| ! isset( $_REQUEST['pmpro_stripe_access_token'] )
 		) {
-			$error = __( 'Invalid response from the Stripe Connect server.', 'paid-memberships-pro' );
+			$error = esc_html__( 'Invalid response from the Stripe Connect server.', 'restrict-with-stripe' );
 		} else {
 			// Update keys.
-			update_option( 'rwstripe_stripe_user_id', $_REQUEST['pmpro_stripe_user_id'] );
-			update_option( 'rwstripe_stripe_access_token', $_REQUEST['pmpro_stripe_access_token'] );
-			update_option( 'rwstripe_stripe_publishable_key', $_REQUEST['pmpro_stripe_publishable_key'] );
+			update_option( 'rwstripe_stripe_user_id', sanitize_text_field( $_REQUEST['pmpro_stripe_user_id'] ) );
+			update_option( 'rwstripe_stripe_access_token', sanitize_text_field( $_REQUEST['pmpro_stripe_access_token'] ) );
+			update_option( 'rwstripe_stripe_publishable_key', sanitize_text_field( $_REQUEST['pmpro_stripe_publishable_key'] ) );
 
 			wp_redirect( admin_url( 'options-general.php?page=rwstripe' ) );
 			exit;

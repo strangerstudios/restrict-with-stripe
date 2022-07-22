@@ -17,14 +17,14 @@ function rwstripe_edit_user_profile( $user ) {
 	$rwstripe_stripe = new RWStripe_Stripe();
 	$customer_portal = $rwstripe_stripe->get_customer_portal_url( $customer_id );
 	?>
-	<h2>Restrict With Stripe</h2>
+	<h2><?php esc_html_e( 'Restrict With Stripe', 'restrict-with-stripe' ); ?></h2>
 	<table>
 		<tr>
-			<th>Customer ID</th>
-			<td><input type='text' name='rwstripe_customer_id' value='<?php esc_html_e( $customer_id ); ?>'></td>
+			<th><?php esc_html_e( 'Customer ID', 'restrict-with-stripe' ); ?></th>
+			<td><input type='text' name='rwstripe_customer_id' value='<?php echo esc_html( $customer_id ); ?>'></td>
 		</tr>
 		<tr>
-			<th>Customer Portal</th>
+			<th><?php esc_html_e( 'Customer Portal', 'restrict-with-stripe' ); ?></th>
 			<td><a href="<?php echo $customer_portal; ?>"><?php echo $customer_portal; ?></a></td>
 		</tr>
 	</table>
@@ -44,7 +44,7 @@ function rwstripe_user_profile_update() {
 	}
 
 	if ( ! empty( $_REQUEST['user_id'] ) ) {
-		$user_id = $_REQUEST['user_id'];
+		$user_id = intval( $_REQUEST['user_id'] );
 	} else {
 		return;
 	}
