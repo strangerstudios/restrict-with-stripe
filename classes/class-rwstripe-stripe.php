@@ -169,10 +169,73 @@ class RWStripe_Stripe {
 	 * @return string|null
 	 */
 	public function get_customer_portal_url( $customer_id ) {
+		// Before we can send the user to the customer portal,
+		// we need to have a portal configuration.
+		$portal_configurations = array();
+		try {
+			// Get all active portal configurations.
+			$portal_configurations = Stripe\BillingPortal\Configuration::all( array( 'active' => true, 'limit' => 100 ) );
+		} catch( Exception $e ) {
+			// Error getting portal configurations. We'll try and create one below.
+		}
+
+		// Check if one of the portal configurations is default.
+		foreach ( $portal_configurations as $portal_configuration ) {
+			if ( $portal_configuration->is_default ) {
+				$portal_configuration_id = $portal_configuration->id;
+				break;
+			}
+		}
+
+		// If we don't have a default portal configuration, check if this plugin has created one.
+		if ( ! isset( $portal_configuration_id ) ) {
+			$saved_portal_configuration_id = get_option( 'rwstripe_portal_configuration_id', '' );
+			foreach( $portal_configurations as $portal_configuration ) {
+				if ( $portal_configuration->id == $saved_portal_configuration_id ) {
+					$portal_configuration_id = $portal_configuration->id;
+					break;
+				}
+			}
+		}
+
+		// If we still don't have a portal configuration, create one.
+		if ( ! isset( $portal_configuration_id ) ) {
+			$portal_configuration_params = array(
+				'business_profile' => array(
+					'headline' => esc_html__( 'Manage Your Subscriptions', 'woocommerce-gateway-stripe' ),
+				),
+				'features' => array(
+					'customer_update' => array( 'enabled' => true, 'allowed_updates' => array( 'address', 'phone', 'tax_id' ) ),
+					'invoice_history' => array( 'enabled' => true ),
+					'payment_method_update' => array( 'enabled' => true ),
+					'subscription_cancel' => array( 'enabled' => true ),
+					'subscription_pause' => array( 'enabled' => true ),
+				),
+			);
+			try {
+				$portal_configuration = Stripe\BillingPortal\Configuration::create( $portal_configuration_params );
+			} catch( Exception $e ) {
+				var_dump( $e );
+				$portal_configuration = null;
+			}
+
+			if ( ! empty( $portal_configuration ) ) {
+				$portal_configuration_id = $portal_configuration->id;
+				update_option( 'rwstripe_portal_configuration_id', $portal_configuration_id );
+			}
+		}
+
+		// If we still don't have a portal configuration, we can't create a customer portal URL.
+		if ( ! isset( $portal_configuration_id ) ) {
+			return null;
+		}
+
+		// Get the customer portal URL.
 		try {
 			$session = \Stripe\BillingPortal\Session::create([
 				'customer' => $customer_id,
 				'return_url' => get_site_url(),
+				'configuration' => $portal_configuration_id,
 			]);
 			return $session->url;
 		} catch ( Exception $e ) {
