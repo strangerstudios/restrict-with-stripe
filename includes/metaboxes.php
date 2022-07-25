@@ -9,15 +9,18 @@ function rwstripe_page_meta() {
 	global $post;
 	$rwstripe = RWStripe_Stripe::get_instance();
     $products = $rwstripe->get_all_products();
-	
-	$current_stripe_product_id = get_post_meta( $post->ID, 'rwstripe_stripe_product_id', true );
+
+	$current_stripe_product_ids = get_post_meta( $post->ID, 'rwstripe_stripe_product_ids', true );
+	if ( ! is_array( $current_stripe_product_ids ) ) {
+		$current_stripe_product_ids = array();
+	}
 	?>
 	<input type="hidden" name="rwstripe_noncename" id="rwstripe_noncename" value="<?php echo esc_attr( wp_create_nonce( plugin_basename(__FILE__) ) )?>" />
-	<select name="rwstripe_stripe_product_id">
+	<select name="rwstripe_stripe_product_ids[]">
 		<option value=''>-- <?php esc_html_e( 'None', 'restrict-with-stripe' ); ?> --</option>
 		<?php
 		foreach ( $products as $product ) {
-			$selected_modifier = $current_stripe_product_id === $product->id ? ' selected' : '';
+			$selected_modifier = in_array( $product->id, $current_stripe_product_ids ) ? ' selected' : '';
 			?>
 			<option value='<?php echo esc_attr( $product->id ); ?>' <?php echo $selected_modifier ?>><?php echo esc_html( $product->name ); ?></option>
 			<?php
@@ -68,16 +71,19 @@ function rwstripe_page_save( $post_id ) {
 	}
 
 	// OK, we're authenticated. We need to find and save the data.
-	if( ! empty( $_POST['rwstripe_stripe_product_id'] ) ) {
-		$mydata = sanitize_text_field( $_POST['rwstripe_stripe_product_id'] );
-	} else {
-		$mydata = NULL;
+	$restricted_product_ids = array();
+	if( ! empty( $_POST['rwstripe_stripe_product_ids'] && is_array( $_POST['rwstripe_stripe_product_ids'] ) ) ) {
+		foreach ( $_POST['rwstripe_stripe_product_ids'] as $product_id ) {
+			if ( ! empty( $product_id ) ) {
+				$restricted_product_ids[] = sanitize_text_field( $product_id );
+			}
+		}
 	}
 
 	// Update the post meta.
-	update_post_meta( $post_id, 'rwstripe_stripe_product_id', $mydata );
+	update_post_meta( $post_id, 'rwstripe_stripe_product_ids', $restricted_product_ids );
 
-	return $mydata;
+	return $restricted_product_ids;
 }
 
 /**
