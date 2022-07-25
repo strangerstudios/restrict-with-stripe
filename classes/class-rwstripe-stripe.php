@@ -75,7 +75,7 @@ class RWStripe_Stripe {
 		static $products = null;
 		if ( $products === null ) {
 			try {
-				$products = Stripe\Product::all( array( 'limit' => 100000 ) );
+				$products = Stripe\Product::all( array( 'limit' => 100 ) );
 			} catch ( Exception $e ) {
 				$products = array();
 			}
@@ -163,36 +163,6 @@ class RWStripe_Stripe {
 	}
 
 	/**
-	 * Get an active subscription for a given customer and product
-	 * if one exists.
-	 *
-	 * @since TBD
-	 *
-	 * @param string $customer_id to get subscription for.
-	 * @param string $product_id to get subscription for.
-	 * @return Stripe\Subscription|null
-	 */
-	private function get_active_customer_subscription_for_product( $customer_id, $product_id ) {
-		try {
-			$params = array(
-				'customer' => $customer_id,
-				'status'   => 'active',
-			);
-			$subscriptions = Stripe\Subscription::all( $params );
-			foreach( $subscriptions as $subscription ) {
-				foreach ( $subscription->items as $item ) {
-					if ( $item->price->product === $product_id ) {
-						return $subscription;
-					}
-				}
-			}
-		} catch ( Exception $e ) {
-			return null;
-		}
-		return null;
-	}
-
-	/**
 	 * Check if a customer has an active subscription for a given product or has
 	 * purchased it as a one-time payment.
 	 *
@@ -208,11 +178,29 @@ class RWStripe_Stripe {
 			$product_ids = array( $product_ids );
 		}
 
-		// Check if user has subscription for any of the passed products.
-		foreach ( $product_ids as $product_id ) {
-			$subscription = $this->get_active_customer_subscription_for_product( $customer_id, $product_id );
-			if ( $subscription ) {
-				return true;
+		// Get all subscriptions for the customer.
+		$subscription_params = array(
+			'customer' => $customer_id,
+			'limit' => 100,
+		);
+		try {
+			$subscriptions = Stripe\Subscription::all( $subscription_params );
+		} catch( Exception $e ) {
+			$subscriptions = array();
+		}
+
+		// Check if the customer has an active subscription for any of the products.
+		foreach( $subscriptions as $subscription ) {
+			// Make sure that the subscription is active or trialing.
+			if ( $subscription->status !== 'active' && $subscription->status !== 'trialing' ) {
+				continue;
+			}
+
+			// Check if the subscription has any of the product IDs.
+			foreach ( $subscription->items as $item ) {
+				if ( in_array( $item->price->product, $product_ids ) ) {
+					return true;
+				}
 			}
 		}
 
