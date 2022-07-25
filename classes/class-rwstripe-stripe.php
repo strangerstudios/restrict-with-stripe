@@ -131,63 +131,20 @@ class RWStripe_Stripe {
 	}
 
 	/**
-	 * Get all payment intents for a given customer.
+	 * Get all checkout sessions for a given customer.
 	 *
 	 * @since TBD
 	 *
-	 * @param string $customer_id to get payment intents for.
-	 * @return Stripe\PaymentIntent[] Array of Stripe\PaymentIntent objects.
-	 */
-	private function get_all_payment_intents_for_customer( $customer_id ) {
-		static $payment_intents = null;
-		if ( $payment_intents === null ) {
-			try {
-				$payment_intents = Stripe\PaymentIntent::all( array( 'customer' => $customer_id, 'limit' => 10000 ) );
-			} catch ( Exception $e ) {
-				$payment_intents = array();
-			}
-		}
-		return $payment_intents;
-	}
-
-	/**
-	 * Get a checkout session from Stripe.
-	 *
-	 * @since TBD
-	 *
-	 * @param string $checkout_session_id to get.
-	 * @return Stripe\Checkout\Session|null
-	 */
-	private function get_checkout_session( $checkout_session_id ) {
-		static $checkout_sessions = array();
-		if ( ! isset( $checkout_sessions[ $checkout_session_id ] ) ) {
-			try {
-				$checkout_sessions[ $checkout_session_id ] = Stripe\Checkout\Session::retrieve( $checkout_session_id );
-			} catch ( Exception $e ) {
-				$checkout_sessions[ $checkout_session_id ] = null;
-			}
-		}
-		return $checkout_sessions[ $checkout_session_id ];
-	}
-
-	/**
-	 * Get all checkout sessions for a given payment intent.
-	 *
-	 * @since TBD
-	 *
-	 * @param string $payment_intent_id to get sessions for.
+	 * @param string $customer_id to get checkout sessions for.
 	 * @return Stripe\Checkout\Session[] Array of Stripe\Checkout\Session objects.
 	 */
-	private function get_checkout_sessions_from_payment_intent( $payment_intent_id ) {
-		static $checkout_sessions = array();
-		if ( ! isset( $checkout_sessions[ $payment_intent_id ] ) ) {
-			try {
-				$checkout_sessions[ $payment_intent_id ] = Stripe\Checkout\Session::all( array( 'payment_intent' => $payment_intent_id, 'expand' => array( 'data.line_items' ), 'limit' => 10000 ) );
-			} catch ( Exception $e ) {
-				$checkout_sessions[ $payment_intent_id ] = null;
-			}
+	private function get_checkout_sessions_for_customer( $customer_id ) {
+		try {
+			$checkout_sessions = Stripe\Checkout\Session::all( array( 'customer' => $customer_id, 'limit' => 10000, 'expand' => array( 'data.line_items', 'data.payment_intent' ) ) );
+		} catch ( Exception $e ) {
+			$checkout_sessions = array();
 		}
-		return $checkout_sessions[ $payment_intent_id ];
+		return $checkout_sessions;
 	}
 
 	/**
@@ -275,17 +232,23 @@ class RWStripe_Stripe {
 		}
 
 		// Check if user has purchased with a one-time payment.
-		$payment_intents = $this->get_all_payment_intents_for_customer( $customer_id );
-		foreach ( $payment_intents as $payment_intent ) {
-			if ( empty( $payment_intent->invoice ) ) {
-				// Payment is not recurring.
-				$checkout_sessions = $this->get_checkout_sessions_from_payment_intent( $payment_intent->id );
-				foreach( $checkout_sessions as $checkout_session ) {
-					foreach ( $checkout_session->line_items as $line_item ) {
-						if ( empty( $line_item->price->recurring ) && $line_item->price->product === $product_id ) {
-							return true;
+		$checkout_sessions = $this->get_checkout_sessions_for_customer( $customer_id );
+		foreach ( $checkout_sessions as $checkout_session ) {
+			// Verify that the checkout was successful.
+			if ( $checkout_session->payment_status !== 'paid' ) {
+				continue;
+			}
+
+			// Check whether a one-time payment was made for this product.
+			foreach ( $checkout_session->line_items as $line_item ) {
+				if ( empty( $line_item->price->recurring ) && $line_item->price->product === $product_id ) {
+					// Make sure the charge was not refunded.
+					foreach ( $checkout_session->payment_intent->charges->data as $charge ) {
+						if ( $charge->refunded ) {
+							continue 2; // Move to checking the next line item.
 						}
 					}
+					return true;
 				}
 			}
 		}

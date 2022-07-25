@@ -34,6 +34,7 @@ function rwstripe_get_customer_id_for_user( $user_id = null ) {
             return null;
         }
         $customer_id = $new_customer->id;
+        update_user_meta( $user_id, 'rwstripe_customer_id', $customer_id );
     }
     return $customer_id;
 }
