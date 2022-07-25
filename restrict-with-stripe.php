@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: Restrict With Stripe
- * Description: Monotetize your content using Stripe.
+ * Description: Monetize your content using Stripe.
  * Version: 0.0
  * Author: Stranger Studios
  * Text Domain: restrict-with-stripe
