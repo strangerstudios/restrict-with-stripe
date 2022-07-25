@@ -92,21 +92,16 @@ class RWStripe_Stripe {
 	 * @return Stripe\Price|null The default price for the product or null if no default price exists.
 	 */
 	public function get_default_price_for_product( $product_id ) {
-		$all_prices = $this->get_all_prices();
-		$prices_for_product = array();
-		foreach ( $all_prices as $price ) {
-			if ( $price->product === $product_id ) {
-				$prices_for_product[] = $price;
+		$all_products = $this->get_all_products();
+		foreach ( $all_products as $product ) {
+			if ( $product->id == $product_id ) {
+				$price_id = $product->default_price;
+				if ( ! empty( $price_id ) ) {
+					return $this->get_price( $price_id );
+				}
 			}
 		}
-
-		// TODO: Get smarter about which price we choose.
-		if ( empty( $prices_for_product ) ) {
-			return '';
-		} else {
-			// Return ID of the first price.
-			return $prices_for_product[0];
-		}
+		return null;
 	}
 
 	/**
@@ -128,23 +123,6 @@ class RWStripe_Stripe {
 			}
 		}
 		return $prices;
-	}
-
-	/**
-	 * Get all checkout sessions for a given customer.
-	 *
-	 * @since TBD
-	 *
-	 * @param string $customer_id to get checkout sessions for.
-	 * @return Stripe\Checkout\Session[] Array of Stripe\Checkout\Session objects.
-	 */
-	private function get_checkout_sessions_for_customer( $customer_id ) {
-		try {
-			$checkout_sessions = Stripe\Checkout\Session::all( array( 'customer' => $customer_id, 'limit' => 10000, 'expand' => array( 'data.line_items', 'data.payment_intent' ) ) );
-		} catch ( Exception $e ) {
-			$checkout_sessions = array();
-		}
-		return $checkout_sessions;
 	}
 
 	/**
@@ -221,39 +199,65 @@ class RWStripe_Stripe {
 	 * @since TBD
 	 *
 	 * @param string $customer_id to check.
-	 * @param string $product_id to check.
+	 * @param string[] $product_ids to check.
 	 * @return bool
 	 */
-	public function customer_has_product( $customer_id, $product_id ) {
-		// Check if user has subscription.
-		$subscription = $this->get_active_customer_subscription_for_product( $customer_id, $product_id );
-		if ( ! empty( $subscription ) ) {
-			return true;
+	public function customer_has_product( $customer_id, $product_ids ) {
+		// Make sure that $product_ids is an array.
+		if ( ! is_array( $product_ids ) ) {
+			$product_ids = array( $product_ids );
 		}
 
-		// Check if user has purchased with a one-time payment.
-		$checkout_sessions = $this->get_checkout_sessions_for_customer( $customer_id );
-		foreach ( $checkout_sessions as $checkout_session ) {
-			// Verify that the checkout was successful.
-			if ( $checkout_session->payment_status !== 'paid' ) {
-				continue;
-			}
-
-			// Check whether a one-time payment was made for this product.
-			foreach ( $checkout_session->line_items as $line_item ) {
-				if ( empty( $line_item->price->recurring ) && $line_item->price->product === $product_id ) {
-					// Make sure the charge was not refunded.
-					foreach ( $checkout_session->payment_intent->charges->data as $charge ) {
-						if ( $charge->refunded ) {
-							continue 2; // Move to checking the next line item.
-						}
-					}
-					return true;
-				}
+		// Check if user has subscription for any of the passed products.
+		foreach ( $product_ids as $product_id ) {
+			$subscription = $this->get_active_customer_subscription_for_product( $customer_id, $product_id );
+			if ( $subscription ) {
+				return true;
 			}
 		}
 
 		return false;
+	}
+
+	/**
+	 * Get a $0 reccurring price for the given product.
+	 * If one does not exist, create it.
+	 *
+	 * @since TBD
+	 *
+	 * @param string $product_id Product to get free recurring price for.
+	 * @param string $currency   Currency to get price in.
+	 * @return Stripe\Price|null
+	 */
+	private function get_free_recurring_price_for_product( $product_id, $currency ) {
+		// Look for an existing price for the product.
+		$prices = $this->get_all_prices();
+		foreach ( $prices as $price ) {
+			if ( $price->product === $product_id &&
+				$price->unit_amount === 0 &&
+				$price->currency === $currency &&
+				$price->type === 'recurring' &&
+				$price->active
+			) {
+				return $price;
+			}
+		}
+
+		// No exising price found, create a new one.
+		try {
+			$price = Stripe\Price::create( array(
+				'product' => $product_id,
+				'unit_amount' => 0,
+				'currency' => $curency,
+				'recurring' => array(
+					'interval' => 'year',
+					'interval_count' => 1,
+				),
+			) );
+		} catch ( Exception $e ) {
+			$price = null;
+		}
+		return $price;
 	}
 
 	/**
@@ -271,27 +275,38 @@ class RWStripe_Stripe {
 		if ( empty( $price ) || empty( $customer_id ) || empty( $redirect_url ) ) {
 			return;
 		}
+
+		// Set up line items.
+		$line_items = array(
+			array(
+				'price' => $price_id,
+				'quantity' => 1,
+			),
+		);
+
+		// If price is a one-time payment, we also want to set up a free subscription to track access.
+		if ( $price['type'] !== 'recurring' ) {
+			$free_price = $this->get_free_recurring_price_for_product( $price['product'], $price['currency'] );
+			if ( empty( $free_price ) ) {
+				// Can't send user to checkout, access would not be given after payment.
+				return;
+			}
+			$line_items[] = array(
+				'price' => $free_price['id'],
+				'quantity' => 1,
+			);
+		}
 		
 		$checkout_session_params = array(
 			'customer' => $customer_id,
-			'line_items' => [[
-			  'price' => $price_id,
-			  'quantity' => 1,
-			]],
-			'mode' => $price['type'] == 'recurring' ? 'subscription' : 'payment', // Get from price.
+			'line_items' => $line_items,
+			'mode' => 'subscription',
 			'success_url' => $redirect_url,
 			'cancel_url' => $redirect_url,
+			'subscription_data' => array(
+				'application_fee_percent' => 2,
+			),
 		);
-
-		if ( $price['type'] == 'recurring' ) {
-			$checkout_session_params['subscription_data'] = array(
-				'application_fee_percent' => 2 // Get paid for subscriptions.
-			);
-		} else {
-			$checkout_session_params['payment_intent_data'] = array(
-				'application_fee_amount' => 0.02 * $price['amount'] // Get paid for orders.
-			);
-		}
 
 		try {
 			return \Stripe\Checkout\Session::create( $checkout_session_params );
