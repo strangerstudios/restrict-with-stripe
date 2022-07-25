@@ -12,7 +12,7 @@ function rwstripe_customer_portal_shortcode() {
 	if ( empty( $customer_id ) ) {
 		return esc_html__( 'Your WordPress account is not linked to a Stripe customer.', 'restrict-with-stripe' );
 	}
-	$rwstripe_stripe = new RWStripe_Stripe();
+	$rwstripe_stripe = RWStripe_Stripe::get_instance();
 	$customer_portal = $rwstripe_stripe->get_customer_portal_url( $customer_id );
 	return esc_html__( 'Manage Purchases', 'restrict-with-stripe' ) . ': <a href="' . esc_url( $customer_portal ) . '">' . esc_url( $customer_portal ) . '</a>';
 }
