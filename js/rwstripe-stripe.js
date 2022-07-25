@@ -18,11 +18,10 @@ jQuery(document).ready(function(){
 				redirect_url: window.location.href
 			},
 			success: function(response) {
-				// TODO: Handle errors.
-				console.log(response);
-
 				// Redirect the user to the Stripe Checkout page.
-				window.location.replace(response.checkout_session_url);
+				if ( response.checkout_session_url ) {
+					window.location.replace(response.checkout_session_url);
+				}
 			},
 			error: function (xhr, ajaxOptions, thrownError) {
 			  alert(xhr.status);
