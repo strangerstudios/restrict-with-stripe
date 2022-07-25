@@ -4,6 +4,9 @@ jQuery(document).ready(function(){
 	 * create a new Stripe Checkout session and redirect the user.
 	 */
 	jQuery( ".rwstripe-checkout-button" ).click( function (e) {
+		// Disable the button to prevent multiple clicks.
+		jQuery( ".rwstripe-checkout-button" ).prop( "disabled", true );
+
 		// Get the value of the rwstripe-email field next to the pay button.
 		var email = jQuery(this).siblings().filter(".rwstripe-email").val();
 
@@ -22,6 +25,9 @@ jQuery(document).ready(function(){
 				if ( response.checkout_session_url ) {
 					window.location.replace(response.checkout_session_url);
 				}
+
+				// Re-enable the button.
+				jQuery( ".rwstripe-checkout-button" ).prop( "disabled", false );
 			},
 			error: function (xhr, ajaxOptions, thrownError) {
 			  alert(xhr.status);
