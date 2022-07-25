@@ -215,7 +215,6 @@ class RWStripe_Stripe {
 			try {
 				$portal_configuration = Stripe\BillingPortal\Configuration::create( $portal_configuration_params );
 			} catch( Exception $e ) {
-				var_dump( $e );
 				$portal_configuration = null;
 			}
 
