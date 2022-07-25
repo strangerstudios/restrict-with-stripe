@@ -143,6 +143,24 @@ class RWStripe_Stripe {
 	}
 
 	/**
+	 * Update the email for a given customer in Stripe.
+	 *
+	 * @since TBD
+	 *
+	 * @param string $customer_id to update.
+	 * @param string $email to update with.
+	 */
+	public function update_customer_email( $customer_id, $email ) {
+		try {
+			$customer = Stripe\Customer::retrieve( $customer_id );
+			$customer->email = $email;
+			$customer->save();
+		} catch ( Exception $e ) {
+			// Do nothing.
+		}
+	}
+
+	/**
 	 * Get a Customer Portal URL for a given customer.
 	 *
 	 * @since TBD

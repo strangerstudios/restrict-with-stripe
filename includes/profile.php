@@ -55,3 +55,27 @@ function rwstripe_user_profile_update() {
 }
 add_action( 'personal_options_update', 'rwstripe_user_profile_update' );
 add_action( 'edit_user_profile_update', 'rwstripe_user_profile_update' );
+
+/**
+ * If a user's email address change, try to update it in Stripe.
+ *
+ * @since TBD
+ *
+ * @param int $user_id ID of user whose email address changed.
+ * @param WP_User $old_user Old user object.
+ */
+function rwstripe_user_email_change( $user_id, $old_user ) {
+	// Check if the email address changed.
+	$new_user = get_userdata( $user_id );
+	if ( $new_user->user_email != $old_user->user_email ) {
+		// Get the Stripe customer.
+		$customer_id = rwstripe_get_customer_id_for_user( $user_id );
+
+		// Update the Stripe customer email.
+		if ( ! empty( $customer_id ) ) {
+			$rwstripe_stripe = RWStripe_Stripe::get_instance();
+			$rwstripe_stripe->update_customer_email( $customer_id, $new_user->user_email );
+		}
+	}
+}
+add_action( 'profile_update', 'rwstripe_user_email_change', 10, 2 );
