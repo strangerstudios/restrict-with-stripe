@@ -38,3 +38,29 @@ function rwstripe_get_customer_id_for_user( $user_id = null ) {
     }
     return $customer_id;
 }
+
+/**
+ * Register the rwstripe_stripe_product_ids post meta
+ * so that it can be updated in the block editor.
+ *
+ * @since 1.0
+ */
+function rwstripe_register_post_meta() {
+	register_meta( 
+		'post', 
+		'rwstripe_stripe_product_ids', 
+		array(
+ 			'type'		=> 'array',
+ 			'single'	=> true,
+ 			'show_in_rest'	=> array(
+				'schema' => array(
+					'type' => 'array',
+					'items' => array(
+						'type' => 'string',
+					),
+				),
+			),
+ 		)
+	);
+}
+add_action( 'init', 'rwstripe_register_post_meta' );

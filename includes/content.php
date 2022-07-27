@@ -56,24 +56,3 @@ function rwstripe_the_content( $content ) {
 }
 add_filter( 'the_content', 'rwstripe_the_content' );
 
-/**
- * Set up JavaScript to handle the purchase button.
- *
- * @since TBD
- */
-function rwstripe_enqueue_scripts() {
-    wp_enqueue_script( "stripe", "https://js.stripe.com/v3/", array(), null );
-    $localize_vars = array(
-		'restUrl' => rest_url() . 'rwstripe/v1/',
-		'nonce' => wp_create_nonce( 'wp_rest' ),
-    );
-
-    wp_register_script( 'rwstripe_stripe',
-        plugins_url( 'js/rwstripe-stripe.js', RWSTRIPE_BASE_FILE ),
-        array( 'jquery' ),
-        RWSTRIPE_VERSION
-    );
-    wp_localize_script( 'rwstripe_stripe', 'rwstripeStripe', $localize_vars );
-    wp_enqueue_script( 'rwstripe_stripe' );
-}
-add_action( 'wp_enqueue_scripts', 'rwstripe_enqueue_scripts' );

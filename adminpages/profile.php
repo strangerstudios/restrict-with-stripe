@@ -23,10 +23,7 @@ function rwstripe_edit_user_profile( $user ) {
 			<th><?php esc_html_e( 'Customer ID', 'restrict-with-stripe' ); ?></th>
 			<td><input type='text' name='rwstripe_customer_id' value='<?php echo esc_html( $customer_id ); ?>'></td>
 		</tr>
-		<tr>
-			<th><?php esc_html_e( 'Customer Portal', 'restrict-with-stripe' ); ?></th>
-			<td><a href="<?php echo $customer_portal; ?>"><?php echo $customer_portal; ?></a></td>
-		</tr>
+		<button type="button" class="rwstripe-customer-portal-button" value="<?php esc_html_e( $user->ID ) ?>"><?php esc_html_e( 'Stripe Customer Portal', 'restrict-with-stripe' ); ?></button>
 	</table>
 	<?php
 }

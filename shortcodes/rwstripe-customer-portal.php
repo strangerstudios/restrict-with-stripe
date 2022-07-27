@@ -8,12 +8,9 @@
  * @return string HTML for link to Stripe Customer Portal.
  */
 function rwstripe_customer_portal_shortcode() {
-	$customer_id = rwstripe_get_customer_id_for_user();
-	if ( empty( $customer_id ) ) {
-		return esc_html__( 'Your WordPress account is not linked to a Stripe customer.', 'restrict-with-stripe' );
+	if ( ! is_user_logged_in() ) {
+		return esc_html__( 'You must be logged in to manage your purchases..', 'restrict-with-stripe' );
 	}
-	$rwstripe_stripe = RWStripe_Stripe::get_instance();
-	$customer_portal = $rwstripe_stripe->get_customer_portal_url( $customer_id );
-	return esc_html__( 'Manage Purchases', 'restrict-with-stripe' ) . ': <a href="' . esc_url( $customer_portal ) . '">' . esc_url( $customer_portal ) . '</a>';
+	return '<button type="button" class="rwstripe-customer-portal-button">' . esc_html__( 'Manage Purchases', 'restrict-with-stripe' ) . '</button>';
 }
 add_shortcode( 'rwstripe_customer_portal', 'rwstripe_customer_portal_shortcode' );

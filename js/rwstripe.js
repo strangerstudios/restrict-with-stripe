@@ -12,7 +12,7 @@ jQuery(document).ready(function(){
 
 		// Create a checkout session.
 		jQuery.noConflict().ajax({
-			url: rwstripeStripe.restUrl + 'checkout',
+			url: rwstripe.restUrl + 'checkout',
 			dataType: 'json',
 			data: {
 				price_id: e.target.value,
@@ -20,7 +20,7 @@ jQuery(document).ready(function(){
 				redirect_url: window.location.href
 			},
 			beforeSend: function (xhr) {
-				xhr.setRequestHeader('X-WP-Nonce', rwstripeStripe.nonce);
+				xhr.setRequestHeader('X-WP-Nonce', rwstripe.nonce);
 			},
 			success: function(response) {
 				// Redirect the user to the Stripe Checkout page.
@@ -47,9 +47,9 @@ jQuery(document).ready(function(){
 
 		// Create a portal session.
 		jQuery.noConflict().ajax({
-			url: rwstripeStripe.restUrl + 'customer_portal_url',
+			url: rwstripe.restUrl + 'customer_portal_url',
 			beforeSend: function (xhr) {
-				xhr.setRequestHeader('X-WP-Nonce', rwstripeStripe.nonce);
+				xhr.setRequestHeader('X-WP-Nonce', rwstripe.nonce);
 			},
 			success: function(response) {
 				// Redirect the user to the Stripe Customer Portal.
