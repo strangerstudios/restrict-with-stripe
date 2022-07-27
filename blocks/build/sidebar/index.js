@@ -99,7 +99,11 @@ __webpack_require__.r(__webpack_exports__);
     PluginDocumentSettingPanel
   } = wp.editPost;
   const {
-    SelectControl
+    Component
+  } = wp.element;
+  const {
+    SelectControl,
+    Spinner
   } = wp.components;
   const {
     withSelect,
@@ -133,29 +137,55 @@ __webpack_require__.r(__webpack_exports__);
       options: [{
         label: '-- Not Restricted --',
         value: ''
-      }, {
-        label: 'Product A',
-        value: 'a'
-      }, {
-        label: 'Product B',
-        value: 'b'
-      }, {
-        label: 'Product C',
-        value: 'c'
-      }]
+      }].concat(props.products.map(product => {
+        return {
+          label: product.name,
+          value: product.id
+        };
+      }))
     });
   });
-  registerPlugin('rwstripe-sidebar', {
-    render: function () {
+
+  class RWStripeSidebar extends Component {
+    constructor(props) {
+      super(props);
+      this.state = {
+        productList: [],
+        loadingProducts: true
+      };
+    }
+
+    componentDidMount() {
+      this.fetchProducts();
+    }
+
+    fetchProducts() {
+      wp.apiFetch({
+        path: 'rwstripe/v1/get_all_products'
+      }).then(data => {
+        this.setState({
+          productList: data,
+          loadingProducts: false
+        });
+      });
+    }
+
+    render() {
       return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(PluginDocumentSettingPanel, {
         name: "rwstripe-sidebar-panel",
         title: "Restrict With Stripe"
-      }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(RestrictionSelectControl, {
+      }, this.state.loadingProducts ? (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(Spinner, null) : (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(RestrictionSelectControl, {
         label: "Stripe Product",
-        metaKey: "rwstripe_test_restricted_product"
+        metaKey: "rwstripe_stripe_product_ids",
+        products: this.state.productList
       }));
-    },
-    icon: 'lock'
+    }
+
+  }
+
+  registerPlugin('mrwstripe-sidebar', {
+    icon: 'lock',
+    render: RWStripeSidebar
   });
 })(window.wp);
 })();

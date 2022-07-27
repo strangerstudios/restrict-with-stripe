@@ -2,9 +2,10 @@
 
 	const { registerPlugin } = wp.plugins;
 	const { PluginDocumentSettingPanel } = wp.editPost;
-
+	const { Component } = wp.element;
 	const { 
 		SelectControl,
+		Spinner,
 	} = wp.components;
 
 	const { withSelect, withDispatch } = wp.data;
@@ -14,7 +15,7 @@
 		withDispatch( function( dispatch, props ) {
 			return {
 				setMetaValue: function( value ) {
-					dispatch( 'core/editor' ).editPost( { meta: { [props.metaKey]: value } } );
+					dispatch( 'core/editor' ).editPost( { meta: { [props.metaKey]: value  } } );
 				}
 			}
 		} ),
@@ -30,44 +31,58 @@
 				label={ props.label }
 				value={ props.metaValue }
 				onChange={ ( content ) => { props.setMetaValue( content ) } }
-				options={[
-					{
-					  label: '-- Not Restricted --',
-					  value: ''
-					},
-					{
-					  label: 'Product A',
-					  value: 'a'
-					},
-					{
-					  label: 'Product B',
-					  value: 'b'
-					},
-					{
-					  label: 'Product C',
-					  value: 'c'
-					}
-				  ]}
+				options={ [ { label: '-- Not Restricted --', value: '' } ].concat( props.products.map( ( product ) => { return { label: product.name, value: product.id } } ) ) }
 			/>
 		);
 	});
 
-	registerPlugin( 'rwstripe-sidebar', {
-		render: function(){
-
+	class RWStripeSidebar extends Component {
+		constructor(props) {
+			super(props);
+			this.state = {
+				productList: [],
+				loadingProducts: true,
+			}
+		}
+	 
+		componentDidMount() {
+			this.fetchProducts();
+		}
+	 
+		fetchProducts() {
+			wp.apiFetch({
+				path: 'rwstripe/v1/get_all_products',
+			}).then(data => {
+				this.setState({
+					productList: data,
+					loadingProducts: false
+				});
+			});
+		}
+	
+		render() {
 			return (
 				<PluginDocumentSettingPanel
 					name="rwstripe-sidebar-panel"
 					title="Restrict With Stripe"
 				>
-					<RestrictionSelectControl label="Stripe Product" metaKey="rwstripe_test_restricted_product" />
-
+					{
+						this.state.loadingProducts ?
+							<Spinner /> :
+							<RestrictionSelectControl
+								label="Stripe Product"
+								metaKey="rwstripe_stripe_product_ids"
+								products={ this.state.productList }
+							/>
+					}
 				</PluginDocumentSettingPanel>
 			)
-			
-		},
-		icon: 'lock'
+		}
+	}
+	
+	registerPlugin( 'mrwstripe-sidebar', {
+		icon: 'lock',
+		render: RWStripeSidebar
 	} );
-
 
 } )( window.wp );
