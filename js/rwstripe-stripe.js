@@ -12,26 +12,52 @@ jQuery(document).ready(function(){
 
 		// Create a checkout session.
 		jQuery.noConflict().ajax({
-			url: rwstripeStripe.ajaxUrl,
+			url: rwstripeStripe.restUrl + 'checkout',
 			dataType: 'json',
 			data: {
-				action: 'rwstripe_create_checkout_session',
 				price_id: e.target.value,
 				email: email,
 				redirect_url: window.location.href
 			},
+			beforeSend: function (xhr) {
+				xhr.setRequestHeader('X-WP-Nonce', rwstripeStripe.nonce);
+			},
 			success: function(response) {
 				// Redirect the user to the Stripe Checkout page.
-				if ( response.checkout_session_url ) {
-					window.location.replace(response.checkout_session_url);
-				}
-
-				// Re-enable the button.
-				jQuery( ".rwstripe-checkout-button" ).prop( "disabled", false );
+				window.location.replace( response );
 			},
 			error: function (xhr, ajaxOptions, thrownError) {
-			  alert(xhr.status);
-			  alert(thrownError);
+				// Show the error message.
+				var err = eval("(" + xhr.responseText + ")");
+  				alert(err.message);
+
+				// Disable the button so that the user can try again.
+				jQuery( ".rwstripe-checkout-button" ).prop( "disabled", false );
+			}
+		});
+	});
+
+	/**
+	 * When the user clicks the button to go to the Stripe Customer Portal,
+	 * get the link for a portal session and redirect the user.
+	 */
+	jQuery( ".rwstripe-customer-portal-button" ).click( function (e) {
+		// Disable the button to prevent multiple clicks.
+		jQuery( ".rwstripe-customer-portal-button" ).prop( "disabled", true );
+
+		// Create a portal session.
+		jQuery.noConflict().ajax({
+			url: rwstripeStripe.restUrl + 'customer_portal_url',
+			beforeSend: function (xhr) {
+				xhr.setRequestHeader('X-WP-Nonce', rwstripeStripe.nonce);
+			},
+			success: function(response) {
+				// Redirect the user to the Stripe Customer Portal.
+				window.location.replace( response );
+			},
+			error: function (xhr, ajaxOptions, thrownError) {
+				var err = eval("(" + xhr.responseText + ")");
+				alert(err.message);
 			}
 		});
 	});

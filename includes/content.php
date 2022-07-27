@@ -64,7 +64,8 @@ add_filter( 'the_content', 'rwstripe_the_content' );
 function rwstripe_enqueue_scripts() {
     wp_enqueue_script( "stripe", "https://js.stripe.com/v3/", array(), null );
     $localize_vars = array(
-        'ajaxUrl' => admin_url( "admin-ajax.php" ),
+		'restUrl' => rest_url() . 'rwstripe/v1/',
+		'nonce' => wp_create_nonce( 'wp_rest' ),
     );
 
     wp_register_script( 'rwstripe_stripe',
@@ -76,49 +77,3 @@ function rwstripe_enqueue_scripts() {
     wp_enqueue_script( 'rwstripe_stripe' );
 }
 add_action( 'wp_enqueue_scripts', 'rwstripe_enqueue_scripts' );
-
-/**
- * Handle the AJAX request to send a user to Stripe after optionally
- * creating a new WP_User.
- *
- * TODO: Add error handling.
- *
- * @since TBD
- */
-function rwstripe_create_checkout_session_ajax() {
-    if ( empty( $_REQUEST['price_id'] ) ) {
-        exit;
-    }
-    $price_id    = sanitize_text_field( $_REQUEST['price_id'] );
-
-	if ( empty( $_REQUEST['redirect_url'] ) ) {
-        exit;
-    }
-    $redirect_url = esc_url( $_REQUEST['redirect_url'] );
-
-    $current_user_id = get_current_user_id();
-    if ( empty( $current_user_id ) ) {
-        if ( ! empty( $_REQUEST['email'] ) ) {
-            // Create a new user with the email address.
-            $current_user_id = wp_create_user( sanitize_email( $_REQUEST['email'] ), wp_generate_password(), sanitize_email( $_REQUEST['email'] ) );
-
-            // Check that user was created successfully.
-            if ( is_wp_error( $current_user_id ) ) {
-                exit;
-            }
-
-            // Log the user into this new account.
-            wp_set_current_user( $current_user_id );
-            wp_set_auth_cookie( $current_user_id, true );
-        }
-    }
-
-    $customer_id = rwstripe_get_customer_id_for_user( $current_user_id );
-
-    $rwstripe_stripe  =  RWStripe_Stripe::get_instance();
-    $checkout_session = $rwstripe_stripe->create_checkout_session( $price_id, $customer_id, $redirect_url );
-    echo json_encode( array( 'checkout_session_url' => $checkout_session->url ) );
-    exit;
-}
-add_action( 'wp_ajax_rwstripe_create_checkout_session', 'rwstripe_create_checkout_session_ajax' );
-add_action( 'wp_ajax_nopriv_rwstripe_create_checkout_session', 'rwstripe_create_checkout_session_ajax' );

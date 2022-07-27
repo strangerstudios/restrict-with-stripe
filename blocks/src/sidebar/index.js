@@ -51,7 +51,7 @@
 	 
 		fetchProducts() {
 			wp.apiFetch({
-				path: 'rwstripe/v1/get_all_products',
+				path: 'rwstripe/v1/products',
 			}).then(data => {
 				this.setState({
 					productList: data,
