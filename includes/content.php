@@ -23,40 +23,58 @@ function rwstripe_the_content( $content ) {
 	// Check if the current user has access to this restricted page/post.
 	$RWStripe_Stripe = RWStripe_Stripe::get_instance();
 	if ( empty( $current_user->ID ) || ! $RWStripe_Stripe->customer_has_product( rwstripe_get_customer_id_for_user(), $stripe_product_ids ) ) {
-		$new_content_pre = '<div>';
-		$new_content_post = '</div>';
 		ob_start();
-		?>
-		<div>
-			<?php
-
-			// The user does not have access. Check if they can purchase access.
-			$price = $RWStripe_Stripe->get_default_price_for_product( $stripe_product_ids[0] );
-			if ( empty( $price ) ) {
-				esc_html_e( 'This product is not purchasable.', 'restrict-with-stripe');
-			} elseif(empty( $current_user->ID )) {
-				?>
-				<?php printf( esc_html__( 'You must create an account or %s to purchase this content.', 'restrict-with-stripe' ), '<a href="' . esc_url( wp_login_url( get_permalink() ) ) . '">' . esc_html__( 'log in', 'restrict-with-stripe' ) . '</a>' ); ?>
-				<br/>
-				<div class="rwstripe-checkout-error-message"></div>
-				<input name="rwstripe-email" class="rwstripe-email" placeholder="<?php echo esc_attr( __( 'Email Adress', 'restrict_with_stripe' ) ); ?>" /><br/>
-				<button type="button" class="rwstripe-checkout-button" value="<?php esc_html_e( $price->id ) ?>"><?php esc_html_e( 'Create Acount and Check Out', 'restrict-with-stripe' ); ?></button>
-				<?php
-			} else {
-				?>
-				<?php esc_html_e( 'You do not have access to this content.', 'restrict-with-stripe' ) ?>
-				<br/>
-				<div class="rwstripe-checkout-error-message"></div>
-				<button type="button" class="rwstripe-checkout-button" value="<?php esc_html_e( $price->id ) ?>"><?php esc_html_e( 'Purchase Access', 'restrict-with-stripe' ); ?></button>
-				<?php
-			}
-		?>
-		</div>
-		<?php
+		rwstripe_restricted_content_message( array( 'rwstripe_product_ids' => $stripe_product_ids ) );
 		$content = ob_get_clean();
 	}
-
 	return $content;
 }
 add_filter( 'the_content', 'rwstripe_the_content' );
 
+/**
+ * Output the "restricted content" message.
+ *
+ * @since TBD
+ *
+ * @param array $atts The message attributes.
+ */
+function rwstripe_restricted_content_message( $atts = array() ) {
+	$default_atts = array(
+		'rwstripe_logged_out_message' => get_option( 'rwstripe_logged_out_message', __( 'You must create an account or <a href="!!login_url!!">log in</a> to purchase this content.', 'restrict-with-stripe' ) ),
+		'rwstripe_logged_out_button_text' => get_option( 'rwstripe_logged_out_button_text', __( 'Log In', 'restrict-with-stripe' ) ),
+		'rwstripe_logged_in_message' => get_option( 'rwstripe_logged_in_message', __( 'You do not have access to this content.', 'restrict-with-stripe' ) ),
+		'rwstripe_logged_in_button_text' => get_option( 'rwstripe_logged_in_button_text', __( 'Purchase Access', 'restrict-with-stripe' ) ),
+		'rwstripe_not_purchasable_message' => get_option( 'rwstripe_not_purchasable_message', __( 'This product is not purchasable.', 'restrict-with-stripe' ) ),
+		'rwstripe_product_ids' => array(),
+	);
+	$atts = wp_parse_args( $atts, $default_atts );
+
+	$RWStripe_Stripe = RWStripe_Stripe::get_instance();
+	$price = $RWStripe_Stripe->get_default_price_for_product( $atts['rwstripe_product_ids'][0] );
+
+	?>
+	<div>
+		<?php
+		if ( empty( $price ) ) {
+			echo esc_html( $atts['rwstripe_not_purchasable_message'] );
+		} elseif ( ! is_user_logged_in() ) {
+			// We want to allow a link to log in if the user is not logged in, so we need to allow <a> tags in the message.
+			echo strip_tags( str_replace( '!!login_url!!', wp_login_url( get_permalink() ), $atts['rwstripe_logged_out_message'] ), '<a>' );
+			?>
+			<br/>
+			<div class="rwstripe-checkout-error-message"></div>
+			<input name="rwstripe-email" class="rwstripe-email" placeholder="<?php echo esc_attr( __( 'Email Adress', 'restrict_with_stripe' ) ); ?>" /><br/>
+			<button type="button" class="rwstripe-checkout-button" value="<?php esc_html_e( $price->id ) ?>"><?php echo esc_html( $atts['rwstripe_logged_in_button_text'], 'restrict-with-stripe' ); ?></button>
+			<?php
+		} else {
+			?>
+			<?php echo esc_html( $atts['rwstripe_logged_in_message'] ) ?>
+			<br/>
+			<div class="rwstripe-checkout-error-message"></div>
+			<button type="button" class="rwstripe-checkout-button" value="<?php echo esc_attr( $price->id ) ?>"><?php echo esc_html( $atts['rwstripe_logged_in_button_text'], 'restrict-with-stripe' ); ?></button>
+			<?php
+		}
+		?>
+	</div>
+	<?php
+}
