@@ -1,23 +1,23 @@
 {
-    "$schema": "https://schemas.wp.org/trunk/block.json",
-    "apiVersion": 2,
-    "name": "rwstripe/restricted-content",
-    "version": "0.0.0",
-    "title": "Restricted Content",
-    "category": "rwstripe",
-    "icon": "privacy",
-    "description": "Restrict individual blocks with Stripe products.",
-    "attributes": {
-        "rwstripe_restricted_products": {
-            "type": "array",
-            "default": []
-        }
-    },
-    "supports": {
-        "html": false
-    },
-    "textdomain": "rwstripe",
-    "editorScript": "file:./index.js",
-    "editorStyle": "file:./index.css",
-    "style": "file:./style-index.css"
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 2,
+	"name": "rwstripe/restricted-content",
+	"version": "0.0.0",
+	"title": "Restricted Content",
+	"category": "rwstripe",
+	"icon": "privacy",
+	"description": "Restrict individual blocks with Stripe products.",
+	"attributes": {
+		"rwstripe_restricted_products": {
+			"type": "array",
+			"default": []
+		}
+	},
+	"supports": {
+		"html": false
+	},
+	"textdomain": "rwstripe",
+	"editorScript": "file:./index.js",
+	"editorStyle": "file:./index.css",
+	"style": "file:./style-index.css"
 }

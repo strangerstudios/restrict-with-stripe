@@ -19,11 +19,11 @@ __webpack_require__.r(__webpack_exports__);
 
 
 /**
-  * React hook that is used to mark the block wrapper element.
-  * It provides all the necessary props like the class name.
-  *
-  * @see https://developer.wordpress.org/block-editor/packages/packages-block-editor/#useBlockProps
-  */
+ * React hook that is used to mark the block wrapper element.
+ * It provides all the necessary props like the class name.
+ *
+ * @see https://developer.wordpress.org/block-editor/packages/packages-block-editor/#useBlockProps
+ */
 
 const {
   Component
@@ -363,8 +363,8 @@ __webpack_require__.r(__webpack_exports__);
 
 (0,_wordpress_blocks__WEBPACK_IMPORTED_MODULE_0__.registerBlockType)(_block_json__WEBPACK_IMPORTED_MODULE_3__.name, {
   /**
-  * @see ./edit.js
-  */
+   * @see ./edit.js
+   */
   edit: _edit__WEBPACK_IMPORTED_MODULE_1__["default"],
 
   /**
