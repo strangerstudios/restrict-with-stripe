@@ -1,12 +1,18 @@
 {
 	"$schema": "https://schemas.wp.org/trunk/block.json",
 	"apiVersion": 2,
-	"name": "rwstripe/customer-portal",
+	"name": "rwstripe/restricted-content",
 	"version": "0.0.0",
-	"title": "Stripe Customer Portal",
+	"title": "Restricted Content",
 	"category": "rwstripe",
-	"icon": "bank",
-	"description": "Redirect users to Stripe to manage their purchases.",
+	"icon": "privacy",
+	"description": "Restrict individual blocks with Stripe products.",
+	"attributes": {
+		"rwstripe_restricted_products": {
+			"type": "array",
+			"default": []
+		}
+	},
 	"supports": {
 		"html": false
 	},

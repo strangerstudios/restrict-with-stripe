@@ -183,7 +183,7 @@ __webpack_require__.r(__webpack_exports__);
 
   }
 
-  registerPlugin('mrwstripe-sidebar', {
+  registerPlugin('rwstripe-sidebar', {
     icon: 'lock',
     render: RWStripeSidebar
   });

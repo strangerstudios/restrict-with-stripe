@@ -11,28 +11,45 @@ const CopyPlugin = require( 'copy-webpack-plugin' );
 const config = require( '@wordpress/scripts/config/webpack.config.js' );
 
 config.entry = {
-	'sidebar/index': path.resolve( process.cwd(), 'blocks', 'src', 'sidebar', 'index.js' ),
-	'customer-portal/index': path.resolve( process.cwd(), 'blocks', 'src', 'customer-portal', 'index.js' ),
+	'sidebar/index': path.resolve(
+		process.cwd(),
+		'blocks',
+		'src',
+		'sidebar',
+		'index.js'
+	),
+	'customer-portal/index': path.resolve(
+		process.cwd(),
+		'blocks',
+		'src',
+		'customer-portal',
+		'index.js'
+	),
+	'restricted-content/index': path.resolve(
+		process.cwd(),
+		'blocks',
+		'src',
+		'restricted-content',
+		'index.js'
+	),
 };
 
 config.output = {
 	filename: '[name].js',
 	path: path.resolve( process.cwd(), 'blocks', 'build' ),
-}
+};
 
 // Add a CopyPlugin to copy over block.json files.
 config.plugins.push(
-	new CopyPlugin(
-		{
-			patterns: [
-				{
-					context: 'blocks/src',
-					from: `*/block.json`,
-					noErrorOnMissing: true
-				},
-			],
-		}
-	)
+	new CopyPlugin( {
+		patterns: [
+			{
+				context: 'blocks/src',
+				from: `*/block.json`,
+				noErrorOnMissing: true,
+			},
+		],
+	} )
 );
 
 module.exports = config;
