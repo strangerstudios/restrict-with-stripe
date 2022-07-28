@@ -35,7 +35,6 @@ function rwstripe_the_content( $content ) {
 			?>
 			<?php printf( esc_html__( 'You must create an account or %s to purchase this content.', 'restrict-with-stripe' ), '<a href="' . esc_url( wp_login_url( get_permalink() ) ) . '">' . esc_html__( 'log in', 'restrict-with-stripe' ) . '</a>' ); ?>
 			<br/>
-			<br/>
 			<input name="rwstripe-email" class="rwstripe-email" placeholder="<?php echo esc_attr( __( 'Email Adress', 'restrict_with_stripe' ) ); ?>" /><br/>
 			<button type="button" class="rwstripe-checkout-button" value="<?php esc_html_e( $price->id ) ?>"><?php esc_html_e( 'Create Acount and Check Out', 'restrict-with-stripe' ); ?></button>
 			<?php
