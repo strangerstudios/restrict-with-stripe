@@ -14,7 +14,7 @@ function rwstripe_customer_portal_shortcode() {
 	if ( is_user_logged_in() ) {
 		$content = '<button type="button" class="rwstripe-customer-portal-button">' . esc_html__( 'Manage Purchases', 'restrict-with-stripe' ) . '</button>';
 	} else {
-		$content = '<a href="' . esc_url( wp_login_url() ) . '">' . esc_html__( 'Please log in to manage your purchases.', 'restrict-with-stripe' ) . '</a>';
+		$content = '<a href="' . esc_url( wp_login_url( get_permalink() ) ) . '">' . esc_html__( 'Please log in to manage your purchases.', 'restrict-with-stripe' ) . '</a>';
 	}
 
 	return $content_pre . $content . $content_post;
