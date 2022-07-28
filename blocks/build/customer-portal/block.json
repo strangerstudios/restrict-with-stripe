@@ -1,0 +1,17 @@
+{
+    "$schema": "https://schemas.wp.org/trunk/block.json",
+    "apiVersion": 2,
+    "name": "rwstripe/customer-portal",
+    "version": "0.0.0",
+    "title": "Stripe Customer Portal",
+    "category": "rwstripe",
+    "icon": "bank",
+    "description": "Redirect users to Stripe to manage their purchases.",
+    "supports": {
+        "html": false
+    },
+    "textdomain": "rwstripe",
+    "editorScript": "file:./index.js",
+    "editorStyle": "file:./index.css",
+    "style": "file:./style-index.css"
+}

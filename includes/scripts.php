@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Set up JavaScript to handle frontend buttons.
+ * Set up JavaScript to handle frontend actions and css.
  *
  * @since TBD
  */
@@ -17,6 +17,13 @@ function rwstripe_enqueue_scripts() {
 	);
 	wp_localize_script( 'rwstripe', 'rwstripe', $localize_vars );
 	wp_enqueue_script( 'rwstripe' );
+
+	wp_register_style( 'rwstripe',
+		plugins_url( 'css/rwstripe.css', RWSTRIPE_BASE_FILE ),
+		array(),
+		RWSTRIPE_VERSION
+	);
+	wp_enqueue_style( 'rwstripe' );
 }
 add_action( 'wp_enqueue_scripts', 'rwstripe_enqueue_scripts' );
 

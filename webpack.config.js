@@ -12,6 +12,7 @@ const config = require( '@wordpress/scripts/config/webpack.config.js' );
 
 config.entry = {
 	'sidebar/index': path.resolve( process.cwd(), 'blocks', 'src', 'sidebar', 'index.js' ),
+	'customer-portal/index': path.resolve( process.cwd(), 'blocks', 'src', 'customer-portal', 'index.js' ),
 };
 
 config.output = {

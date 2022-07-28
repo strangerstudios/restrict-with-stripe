@@ -21,6 +21,7 @@ require_once( RWSTRIPE_DIR . '/adminpages/profile.php' ); // Add settings for ad
 require_once( RWSTRIPE_DIR . '/includes/functions.php' ); // Declare common functions.
 require_once( RWSTRIPE_DIR . '/includes/content.php' ); // Restrict page/post content on frontend.
 require_once( RWSTRIPE_DIR . '/includes/scripts.php' ); // Set up JavaScript.
+require_once( RWSTRIPE_DIR . '/includes/blocks.php' ); // Register blocks.
 
 require_once( RWSTRIPE_DIR . '/shortcodes/rwstripe-customer-portal.php' ); // Shortcode to display link to Stripe Customer Portal.
 
