@@ -26,26 +26,34 @@ function rwstripe_the_content( $content ) {
 		$new_content_pre = '<div>';
 		$new_content_post = '</div>';
 		ob_start();
+		?>
+		<div>
+			<?php
 
-		// The user does not have access. Check if they can purchase access.
-		$price = $RWStripe_Stripe->get_default_price_for_product( $stripe_product_ids[0] );
-		if ( empty( $price ) ) {
-			esc_html_e( 'This product is not purchasable.', 'restrict-with-stripe');
-		} elseif(empty( $current_user->ID )) {
-			?>
-			<?php printf( esc_html__( 'You must create an account or %s to purchase this content.', 'restrict-with-stripe' ), '<a href="' . esc_url( wp_login_url( get_permalink() ) ) . '">' . esc_html__( 'log in', 'restrict-with-stripe' ) . '</a>' ); ?>
-			<br/>
-			<input name="rwstripe-email" class="rwstripe-email" placeholder="<?php echo esc_attr( __( 'Email Adress', 'restrict_with_stripe' ) ); ?>" /><br/>
-			<button type="button" class="rwstripe-checkout-button" value="<?php esc_html_e( $price->id ) ?>"><?php esc_html_e( 'Create Acount and Check Out', 'restrict-with-stripe' ); ?></button>
-			<?php
-		} else {
-			?>
-			<?php esc_html_e( 'You do not have access to this content.', 'restrict-with-stripe' ) ?>
-			<br/>
-			<button type="button" class="rwstripe-checkout-button" value="<?php esc_html_e( $price->id ) ?>"><?php esc_html_e( 'Purchase Access', 'restrict-with-stripe' ); ?></button>
-			<?php
-		}
-		$content = $new_content_pre . ob_get_clean() . $new_content_post;
+			// The user does not have access. Check if they can purchase access.
+			$price = $RWStripe_Stripe->get_default_price_for_product( $stripe_product_ids[0] );
+			if ( empty( $price ) ) {
+				esc_html_e( 'This product is not purchasable.', 'restrict-with-stripe');
+			} elseif(empty( $current_user->ID )) {
+				?>
+				<?php printf( esc_html__( 'You must create an account or %s to purchase this content.', 'restrict-with-stripe' ), '<a href="' . esc_url( wp_login_url( get_permalink() ) ) . '">' . esc_html__( 'log in', 'restrict-with-stripe' ) . '</a>' ); ?>
+				<br/>
+				<div class="rwstripe-checkout-error-message"></div>
+				<input name="rwstripe-email" class="rwstripe-email" placeholder="<?php echo esc_attr( __( 'Email Adress', 'restrict_with_stripe' ) ); ?>" /><br/>
+				<button type="button" class="rwstripe-checkout-button" value="<?php esc_html_e( $price->id ) ?>"><?php esc_html_e( 'Create Acount and Check Out', 'restrict-with-stripe' ); ?></button>
+				<?php
+			} else {
+				?>
+				<?php esc_html_e( 'You do not have access to this content.', 'restrict-with-stripe' ) ?>
+				<br/>
+				<div class="rwstripe-checkout-error-message"></div>
+				<button type="button" class="rwstripe-checkout-button" value="<?php esc_html_e( $price->id ) ?>"><?php esc_html_e( 'Purchase Access', 'restrict-with-stripe' ); ?></button>
+				<?php
+			}
+		?>
+		</div>
+		<?php
+		$content = ob_get_clean();
 	}
 
 	return $content;

@@ -29,7 +29,7 @@ jQuery(document).ready(function(){
 			error: function (xhr, ajaxOptions, thrownError) {
 				// Show the error message.
 				var err = eval("(" + xhr.responseText + ")");
-  				alert(err.message);
+  				jQuery(".rwstripe-checkout-error-message").html(err.message);
 
 				// Disable the button so that the user can try again.
 				jQuery( ".rwstripe-checkout-button" ).prop( "disabled", false );
