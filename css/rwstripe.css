@@ -1,6 +1,6 @@
 .rwstripe_customer_portal_shortcode a,
 .rwstripe_customer_portal_shortcode a:link,
-.rwstripe-customer-portal-button,
+.rwstripe_customer_portal_shortcode .rwstripe-customer-portal-button,
 .rwstripe-checkout-button {
 	background-color: #EFEFEF;
 	background-image: none;
@@ -29,7 +29,7 @@
 }
 
 .rwstripe_customer_portal_shortcode a:focus,
-.rwstripe-customer-portal-button:focus,
+.rwstripe_customer_portal_shortcode .rwstripe-customer-portal-button:focus,
 .rwstripe-checkout-button:focus {
 	outline: thin dotted;
 	outline: 5px auto -webkit-focus-ring-color;
@@ -38,7 +38,7 @@
 
 .rwstripe_customer_portal_shortcode a:focus,
 .rwstripe_customer_portal_shortcode a:hover,
-.rwstripe-customer-portal-button:hover,
+.rwstripe_customer_portal_shortcode .rwstripe-customer-portal-button:hover,
 .rwstripe-checkout-button:hover {
 	-webkit-box-shadow: none;
 	border-color: #D6D6D6;
