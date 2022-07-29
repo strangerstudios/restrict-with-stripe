@@ -29,6 +29,9 @@ const {
   Component
 } = wp.element;
 const {
+  __
+} = wp.i18n;
+const {
   InspectorControls,
   InnerBlocks
 } = wp.blockEditor;
@@ -66,13 +69,13 @@ class RWStripeRestrictionSelect extends Component {
   render() {
     return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", null, this.state.loadingProducts ? (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(Spinner, null) : (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(SelectControl, {
       type: "text",
-      label: "Stripe Product",
+      label: __('Stripe Product', 'restrict-with-stripe'),
       value: this.props.rwstripe_restricted_products,
       onChange: val => this.props.setAttributes({
         rwstripe_restricted_products: [val]
       }),
       options: [{
-        label: '-- Not Restricted --',
+        label: '-- ' + __('Not Restricted', 'restrict-with-stripe') + ' --',
         value: ''
       }].concat(this.state.productList.map(product => {
         return {
@@ -111,7 +114,7 @@ function Edit(_ref) {
     setAttributes: setAttributes
   }))), isSelected && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", blockProps, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("span", {
     className: "rwstripe-block-title"
-  }, "Restricted Content"), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(PanelBody, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(RWStripeRestrictionSelect, {
+  }, __('Restricted Content', 'restrict-with-stripe')), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(PanelBody, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(RWStripeRestrictionSelect, {
     rwstripe_restricted_products: attributes.rwstripe_restricted_products,
     setAttributes: setAttributes
   })), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(InnerBlocks, {
@@ -119,7 +122,7 @@ function Edit(_ref) {
     templateLock: false
   })), !isSelected && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", blockProps, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("span", {
     className: "rwstripe-block-title"
-  }, "Restricted Content"), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(InnerBlocks, {
+  }, __('Restricted Content', 'restrict-with-stripe')), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(InnerBlocks, {
     renderAppender: () => (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(InnerBlocks.ButtonBlockAppender, null),
     templateLock: false
   }))];
@@ -256,7 +259,7 @@ function _extends() {
   \**************************************************/
 /***/ ((module) => {
 
-module.exports = JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":2,"name":"rwstripe/restricted-content","version":"0.0.0","title":"Restricted Content","category":"rwstripe","icon":"privacy","description":"Restrict individual blocks with Stripe products.","attributes":{"rwstripe_restricted_products":{"type":"array","default":[]}},"supports":{"html":false},"textdomain":"rwstripe","editorScript":"file:./index.js","editorStyle":"file:./index.css","style":"file:./style-index.css"}');
+module.exports = JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":2,"name":"rwstripe/restricted-content","version":"0.0.0","title":"Restricted Content","category":"rwstripe","icon":"privacy","description":"Restrict individual blocks with Stripe products.","attributes":{"rwstripe_restricted_products":{"type":"array","default":[]}},"supports":{"html":false},"textdomain":"restrict-with-stripe","editorScript":"file:./index.js","editorStyle":"file:./index.css","style":"file:./style-index.css"}');
 
 /***/ })
 

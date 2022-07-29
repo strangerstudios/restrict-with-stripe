@@ -34,6 +34,9 @@ __webpack_require__.r(__webpack_exports__);
  */
 
 
+const {
+  __
+} = wp.i18n;
 /**
  * The edit function describes the structure of your block in the context of the
  * editor. This represents what the editor will render when the block is used.
@@ -56,7 +59,7 @@ function Edit(_ref) {
   return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", blockProps, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("button", {
     type: "button",
     class: "rwstripe-customer-portal-button"
-  }, "Manage Purchases"));
+  }, __('Manage Purchases', 'restrict-with-stripe')));
 }
 
 /***/ }),
@@ -119,7 +122,7 @@ module.exports = window["wp"]["element"];
   \***********************************************/
 /***/ ((module) => {
 
-module.exports = JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":2,"name":"rwstripe/customer-portal","version":"0.0.0","title":"Stripe Customer Portal","category":"rwstripe","icon":"bank","description":"Redirect users to Stripe to manage their purchases.","supports":{"html":false},"textdomain":"rwstripe","editorScript":"file:./index.js","editorStyle":"file:./index.css","style":"file:./style-index.css"}');
+module.exports = JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":2,"name":"rwstripe/customer-portal","version":"0.0.0","title":"Stripe Customer Portal","category":"rwstripe","icon":"bank","description":"Redirect users to Stripe to manage their purchases.","supports":{"html":false},"textdomain":"restrict-with-stripe","editorScript":"file:./index.js","editorStyle":"file:./index.css","style":"file:./style-index.css"}');
 
 /***/ })
 

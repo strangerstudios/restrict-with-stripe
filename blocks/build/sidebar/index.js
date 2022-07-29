@@ -93,6 +93,9 @@ __webpack_require__.r(__webpack_exports__);
 
 (function (wp) {
   const {
+    __
+  } = wp.i18n;
+  const {
     registerPlugin
   } = wp.plugins;
   const {
@@ -135,7 +138,7 @@ __webpack_require__.r(__webpack_exports__);
         props.setMetaValue(content);
       },
       options: [{
-        label: '-- Not Restricted --',
+        label: '-- ' + __('Not Restricted', 'restrict-with-stripe') + ' --',
         value: ''
       }].concat(props.products.map(product => {
         return {
@@ -173,9 +176,9 @@ __webpack_require__.r(__webpack_exports__);
     render() {
       return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(PluginDocumentSettingPanel, {
         name: "rwstripe-sidebar-panel",
-        title: "Restrict With Stripe"
+        title: __('Restrict With Stripe', 'restrict-with-stripe')
       }, this.state.loadingProducts ? (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(Spinner, null) : (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(RestrictionSelectControl, {
-        label: "Stripe Product",
+        label: __('Stripe Product', 'restrict-with-stripe'),
         metaKey: "rwstripe_stripe_product_ids",
         products: this.state.productList
       }));

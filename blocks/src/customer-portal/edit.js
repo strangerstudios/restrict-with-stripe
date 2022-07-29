@@ -13,6 +13,8 @@ import { TextControl } from '@wordpress/components';
  */
 import { useBlockProps } from '@wordpress/block-editor';
 
+const { __ } = wp.i18n;
+
 /**
  * The edit function describes the structure of your block in the context of the
  * editor. This represents what the editor will render when the block is used.
@@ -30,7 +32,7 @@ export default function Edit( { attributes, setAttributes } ) {
 	return (
 		<div { ...blockProps }>
 			<button type="button" class="rwstripe-customer-portal-button">
-				Manage Purchases
+				{ __( 'Manage Purchases', 'restrict-with-stripe' ) }
 			</button>
 		</div>
 	);

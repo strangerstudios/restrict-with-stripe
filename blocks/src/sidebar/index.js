@@ -1,4 +1,5 @@
 ( function ( wp ) {
+	const { __ } = wp.i18n;
 	const { registerPlugin } = wp.plugins;
 	const { PluginDocumentSettingPanel } = wp.editPost;
 	const { Component } = wp.element;
@@ -35,7 +36,7 @@
 					props.setMetaValue( content );
 				} }
 				options={ [
-					{ label: '-- Not Restricted --', value: '' },
+					{ label: '-- ' + __( 'Not Restricted', 'restrict-with-stripe' ) + ' --', value: '' },
 				].concat(
 					props.products.map( ( product ) => {
 						return { label: product.name, value: product.id };
@@ -73,13 +74,13 @@
 			return (
 				<PluginDocumentSettingPanel
 					name="rwstripe-sidebar-panel"
-					title="Restrict With Stripe"
+					title={ __( 'Restrict With Stripe', 'restrict-with-stripe' ) }
 				>
 					{ this.state.loadingProducts ? (
 						<Spinner />
 					) : (
 						<RestrictionSelectControl
-							label="Stripe Product"
+							label={ __( 'Stripe Product', 'restrict-with-stripe' ) }
 							metaKey="rwstripe_stripe_product_ids"
 							products={ this.state.productList }
 						/>

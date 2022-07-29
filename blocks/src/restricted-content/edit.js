@@ -8,6 +8,8 @@ import { useBlockProps } from '@wordpress/block-editor';
 
 const { Component } = wp.element;
 
+const { __ } = wp.i18n;
+
 const { InspectorControls, InnerBlocks } = wp.blockEditor;
 
 const { PanelBody, SelectControl, Spinner } = wp.components;
@@ -45,7 +47,7 @@ class RWStripeRestrictionSelect extends Component {
 				) : (
 					<SelectControl
 						type="text"
-						label="Stripe Product"
+						label={ __( 'Stripe Product', 'restrict-with-stripe' ) }
 						value={ this.props.rwstripe_restricted_products }
 						onChange={ ( val ) =>
 							this.props.setAttributes( {
@@ -53,7 +55,7 @@ class RWStripeRestrictionSelect extends Component {
 							} )
 						}
 						options={ [
-							{ label: '-- Not Restricted --', value: '' },
+							{ label: '-- ' + __( 'Not Restricted', 'restrict-with-stripe' ) + ' --', value: '' },
 						].concat(
 							this.state.productList.map( ( product ) => {
 								return {
@@ -102,7 +104,7 @@ export default function Edit( { attributes, setAttributes } ) {
 		),
 		isSelected && (
 			<div { ...blockProps }>
-				<span className="rwstripe-block-title">Restricted Content</span>
+				<span className="rwstripe-block-title">{ __( 'Restricted Content', 'restrict-with-stripe' ) }</span>
 				<PanelBody>
 					<RWStripeRestrictionSelect
 						rwstripe_restricted_products={
@@ -119,7 +121,7 @@ export default function Edit( { attributes, setAttributes } ) {
 		),
 		! isSelected && (
 			<div { ...blockProps }>
-				<span className="rwstripe-block-title">Restricted Content</span>
+				<span className="rwstripe-block-title">{ __( 'Restricted Content', 'restrict-with-stripe' ) }</span>
 				<InnerBlocks
 					renderAppender={ () => <InnerBlocks.ButtonBlockAppender /> }
 					templateLock={ false }
