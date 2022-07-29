@@ -56,7 +56,7 @@ function rwstripe_handle_restricted_content_block( $attributes, $content ) {
 		$RWStripe_Stripe = RWStripe_Stripe::get_instance();
 		if ( ! is_user_logged_in() || ! $RWStripe_Stripe->customer_has_product( rwstripe_get_customer_id_for_user(), $attributes['rwstripe_restricted_products'] ) ) {
 			ob_start();
-			rwstripe_restricted_content_message( array( 'rwstripe_product_ids' => $attributes['rwstripe_restricted_products'] ) );
+			rwstripe_restricted_content_message( $attributes['rwstripe_restricted_products'] );
 			return ob_get_clean();
 		}
 	}

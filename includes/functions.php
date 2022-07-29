@@ -64,3 +64,23 @@ function rwstripe_register_post_meta() {
 	);
 }
 add_action( 'init', 'rwstripe_register_post_meta' );
+
+/**
+ * Get options for the restricted content message.
+ *
+ * @since 1.0
+ */
+function rwstripe_get_restricted_content_message_options() {
+    $default_options = array(
+        'logged_out_message' => __( 'You must create an account or <a href="!!login_url!!">log in</a> to purchase this content.', 'restrict-with-stripe' ),
+		'logged_out_button_text' => __( 'Log In', 'restrict-with-stripe' ),
+		'logged_in_message' => __( 'You do not have access to this content.', 'restrict-with-stripe' ),
+		'logged_in_button_text' => __( 'Purchase Access', 'restrict-with-stripe' ),
+		'not_purchasable_message' => __( 'This product is not purchasable.', 'restrict-with-stripe' ),
+    );
+    $options = get_option( 'rwstripe_restricted_content_message' );
+    if ( ! is_array( $options ) ) {
+        $options = array();
+    }
+    return array_merge( $default_options, $options );
+}
