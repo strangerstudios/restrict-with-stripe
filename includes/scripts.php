@@ -28,7 +28,7 @@ function rwstripe_enqueue_scripts() {
 add_action( 'wp_enqueue_scripts', 'rwstripe_enqueue_scripts' );
 
 /**
- * Set up JavaScript to handle backend buttons.
+ * Set up JavaScript to handle backend buttons and css.
  *
  * @since TBD
  */
@@ -44,6 +44,13 @@ function rwstripe_enqueue_admin_scripts() {
 	);
 	wp_localize_script( 'rwstripe-admin', 'rwstripe', $localize_vars );
 	wp_enqueue_script( 'rwstripe-admin' );
+
+	wp_register_style( 'rwstripe-admin',
+		plugins_url( 'css/rwstripe-admin.css', RWSTRIPE_BASE_FILE ),
+		array(),
+		RWSTRIPE_VERSION
+	);
+	wp_enqueue_style( 'rwstripe-admin' );
 }
 add_action( 'admin_enqueue_scripts', 'rwstripe_enqueue_admin_scripts' );
 
