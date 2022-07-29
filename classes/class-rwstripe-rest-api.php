@@ -81,10 +81,10 @@ if ( class_exists( 'WP_REST_Controller' ) ) {
 		public function get_products( $request ) {
 			$rwstripe = RWStripe_Stripe::get_instance();
 			$products = $rwstripe->get_all_products();
-			if ( ! empty( $products ) ) {
-				$products = $products->data;
+			if ( is_string( $products ) ) {
+				return new WP_Error( 'rwstripe_error', $products, array( 'status' => 400 ) );
 			}
-			return new WP_REST_Response( $products, 200 );
+			return new WP_REST_Response( $products->data, 200 );
 		}
 
 		/**
@@ -125,8 +125,8 @@ if ( class_exists( 'WP_REST_Controller' ) ) {
 
 			$rwstripe = RWStripe_Stripe::get_instance();
 			$checkout_session = $rwstripe->create_checkout_session( $price_id, $customer_id, $redirect_url );
-			if ( empty( $checkout_session->url ) ) {
-				return new WP_Error( 'rwstripe_error', __( 'Error creating checkout session.', 'rwstripe' ), array( 'status' => 400 ) );
+			if ( is_string( $checkout_session ) ) {
+				return new WP_Error( 'rwstripe_error', __( 'Error creating checkout session.', 'rwstripe' ) . ' ' . $checkout_session, array( 'status' => 400 ) );
 			}
 
 			return new WP_REST_Response( $checkout_session->url, 200 );
@@ -153,11 +153,11 @@ if ( class_exists( 'WP_REST_Controller' ) ) {
 			}
 
 			$rwstripe = RWStripe_Stripe::get_instance();
-			$customer_portal_link = $rwstripe->get_customer_portal_url( $customer_id );
-			if ( empty( $customer_portal_link  ) ) {
-				return new WP_REST_Response( array( 'error' => 'Could not get customer portal link.' ), 500 );
+			$get_customer_portal_session = $rwstripe->get_customer_portal_session( $customer_id );
+			if ( is_string( $get_customer_portal_session ) ) {
+				return new WP_REST_Response( array( 'error' => 'Could not get customer portal link. ' . $get_customer_portal_session ), 500 );
 			}
-			return new WP_REST_Response( $customer_portal_link, 200 );
+			return new WP_REST_Response( $get_customer_portal_session->url, 200 );
 		}
 
 		/**

@@ -50,7 +50,7 @@ class RWStripe_Stripe {
 	 * @since TBD
 	 *
 	 * @param string $price_id to get.
-	 * @return Stripe\Price|null
+	 * @return Stripe\Price|string error message or Stripe\Price object.
 	 */
 	public function get_price( $price_id ) {
 		static $prices = array();
@@ -58,7 +58,7 @@ class RWStripe_Stripe {
 			try {
 				$prices[ $price_id ] = Stripe\Price::retrieve( $price_id );
 			} catch ( Exception $e ) {
-				$prices[ $price_id ] = null;
+				$prices[ $price_id ] = $e->getMessage();
 			}
 		}
 		return $prices[ $price_id ];
@@ -69,7 +69,7 @@ class RWStripe_Stripe {
 	 *
 	 * @since TBD
 	 *
-	 * @return Stripe\Product[] Array of Stripe\Product objects.
+	 * @return Stripe\Product[]|string Array of Stripe\Product objects or error message.
 	 */
 	public function get_all_products() {
 		static $products = null;
@@ -77,7 +77,7 @@ class RWStripe_Stripe {
 			try {
 				$products = Stripe\Product::all( array( 'limit' => 100 ) );
 			} catch ( Exception $e ) {
-				$products = array();
+				$products = $e->getMessage();
 			}
 		}
 		return $products;
@@ -89,10 +89,13 @@ class RWStripe_Stripe {
 	 * @since TBD
 	 *
 	 * @param string $product_id to get prices for.
-	 * @return Stripe\Price|null The default price for the product or null if no default price exists.
+	 * @return Stripe\Price|null|string The default price for the product, null if no default price exists, or error message.
 	 */
 	public function get_default_price_for_product( $product_id ) {
 		$all_products = $this->get_all_products();
+		if ( is_string( $all_products ) ) {
+			return 'Could not get products. ' . $all_products;
+		}
 		foreach ( $all_products as $product ) {
 			if ( $product->id == $product_id ) {
 				$price_id = $product->default_price;
@@ -111,7 +114,7 @@ class RWStripe_Stripe {
 	 *
 	 * @since TBD
 	 *
-	 * @return Stripe\Price[] Array of Stripe\Price objects.
+	 * @return Stripe\Price[]|string Array of Stripe\Price objects or error message.
 	 */
 	private function get_all_prices() {
 		static $prices = null;
@@ -119,7 +122,7 @@ class RWStripe_Stripe {
 			try {
 				$prices = Stripe\Price::all( array( 'limit' => 100000 ) );
 			} catch ( Exception $e ) {
-				$prices = array();
+				$prices = $e->getMessage();
 			}
 		}
 		return $prices;
@@ -131,13 +134,13 @@ class RWStripe_Stripe {
 	 * @since TBD
 	 *
 	 * @param string $email to create customer with.
-	 * @return Stripe\Customer|null
+	 * @return Stripe\Customer|string Stripe\Customer object or error message.
 	 */
 	public function create_customer_with_email( $email ) {
 		try {
 			$customer = Stripe\Customer::create( array( 'email' => $email ) );
 		} catch ( Exception $e ) {
-			$customer = null;
+			$customer = $e->getMessage();
 		}
 		return $customer;
 	}
@@ -166,9 +169,9 @@ class RWStripe_Stripe {
 	 * @since TBD
 	 *
 	 * @param string $customer_id to get URL for.
-	 * @return string|null
+	 * @return Stripe\BillingPortal\Session|string Stripe\BillingPortal\Session object or error message.
 	 */
-	public function get_customer_portal_url( $customer_id ) {
+	public function get_customer_portal_session( $customer_id ) {
 		// Before we can send the user to the customer portal,
 		// we need to have a portal configuration.
 		$portal_configurations = array();
@@ -176,7 +179,8 @@ class RWStripe_Stripe {
 			// Get all active portal configurations.
 			$portal_configurations = Stripe\BillingPortal\Configuration::all( array( 'active' => true, 'limit' => 100 ) );
 		} catch( Exception $e ) {
-			// Error getting portal configurations. We'll try and create one below.
+			// Error getting portal configurations.
+			return $e->getMessage();
 		}
 
 		// Check if one of the portal configurations is default.
@@ -215,18 +219,14 @@ class RWStripe_Stripe {
 			try {
 				$portal_configuration = Stripe\BillingPortal\Configuration::create( $portal_configuration_params );
 			} catch( Exception $e ) {
-				$portal_configuration = null;
+				// Error creating portal configuration.
+				return $e->getMessage();
 			}
 
 			if ( ! empty( $portal_configuration ) ) {
 				$portal_configuration_id = $portal_configuration->id;
 				update_option( 'rwstripe_portal_configuration_id', $portal_configuration_id );
 			}
-		}
-
-		// If we still don't have a portal configuration, we can't create a customer portal URL.
-		if ( ! isset( $portal_configuration_id ) ) {
-			return null;
 		}
 
 		// Get the customer portal URL.
@@ -236,9 +236,9 @@ class RWStripe_Stripe {
 				'return_url' => get_site_url(),
 				'configuration' => $portal_configuration_id,
 			]);
-			return $session->url;
+			return $session;
 		} catch ( Exception $e ) {
-			return '';
+			return $e->getMessage();
 		}
 	}
 
@@ -295,11 +295,14 @@ class RWStripe_Stripe {
 	 *
 	 * @param string $product_id Product to get free recurring price for.
 	 * @param string $currency   Currency to get price in.
-	 * @return Stripe\Price|null
+	 * @return Stripe\Price|string Stripe\Price object or error message.
 	 */
 	private function get_free_recurring_price_for_product( $product_id, $currency ) {
 		// Look for an existing price for the product.
 		$prices = $this->get_all_prices();
+		if ( is_string( $prices ) ) {
+			return 'Could not get prices. ' . $prices;
+		}
 		foreach ( $prices as $price ) {
 			if ( $price->product === $product_id &&
 				$price->unit_amount === 0 &&
@@ -323,7 +326,7 @@ class RWStripe_Stripe {
 				),
 			) );
 		} catch ( Exception $e ) {
-			$price = null;
+			return $e->getMessage();
 		}
 		return $price;
 	}
@@ -336,12 +339,12 @@ class RWStripe_Stripe {
 	 * @param string $price_id to create session for.
 	 * @param string $customer_id to create session for.
 	 * @param string $redirect_url to redirect to after checkout.
-	 * @return Stripe\Checkout\Session|null
+	 * @return Stripe\Checkout\Session|string Stripe\Checkout\Session object or error message.
 	 */
 	public function create_checkout_session( $price_id, $customer_id, $redirect_url ) {
 		$price = $this->get_price( $price_id );
-		if ( empty( $price ) || empty( $customer_id ) || empty( $redirect_url ) ) {
-			return;
+		if ( is_string( $price ) ) {
+			return 'Could not get price.' . $price;
 		}
 
 		// Set up line items.
@@ -355,9 +358,9 @@ class RWStripe_Stripe {
 		// If price is a one-time payment, we also want to set up a free subscription to track access.
 		if ( $price['type'] !== 'recurring' ) {
 			$free_price = $this->get_free_recurring_price_for_product( $price['product'], $price['currency'] );
-			if ( empty( $free_price ) ) {
+			if ( is_string( $free_price ) ) {
 				// Can't send user to checkout, access would not be given after payment.
-				return;
+				return 'Could not create free recurring price. ' . $free_price;
 			}
 			$line_items[] = array(
 				'price' => $free_price['id'],
@@ -379,7 +382,7 @@ class RWStripe_Stripe {
 		try {
 			return \Stripe\Checkout\Session::create( $checkout_session_params );
 		} catch ( Exception $e ) {
-			return null;
+			return $e->getMessage();
 		}
 	}
 }

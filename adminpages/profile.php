@@ -15,7 +15,6 @@ function rwstripe_edit_user_profile( $user ) {
 
 	$customer_id = rwstripe_get_customer_id_for_user( $user->ID );
 	$rwstripe_stripe = RWStripe_Stripe::get_instance();
-	$customer_portal = $rwstripe_stripe->get_customer_portal_url( $customer_id );
 	?>
 	<h2><?php esc_html_e( 'Restrict With Stripe', 'restrict-with-stripe' ); ?></h2>
 	<table>

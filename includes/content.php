@@ -51,11 +51,10 @@ function rwstripe_restricted_content_message( $atts = array() ) {
 
 	$RWStripe_Stripe = RWStripe_Stripe::get_instance();
 	$price = $RWStripe_Stripe->get_default_price_for_product( $atts['rwstripe_product_ids'][0] );
-
 	?>
 	<div>
 		<?php
-		if ( empty( $price ) ) {
+		if ( empty( $price ) || is_string( $price ) ) {
 			echo esc_html( $atts['rwstripe_not_purchasable_message'] );
 		} elseif ( ! is_user_logged_in() ) {
 			// We want to allow a link to log in if the user is not logged in, so we need to allow <a> tags in the message.

@@ -17,7 +17,6 @@ add_action('admin_menu', 'rwstripe_admin_menu');
  */
 function rwstripe_settings_page() {
 	$RWStripe_Stripe = RWStripe_Stripe::get_instance();
-	$products    = $RWStripe_Stripe->get_all_products();
 	$stripe_user_id = get_option( 'rwstripe_stripe_user_id', '' );
 	?>
 	<div class="wrap">

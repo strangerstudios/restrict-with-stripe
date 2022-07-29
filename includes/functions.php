@@ -29,7 +29,7 @@ function rwstripe_get_customer_id_for_user( $user_id = null ) {
         $rwstripe = RWStripe_Stripe::get_instance();
         $user = get_userdata( $user_id );
         $new_customer = $rwstripe->create_customer_with_email( $user->user_email );
-        if ( empty( $new_customer->id ) ) {
+        if ( is_string( $new_customer ) ) {
             // If we cannot create a new customer, bail.
             return null;
         }
