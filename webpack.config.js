@@ -18,6 +18,14 @@ config.entry = {
 		'sidebar',
 		'index.js'
 	),
+	//'settings/index': path.resolve(
+	'settings/admin': path.resolve(
+		process.cwd(),
+		'blocks',
+		'src',
+		'settings',
+		'index.js'
+	),
 	'customer-portal/index': path.resolve(
 		process.cwd(),
 		'blocks',
