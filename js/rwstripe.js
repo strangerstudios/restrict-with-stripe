@@ -8,7 +8,8 @@ jQuery( document ).ready( function () {
 		jQuery( '.rwstripe-checkout-button' ).prop( 'disabled', true );
 
 		// Get the value of the rwstripe-email field next to the pay button.
-		var email = jQuery( this ).siblings().filter( '.rwstripe-email' ).val();
+		var email = jQuery( this ).siblings().filter( 'input[name="rwstripe-email"]' ).val();
+		var password = jQuery( this ).siblings().filter( 'input[name="rwstripe-password"]' ).val();
 
 		// Create a checkout session.
 		jQuery.noConflict().ajax( {
@@ -17,6 +18,7 @@ jQuery( document ).ready( function () {
 			data: {
 				price_id: e.target.value,
 				email: email,
+				password: password,
 				redirect_url: window.location.href,
 			},
 			beforeSend: function ( xhr ) {

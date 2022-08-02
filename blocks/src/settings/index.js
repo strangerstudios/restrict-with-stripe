@@ -4,13 +4,12 @@ import apiFetch from '@wordpress/api-fetch';
 
 import {
     Button,
-    Panel,
     PanelBody,
-    PanelRow,
     Placeholder,
     SnackbarList,
     Spinner,
     TextControl,
+    ToggleControl,
 } from '@wordpress/components';
 
 import {
@@ -53,6 +52,7 @@ class App extends Component {
 
         this.state = {
             logged_out_message: '',
+            logged_out_collect_password: false,
             logged_out_button_text: '',
             logged_in_message: '',
             logged_in_button_text: '',
@@ -69,6 +69,7 @@ class App extends Component {
             if (settings.rwstripe_restricted_content_message) {
                 this.setState({
                     logged_out_message: settings.rwstripe_restricted_content_message.logged_out_message,
+                    logged_out_collect_password: settings.rwstripe_restricted_content_message.logged_out_collect_password,
                     logged_out_button_text: settings.rwstripe_restricted_content_message.logged_out_button_text,
                     logged_in_message: settings.rwstripe_restricted_content_message.logged_in_message,
                     logged_in_button_text: settings.rwstripe_restricted_content_message.logged_in_button_text,
@@ -96,6 +97,7 @@ class App extends Component {
     render() {
         const {
             logged_out_message,
+            logged_out_collect_password,
             logged_out_button_text,
             logged_in_message,
             logged_in_button_text,
@@ -230,6 +232,12 @@ class App extends Component {
                                     onChange={(logged_out_button_text) => this.setState({ logged_out_button_text })}
                                     value={logged_out_button_text}
                                 />
+                                <br/>
+                                <ToggleControl
+                                    label={__('Collect Password During Registration', 'restrict-with-stripe')}
+                                    onChange={(logged_out_collect_password) => this.setState({ logged_out_collect_password })}
+                                    checked={logged_out_collect_password}
+                                />
                             </PanelBody>
                             <PanelBody title={__('Logged In Users', 'restrict-with-stripe')} initialOpen={false} >
                                 <TextControl
@@ -257,6 +265,7 @@ class App extends Component {
                             onClick={() => {
                                 const {
                                     logged_out_message,
+                                    logged_out_collect_password,
                                     logged_out_button_text,
                                     logged_in_message,
                                     logged_in_button_text,
@@ -270,6 +279,7 @@ class App extends Component {
                                     data: {
                                         ['rwstripe_restricted_content_message']: {
                                             logged_out_message: logged_out_message,
+                                            logged_out_collect_password: logged_out_collect_password,
                                             logged_out_button_text: logged_out_button_text,
                                             logged_in_message: logged_in_message,
                                             logged_in_button_text: logged_in_button_text,

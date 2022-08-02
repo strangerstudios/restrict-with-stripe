@@ -58,8 +58,16 @@ function rwstripe_restricted_content_message( $product_ids ) {
 			?>
 			<br/>
 			<div class="rwstripe-checkout-error-message"></div>
-			<form>
-				<input name="rwstripe-email" class="rwstripe-email" placeholder="<?php echo esc_attr( __( 'Email Adress', 'restrict_with_stripe' ) ); ?>" /><br/>
+			<form class="rwstripe-restricted-content-message-register">
+				<input type="email" name="rwstripe-email" placeholder="<?php echo esc_attr( __( 'Email Adress', 'restrict_with_stripe' ) ); ?>" /><br/>
+				<?php
+				// Maybe collect a password.
+				if ( $restriced_content_message_options['logged_out_collect_password'] ) {
+					?>
+					<input type="password" name="rwstripe-password" placeholder="<?php echo esc_attr( __( 'Password', 'restrict_with_stripe' ) ); ?>" autocomplete="on" /><br/>
+					<?php
+				}
+				?>
 				<button type="submit" class="rwstripe-checkout-button" value="<?php esc_html_e( $price->id ) ?>"><?php echo esc_html( $restriced_content_message_options['logged_out_button_text'], 'restrict-with-stripe' ); ?></button>
 			</form>
 			<?php

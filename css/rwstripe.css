@@ -73,3 +73,10 @@
     font-size: 12px;
     font-weight: bold;
 }
+
+.rwstripe-restricted-content-message-register input[type="email"],
+.rwstripe-restricted-content-message-register input[type="password"] {
+	padding: 1px;
+	border: none;
+	line-height: 1.15;
+}

@@ -46,6 +46,9 @@ if ( class_exists( 'WP_REST_Controller' ) ) {
 							'email' => array(
 								'default' => null,
 							),
+							'password' => array(
+								'default' => null,
+							),
 						),
 						'permission_callback' => '__return_true',
 					)
@@ -105,8 +108,23 @@ if ( class_exists( 'WP_REST_Controller' ) ) {
 					return new WP_Error( 'rwstripe_error', __( 'Email is invalid.', 'rwstripe' ), array( 'status' => 400 ) );
 				}
 
+				// Check if user should have sent a password:
+				$restricted_content_message_options = rwstripe_get_restricted_content_message_options();
+				if ( $restricted_content_message_options['logged_out_collect_password'] ) {
+					// We should have a password. Check if we do.
+					$password = sanitize_text_field( $params['password'] );
+				} else {
+					// We should not have a password. Let's generate a random one.
+					$password = wp_generate_password();
+				}
+
+				// Make sure that we have a password.
+				if ( empty( $password ) ) {
+					return new WP_Error( 'rwstripe_error', __( 'Password is required.', 'rwstripe' ), array( 'status' => 400 ) );
+				}
+
 				// Create a new user with the email address.
-				$current_user_id = wp_create_user( sanitize_email( $_REQUEST['email'] ), wp_generate_password(), sanitize_email( $params['email'] ) );
+				$current_user_id = wp_create_user( sanitize_email( $_REQUEST['email'] ), $password, sanitize_email( $params['email'] ) );
 	
 				// Check that user was created successfully.
 				if ( is_wp_error( $current_user_id ) ) {

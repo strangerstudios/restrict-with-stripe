@@ -28,6 +28,9 @@ function rwstripe_settings_init() {
 						'logged_out_message' => array(
 							'type' => 'string',
 						),
+						'logged_out_collect_password' => array(
+							'type' => 'boolean',
+						),
 						'logged_out_button_text' => array(
 							'type' => 'string',
 						),

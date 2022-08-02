@@ -73,6 +73,7 @@ add_action( 'init', 'rwstripe_register_post_meta' );
 function rwstripe_get_restricted_content_message_options() {
     $default_options = array(
         'logged_out_message' => __( 'You must create an account or <a href="!!login_url!!">log in</a> to purchase this content.', 'restrict-with-stripe' ),
+        'logged_out_collect_password' => false,
 		'logged_out_button_text' => __( 'Create Account and Check Out', 'restrict-with-stripe' ),
 		'logged_in_message' => __( 'You do not have access to this content.', 'restrict-with-stripe' ),
 		'logged_in_button_text' => __( 'Purchase Access', 'restrict-with-stripe' ),
