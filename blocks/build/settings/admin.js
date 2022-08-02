@@ -52,12 +52,14 @@ class App extends _wordpress_element__WEBPACK_IMPORTED_MODULE_0__.Component {
       logged_in_message: '',
       logged_in_button_text: '',
       not_purchasable_message: '',
-      isAPILoaded: false
+      isAPILoaded: false,
+      productList: [],
+      areProductsLoaded: false
     };
   }
 
   componentDidMount() {
-    // GET
+    // Load site settings.
     _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_2___default()({
       path: '/wp/v2/settings'
     }).then(settings => {
@@ -71,6 +73,19 @@ class App extends _wordpress_element__WEBPACK_IMPORTED_MODULE_0__.Component {
           isAPILoaded: true
         });
       }
+    }); // Load Stripe products.
+
+    wp.apiFetch({
+      path: 'rwstripe/v1/products'
+    }).then(data => {
+      this.setState({
+        productList: data,
+        areProductsLoaded: true
+      });
+    }).catch(error => {
+      this.setState({
+        areProductsLoaded: error.message
+      });
     });
   }
 
@@ -81,20 +96,68 @@ class App extends _wordpress_element__WEBPACK_IMPORTED_MODULE_0__.Component {
       logged_in_message,
       logged_in_button_text,
       not_purchasable_message,
-      isAPILoaded
+      isAPILoaded,
+      productList,
+      areProductsLoaded
     } = this.state;
 
-    if (!isAPILoaded) {
+    if (!isAPILoaded || !areProductsLoaded) {
       return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.Placeholder, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.Spinner, null));
+    } // Track if we already have an open panel.
+
+
+    var hasOpenPanel = false; // Build step 1:
+
+    var step1;
+
+    if (!rwstripe.stripe_user_id) {
+      // User is not connected to Stripe.
+      step1 = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.PanelBody, {
+        title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__.__)('Step 1: Connect to Stripe', 'restrict-with-stripe')
+      }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("a", {
+        href: rwstripe.stripe_connect_url,
+        class: "rwstripe-stripe-connect"
+      }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("span", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__.__)('Connect To Stripe', 'restrict-with-stripe'))));
+      hasOpenPanel = true;
+    } else if (true === areProductsLoaded) {
+      // We can successfully communicate with Stripe.
+      step1 = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.PanelBody, {
+        title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__.__)('Step 1: Connect to Stripe (Connected)', 'restrict-with-stripe'),
+        initialOpen: false
+      }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("a", {
+        href: rwstripe.stripe_connect_url,
+        class: "rwstripe-stripe-connect"
+      }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("span", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__.__)('Disconnect From Stripe', 'restrict-with-stripe'))));
+    } else {
+      // User is connected to Stripe, but we can't use the API.
+      step1 = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.PanelBody, {
+        title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__.__)('Step 1: Connect to Stripe (Error)', 'restrict-with-stripe')
+      }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__.__)('The following error is received when trying to communicate with Stripe:', 'restrict-with-stripe')), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, areProductsLoaded), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("a", {
+        href: rwstripe.stripe_connect_url,
+        class: "rwstripe-stripe-connect"
+      }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("span", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__.__)('Disconnect From Stripe', 'restrict-with-stripe'))));
+      hasOpenPanel = true;
+    } // Figure out which other panels to open by default.
+
+
+    var step2Open = false;
+    var step3Open = false;
+    var step4Open = false;
+
+    if (!hasOpenPanel) {
+      if (!productList) {
+        // User is connected to Stripe, but doesn't have any products yet.
+        // Show instructions to create a product.
+        step2Open = true;
+      } else {
+        // User has at least one product set up, but we don't
+        // know if they have restricted content.
+        // Just show both remaining steps to be safe.
+        step3Open = true;
+        step4Open = true;
+      }
     }
 
-    const stripe_connect_button = rwstripe.stripe_user_id ? (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("a", {
-      href: rwstripe.stripe_connect_url,
-      class: "rwstripe-stripe-connect"
-    }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("span", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__.__)('Disconnect From Stripe', 'restrict-with-stripe'))) : (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("a", {
-      href: rwstripe.stripe_connect_url,
-      class: "rwstripe-stripe-connect"
-    }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("span", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__.__)('Connect To Stripe', 'restrict-with-stripe')));
     return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
       className: "rwstripe-settings__header"
     }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
@@ -103,14 +166,32 @@ class App extends _wordpress_element__WEBPACK_IMPORTED_MODULE_0__.Component {
       className: "rwstripe-settings__title"
     }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("h1", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__.__)('Restrict With Stripe Settings', 'restrict-with-stripe'))))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
       className: "rwstripe-settings__main"
-    }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.Panel, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.PanelBody, {
-      title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__.__)('Step 1: Connect to Stripe', 'restrict-with-stripe')
-    }, stripe_connect_button), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.PanelBody, {
-      title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__.__)('Step 2: Restrict Content', 'restrict-with-stripe')
-    }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__.__)('[Add link to create Stripe Product]', 'restrict-with-stripe'), (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__.__)('[Add instructions for restricting site content]', 'restrict-with-stripe')), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.PanelBody, {
-      title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__.__)('Step 3: Advanced Settings', 'restrict-with-stripe')
-    }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.PanelRow, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.Panel, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.PanelBody, {
-      title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__.__)('Restricted Content Message for Logged Out Users', 'restrict-with-stripe'),
+    }, step1, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.PanelBody, {
+      title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__.__)('Step 2: Create Products in Stripe', 'restrict-with-stripe'),
+      initialOpen: step2Open
+    }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__.__)('Restrict With Stripe uses Stripe Products to track which site content a user has access to.', 'restrict-with-stripe')), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__.__)('A Product should be created in Stripe for each set of content that you would like users to be able to purchase, whether it be a single post or a group of posts.', 'restrict-with-stripe')), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("a", {
+      href: "https://dashboard.stripe.com/products/create",
+      target: "_blank"
+    }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.Button, {
+      isPrimary: true,
+      isLarge: true
+    }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__.__)('Create a New Product', 'restrict-with-stripe')))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.PanelBody, {
+      title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__.__)('Step 3: Add Restrictions to Site Content', 'restrict-with-stripe'),
+      initialOpen: step3Open
+    }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.PanelBody, {
+      title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__.__)('Restricting Post and Pages', 'restrict-with-stripe'),
+      initialOpen: false
+    }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("ol", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("li", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__.__)('Editing the page or post that you would like to restrict', 'restrict-with-stripe')), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("li", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__.__)('Opening the settings toolbar', 'restrict-with-stripe')), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("li", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__.__)('Opening the "Restrict With Stripe" panel', 'restrict-with-stripe')), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("li", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__.__)('Selecting the Stripe Product to restrict the page or post by', 'restrict-with-stripe')), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("li", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__.__)('Saving the page or post', 'restrict-with-stripe')))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.PanelBody, {
+      title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__.__)('Restricting Individual Blocks', 'restrict-with-stripe'),
+      initialOpen: false
+    }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("ol", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("li", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__.__)('Editing the page or post where you would like to restrict blocks', 'restrict-with-stripe')), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("li", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__.__)('Inserting the "Restricted Content" block to the page or post', 'restrict-with-stripe')), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("li", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__.__)('Adding content that should be restricted into that "Restrict Content" block', 'restrict-with-stripe')), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("li", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__.__)('Selecting the Stripe Product to restrict those blocks by', 'restrict-with-stripe')), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("li", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__.__)('Saving the page or post', 'restrict-with-stripe'))))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.PanelBody, {
+      title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__.__)('Step 4: Customize Advanced Settings', 'restrict-with-stripe'),
+      initialOpen: step4Open
+    }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.PanelBody, {
+      title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__.__)('Restricted Content Message', 'restrict-with-stripe'),
+      initialOpen: false
+    }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.PanelBody, {
+      title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__.__)('Logged Out Users', 'restrict-with-stripe'),
       initialOpen: false
     }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.TextControl, {
       help: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__.__)('Use !!login_url!! to generate a URL to the site\'s login page.', 'restrict-with-stripe'),
@@ -126,7 +207,7 @@ class App extends _wordpress_element__WEBPACK_IMPORTED_MODULE_0__.Component {
       }),
       value: logged_out_button_text
     })), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.PanelBody, {
-      title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__.__)('Restricted Content Message for Logged In Users', 'restrict-with-stripe'),
+      title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__.__)('Logged In Users', 'restrict-with-stripe'),
       initialOpen: false
     }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.TextControl, {
       label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__.__)('Message', 'restrict-with-stripe'),
@@ -141,7 +222,7 @@ class App extends _wordpress_element__WEBPACK_IMPORTED_MODULE_0__.Component {
       }),
       value: logged_in_button_text
     })), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.PanelBody, {
-      title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__.__)('Restricted Content Message when a Product is not Purchasable', 'restrict-with-stripe'),
+      title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__.__)('Product is not Purchasable', 'restrict-with-stripe'),
       initialOpen: false
     }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.TextControl, {
       label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__.__)('Message', 'restrict-with-stripe'),
@@ -149,7 +230,7 @@ class App extends _wordpress_element__WEBPACK_IMPORTED_MODULE_0__.Component {
         not_purchasable_message
       }),
       value: not_purchasable_message
-    }))))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.Button, {
+    }))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.Button, {
       isPrimary: true,
       isLarge: true,
       onClick: () => {

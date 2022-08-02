@@ -1,1 +1,0 @@
-{"version":3,"file":"settings/admin.css","mappings":";;;AAAA;EACI;AACJ,C","sources":["webpack://restrict-with-stripe/./blocks/src/settings/admin.scss"],"sourcesContent":["body {\n    background: pink;\n  }"],"names":[],"sourceRoot":""}
