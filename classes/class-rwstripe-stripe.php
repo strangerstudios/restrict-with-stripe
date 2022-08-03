@@ -84,6 +84,27 @@ class RWStripe_Stripe {
 	}
 
 	/**
+	 * Get a product from Stripe.
+	 *
+	 * @since TBD
+	 *
+	 * @param string $product_id to get.
+	 * @return Stripe\Product|string error message or Stripe\Product object.
+	 */
+	public function get_product( $product_id ) {
+		$all_products = $this->get_all_products();
+		if ( is_string( $all_products ) ) {
+			return 'Could not get products. ' . $all_products;
+		}
+		foreach ( $all_products->data as $product ) {
+			if ( $product->id == $product_id ) {
+				return $product;
+			}
+		}
+		return 'Could not find product ' . $product_id;
+	}
+
+	/**
 	 * Get the default price for a given product in Stripe. 
 	 *
 	 * @since TBD

@@ -37,7 +37,7 @@ const {
 } = wp.blockEditor;
 const {
   PanelBody,
-  SelectControl,
+  CheckboxControl,
   Spinner
 } = wp.components;
 
@@ -67,23 +67,27 @@ class RWStripeRestrictionSelect extends Component {
   }
 
   render() {
-    return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", null, this.state.loadingProducts ? (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(Spinner, null) : (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(SelectControl, {
-      type: "text",
-      label: __('Stripe Product', 'restrict-with-stripe'),
-      value: this.props.rwstripe_restricted_products,
-      onChange: val => this.props.setAttributes({
-        rwstripe_restricted_products: [val]
-      }),
-      options: [{
-        label: '-- ' + __('Not Restricted', 'restrict-with-stripe') + ' --',
-        value: ''
-      }].concat(this.state.productList.map(product => {
-        return {
-          label: product.name,
-          value: product.id
-        };
-      }))
-    }));
+    const product_checkboxes = this.state.productList.map(product => {
+      return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(CheckboxControl, {
+        key: product.id,
+        label: product.name,
+        checked: this.props.rwstripe_restricted_products.includes(product.id),
+        onChange: () => {
+          let newValue = [...this.props.rwstripe_restricted_products];
+
+          if (newValue.includes(product.id)) {
+            newValue = newValue.filter(item => item !== product.id);
+          } else {
+            newValue.push(product.id);
+          }
+
+          this.props.setAttributes({
+            rwstripe_restricted_products: newValue
+          });
+        }
+      });
+    });
+    return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", null, this.state.loadingProducts ? (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(Spinner, null) : (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", null, product_checkboxes));
   }
 
 }

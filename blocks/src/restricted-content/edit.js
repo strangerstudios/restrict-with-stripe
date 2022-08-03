@@ -12,7 +12,7 @@ const { __ } = wp.i18n;
 
 const { InspectorControls, InnerBlocks } = wp.blockEditor;
 
-const { PanelBody, SelectControl, Spinner } = wp.components;
+const { PanelBody, CheckboxControl, Spinner } = wp.components;
 
 class RWStripeRestrictionSelect extends Component {
 	constructor( props ) {
@@ -40,31 +40,39 @@ class RWStripeRestrictionSelect extends Component {
 	}
 
 	render() {
+		const product_checkboxes = this.state.productList.map(
+			( product ) => {
+				return (
+					<CheckboxControl
+						key={ product.id }
+						label={ product.name }
+						checked={ this.props.rwstripe_restricted_products.includes( product.id ) }
+						onChange={ () => {
+							let newValue = [...this.props.rwstripe_restricted_products];
+							if ( newValue.includes( product.id ) ) {
+								newValue = newValue.filter(
+									( item ) => item !== product.id
+								);
+							} else {
+								newValue.push( product.id )
+							}
+							this.props.setAttributes( {
+								rwstripe_restricted_products: newValue,
+							} )
+						} }
+					/>
+				)
+			}
+		);
+
 		return (
 			<div>
 				{ this.state.loadingProducts ? (
 					<Spinner />
 				) : (
-					<SelectControl
-						type="text"
-						label={ __( 'Stripe Product', 'restrict-with-stripe' ) }
-						value={ this.props.rwstripe_restricted_products }
-						onChange={ ( val ) =>
-							this.props.setAttributes( {
-								rwstripe_restricted_products: [ val ],
-							} )
-						}
-						options={ [
-							{ label: '-- ' + __( 'Not Restricted', 'restrict-with-stripe' ) + ' --', value: '' },
-						].concat(
-							this.state.productList.map( ( product ) => {
-								return {
-									label: product.name,
-									value: product.id,
-								};
-							} )
-						) }
-					/>
+					<div>
+						{ product_checkboxes }
+					</div>
 				) }
 			</div>
 		);

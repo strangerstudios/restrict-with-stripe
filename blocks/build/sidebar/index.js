@@ -105,8 +105,8 @@ __webpack_require__.r(__webpack_exports__);
     Component
   } = wp.element;
   const {
-    SelectControl,
-    Spinner
+    Spinner,
+    CheckboxControl
   } = wp.components;
   const {
     withSelect,
@@ -130,23 +130,25 @@ __webpack_require__.r(__webpack_exports__);
       metaValue: select('core/editor').getEditedPostAttribute('meta')[props.metaKey]
     };
   }))(function (props) {
-    return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(SelectControl, {
-      type: "text",
-      label: props.label,
-      value: props.metaValue,
-      onChange: content => {
-        props.setMetaValue(content);
-      },
-      options: [{
-        label: '-- ' + __('Not Restricted', 'restrict-with-stripe') + ' --',
-        value: ''
-      }].concat(props.products.map(product => {
-        return {
-          label: product.name,
-          value: product.id
-        };
-      }))
+    const product_checkboxes = props.products.map(product => {
+      return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(CheckboxControl, {
+        key: product.id,
+        label: product.name,
+        checked: props.metaValue.includes(product.id),
+        onChange: () => {
+          let newValue = [...props.metaValue];
+
+          if (newValue.includes(product.id)) {
+            newValue = newValue.filter(item => item !== product.id);
+          } else {
+            newValue.push(product.id);
+          }
+
+          props.setMetaValue(newValue);
+        }
+      });
     });
+    return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("fragment", null, product_checkboxes);
   });
 
   class RWStripeSidebar extends Component {

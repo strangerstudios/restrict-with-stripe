@@ -94,6 +94,10 @@ if ( class_exists( 'WP_REST_Controller' ) ) {
 			$params = $request->get_params();
 
 			$price_id    = sanitize_text_field( $params['price_id'] );
+			if ( empty( $price_id ) ) {
+				return new WP_Error( 'rwstripe_error', __( 'Please select a product.', 'rwstripe' ), array( 'status' => 400 ) );
+			}
+
 			$redirect_url = esc_url( $params['redirect_url'] );
 		
 			$current_user_id = get_current_user_id();

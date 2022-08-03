@@ -3,7 +3,7 @@
 	const { registerPlugin } = wp.plugins;
 	const { PluginDocumentSettingPanel } = wp.editPost;
 	const { Component } = wp.element;
-	const { SelectControl, Spinner } = wp.components;
+	const { Spinner, CheckboxControl } = wp.components;
 
 	const { withSelect, withDispatch } = wp.data;
 	const { compose } = wp.compose;
@@ -27,22 +27,32 @@
 			};
 		} )
 	)( function ( props ) {
+		const product_checkboxes = props.products.map(
+			( product ) => {
+				return (
+					<CheckboxControl
+						key={ product.id }
+						label={ product.name }
+						checked={ props.metaValue.includes( product.id ) }
+						onChange={ () => {
+							let newValue = [...props.metaValue];
+							if ( newValue.includes( product.id ) ) {
+								newValue = newValue.filter(
+									( item ) => item !== product.id
+								);
+							} else {
+								newValue.push( product.id )
+							}
+							props.setMetaValue( newValue );
+						} }
+					/>
+				)
+			}
+		);
 		return (
-			<SelectControl
-				type="text"
-				label={ props.label }
-				value={ props.metaValue }
-				onChange={ ( content ) => {
-					props.setMetaValue( content );
-				} }
-				options={ [
-					{ label: '-- ' + __( 'Not Restricted', 'restrict-with-stripe' ) + ' --', value: '' },
-				].concat(
-					props.products.map( ( product ) => {
-						return { label: product.name, value: product.id };
-					} )
-				) }
-			/>
+			<fragment>
+				{product_checkboxes}
+			</fragment>
 		);
 	} );
 

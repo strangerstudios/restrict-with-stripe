@@ -75,8 +75,10 @@
 }
 
 .rwstripe-restricted-content-message-register input[type="email"],
-.rwstripe-restricted-content-message-register input[type="password"] {
+.rwstripe-restricted-content-message-register input[type="password"],
+.rwstripe-restricted-content-message-register select {
 	padding: 1px;
 	border: none;
 	line-height: 1.15;
+	width: 90%;
 }
