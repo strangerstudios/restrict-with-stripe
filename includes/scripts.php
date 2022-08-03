@@ -33,19 +33,6 @@ add_action( 'wp_enqueue_scripts', 'rwstripe_enqueue_scripts' );
  * @since TBD
  */
 function rwstripe_enqueue_admin_scripts() {
-	// Set up customer portal link on profiles.
-	wp_register_script( 'rwstripe-admin',
-		plugins_url( 'js/rwstripe-admin.js', RWSTRIPE_BASE_FILE ),
-		array( 'jquery' ),
-		RWSTRIPE_VERSION
-	);
-	$localize_vars = array(
-		'restUrl' => rest_url() . 'rwstripe/v1/',
-		'nonce' => wp_create_nonce( 'wp_rest' ),
-	);
-	wp_localize_script( 'rwstripe-admin', 'rwstripe', $localize_vars );
-	wp_enqueue_script( 'rwstripe-admin' );
-
 	// Enqueue script for settings page.
 	wp_enqueue_script(
 		'rwstripe-settings',

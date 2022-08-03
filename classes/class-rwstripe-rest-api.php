@@ -65,11 +65,6 @@ if ( class_exists( 'WP_REST_Controller' ) ) {
 					array(
 						'methods'  => WP_REST_Server::READABLE,
 						'callback' => array( $this, 'get_customer_portal_url'),
-						'args' => array(
-							'user_id' => array(
-								'default' => null,
-							),
-						),
 						'permission_callback' => array( $this, 'permissions_check_is_logged_in' ),
 					)
 				)
@@ -156,16 +151,7 @@ if ( class_exists( 'WP_REST_Controller' ) ) {
 		 * Example: https://example.com/wp-json/rwstripe/v1/customer_portal_url
 		 */
 		public function get_customer_portal_url( $request ) {
-			$params = $request->get_params();
-
-			if ( isset( $params['user_id'] ) ) {
-				if ( ! current_user_can( 'manage_options' ) ) {
-					return new WP_REST_Response( array( 'error' => 'You do not have access to generate a customer portal link for this user.' ), 400 );
-				}
-				$user_id = intval( $params['user_id'] );
-			}
-			
-			$customer_id = rwstripe_get_customer_id_for_user( $user_id ?? null );
+			$customer_id = rwstripe_get_customer_id_for_user();
 			if ( empty( $customer_id ) ) {
 				return new WP_REST_Response( array( 'error' => 'Could not get customer ID.' ), 500 );
 			}
