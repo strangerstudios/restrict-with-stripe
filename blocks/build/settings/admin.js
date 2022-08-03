@@ -106,10 +106,8 @@ class App extends _wordpress_element__WEBPACK_IMPORTED_MODULE_0__.Component {
 
     if (!isAPILoaded || !areProductsLoaded) {
       return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.Placeholder, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.Spinner, null));
-    } // Track if we already have an open panel.
+    } // Build step 1:
 
-
-    var hasOpenPanel = false; // Build step 1:
 
     var step1;
 
@@ -121,7 +119,6 @@ class App extends _wordpress_element__WEBPACK_IMPORTED_MODULE_0__.Component {
         href: rwstripe.stripe_connect_url,
         class: "rwstripe-stripe-connect"
       }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("span", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__.__)('Connect To Stripe', 'restrict-with-stripe'))));
-      hasOpenPanel = true;
     } else if (true === areProductsLoaded) {
       // We can successfully communicate with Stripe.
       step1 = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.PanelBody, {
@@ -139,19 +136,6 @@ class App extends _wordpress_element__WEBPACK_IMPORTED_MODULE_0__.Component {
         href: rwstripe.stripe_connect_url,
         class: "rwstripe-stripe-connect"
       }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("span", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__.__)('Disconnect From Stripe', 'restrict-with-stripe'))));
-      hasOpenPanel = true;
-    } // Figure out which other panels to open by default.
-
-
-    var step2Open = false;
-    var step3Open = false;
-    var step4Open = false;
-
-    if (!hasOpenPanel && !productList) {
-      // User is connected to Stripe, but doesn't have any products yet.
-      // Show instructions to create a product.
-      step2Open = true;
-      hasOpenPanel = true;
     }
 
     return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
@@ -164,7 +148,7 @@ class App extends _wordpress_element__WEBPACK_IMPORTED_MODULE_0__.Component {
       className: "rwstripe-settings__main"
     }, step1, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.PanelBody, {
       title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__.__)('Step 2: Create Products in Stripe', 'restrict-with-stripe'),
-      initialOpen: step2Open
+      initialOpen: rwstripe.stripe_user_id
     }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__.__)('Restrict With Stripe uses Stripe Products to track which site content a user has access to.', 'restrict-with-stripe')), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__.__)('A Product should be created in Stripe for each set of content that you would like users to be able to purchase, whether it be a single post or a group of posts.', 'restrict-with-stripe')), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("a", {
       href: "https://dashboard.stripe.com/products/create",
       target: "_blank"
@@ -173,7 +157,7 @@ class App extends _wordpress_element__WEBPACK_IMPORTED_MODULE_0__.Component {
       isLarge: true
     }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__.__)('Create a New Product', 'restrict-with-stripe')))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.PanelBody, {
       title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__.__)('Step 3: Add Restrictions to Site Content', 'restrict-with-stripe'),
-      initialOpen: false
+      initialOpen: rwstripe.stripe_user_id
     }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.PanelBody, {
       title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__.__)('Restricting Post and Pages', 'restrict-with-stripe'),
       initialOpen: false
@@ -182,7 +166,7 @@ class App extends _wordpress_element__WEBPACK_IMPORTED_MODULE_0__.Component {
       initialOpen: false
     }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("ol", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("li", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__.__)('Edit the page or post where you would like to restrict blocks', 'restrict-with-stripe')), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("li", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__.__)('Insert the "Restricted Content" block to the page or post', 'restrict-with-stripe')), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("li", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__.__)('Add content that should be restricted into that "Restrict Content" block', 'restrict-with-stripe')), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("li", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__.__)('Select the Stripe Product to restrict those blocks by', 'restrict-with-stripe')), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("li", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__.__)('Save the page or post', 'restrict-with-stripe'))))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.PanelBody, {
       title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__.__)('Step 4: Link to Stripe Customer Portal', 'restrict-with-stripe'),
-      initialOpen: false
+      initialOpen: rwstripe.stripe_user_id
     }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__.__)('The Stripe Customer Portal is a tool created by Stripe to allow customers to view their previous payments and manage their active subscriptions. It is important to link to the Customer Portal to give your users access to this information.', 'restrict-with-stripe')), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.PanelBody, {
       title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__.__)('Using the Stripe Customer Portal Block', 'restrict-with-stripe'),
       initialOpen: false
@@ -194,7 +178,7 @@ class App extends _wordpress_element__WEBPACK_IMPORTED_MODULE_0__.Component {
       initialOpen: false
     }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("ol", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("li", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__.__)('Edit the menu where you would like to add a Customer Portal menu item', 'restrict-with-stripe')), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("li", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__.__)('In the "Screen Options" dropdown at the top of the screen, ensure that "CSS Classes" is enabled', 'restrict-with-stripe')), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("li", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__.__)('Add a new "Custom Links" menu item with "#" as the URL and the desired link text', 'restrict-with-stripe')), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("li", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__.__)('Edit that new menu item and add "rwstripe-customer-portal-button" into the "CSS Classes" text box', 'restrict-with-stripe'))))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.PanelBody, {
       title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__.__)('Step 5: Customize Advanced Settings', 'restrict-with-stripe'),
-      initialOpen: false
+      initialOpen: rwstripe.stripe_user_id
     }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.PanelBody, {
       title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__.__)('Restricted Content Message', 'restrict-with-stripe'),
       initialOpen: false

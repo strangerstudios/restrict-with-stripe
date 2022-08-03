@@ -115,9 +115,6 @@ class App extends Component {
             );
         }
 
-        // Track if we already have an open panel.
-        var hasOpenPanel = false;
-
         // Build step 1:
         var step1;
         if ( ! rwstripe.stripe_user_id ) {
@@ -131,7 +128,6 @@ class App extends Component {
                 </a>
                 </PanelBody>
             );
-            hasOpenPanel = true;
         } else if ( true === areProductsLoaded ) {
             // We can successfully communicate with Stripe.
             step1 = (
@@ -156,18 +152,6 @@ class App extends Component {
                     </a>
                 </PanelBody>
             );
-            hasOpenPanel = true;
-        }
-
-        // Figure out which other panels to open by default.
-        var step2Open = false;
-        var step3Open = false;
-        var step4Open = false;
-        if ( ! hasOpenPanel && ! productList ) {
-            // User is connected to Stripe, but doesn't have any products yet.
-            // Show instructions to create a product.
-            step2Open = true;
-            hasOpenPanel = true;
         }
 
         return (
@@ -182,7 +166,7 @@ class App extends Component {
 
                 <div className="rwstripe-settings__main">
                     {step1}
-                    <PanelBody title={__('Step 2: Create Products in Stripe', 'restrict-with-stripe')} initialOpen={step2Open} >
+                    <PanelBody title={__('Step 2: Create Products in Stripe', 'restrict-with-stripe')} initialOpen={rwstripe.stripe_user_id} >
                         <p>{__('Restrict With Stripe uses Stripe Products to track which site content a user has access to.', 'restrict-with-stripe')}</p>
                         <p>{__('A Product should be created in Stripe for each set of content that you would like users to be able to purchase, whether it be a single post or a group of posts.', 'restrict-with-stripe')}</p>
                         <a href="https://dashboard.stripe.com/products/create" target="_blank">
@@ -191,7 +175,7 @@ class App extends Component {
                             </Button>
                         </a>
                     </PanelBody>
-                    <PanelBody title={__('Step 3: Add Restrictions to Site Content', 'restrict-with-stripe')} initialOpen={false}>
+                    <PanelBody title={__('Step 3: Add Restrictions to Site Content', 'restrict-with-stripe')} initialOpen={rwstripe.stripe_user_id}>
                         <PanelBody title={__('Restricting Post and Pages', 'restrict-with-stripe')} initialOpen={false} >
                             <ol>
                                 <li>{__('Edit the page or post that you would like to restrict', 'restrict-with-stripe')}</li>
@@ -211,7 +195,7 @@ class App extends Component {
                             </ol>
                         </PanelBody>
                     </PanelBody>
-                    <PanelBody title={__('Step 4: Link to Stripe Customer Portal', 'restrict-with-stripe')} initialOpen={false}>
+                    <PanelBody title={__('Step 4: Link to Stripe Customer Portal', 'restrict-with-stripe')} initialOpen={rwstripe.stripe_user_id}>
                         <p>{__('The Stripe Customer Portal is a tool created by Stripe to allow customers to view their previous payments and manage their active subscriptions. It is important to link to the Customer Portal to give your users access to this information.', 'restrict-with-stripe')}</p>
                         <PanelBody title={__('Using the Stripe Customer Portal Block', 'restrict-with-stripe')} initialOpen={false} >
                             <ol>
@@ -240,7 +224,7 @@ class App extends Component {
                             </ol>
                         </PanelBody>
                     </PanelBody>
-                    <PanelBody title={__('Step 5: Customize Advanced Settings', 'restrict-with-stripe')} initialOpen={false} >
+                    <PanelBody title={__('Step 5: Customize Advanced Settings', 'restrict-with-stripe')} initialOpen={rwstripe.stripe_user_id} >
                         <PanelBody title={__('Restricted Content Message', 'restrict-with-stripe')} initialOpen={false} >
                             <PanelBody title={__('Logged Out Users', 'restrict-with-stripe')} initialOpen={false} >
                                 <TextControl
