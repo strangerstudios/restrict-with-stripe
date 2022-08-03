@@ -163,18 +163,11 @@ class App extends Component {
         var step2Open = false;
         var step3Open = false;
         var step4Open = false;
-        if ( ! hasOpenPanel ) {
-            if ( ! productList ) {
-                // User is connected to Stripe, but doesn't have any products yet.
-                // Show instructions to create a product.
-                step2Open = true;
-            } else {
-                // User has at least one product set up, but we don't
-                // know if they have restricted content.
-                // Just show both remaining steps to be safe.
-                step3Open = true;
-                step4Open = true;
-            }
+        if ( ! hasOpenPanel && ! productList ) {
+            // User is connected to Stripe, but doesn't have any products yet.
+            // Show instructions to create a product.
+            step2Open = true;
+            hasOpenPanel = true;
         }
 
         return (
@@ -198,27 +191,56 @@ class App extends Component {
                             </Button>
                         </a>
                     </PanelBody>
-                    <PanelBody title={__('Step 3: Add Restrictions to Site Content', 'restrict-with-stripe')} initialOpen={step3Open}>
+                    <PanelBody title={__('Step 3: Add Restrictions to Site Content', 'restrict-with-stripe')} initialOpen={false}>
                         <PanelBody title={__('Restricting Post and Pages', 'restrict-with-stripe')} initialOpen={false} >
                             <ol>
-                                <li>{__('Editing the page or post that you would like to restrict', 'restrict-with-stripe')}</li>
-                                <li>{__('Opening the settings toolbar', 'restrict-with-stripe')}</li>
-                                <li>{__('Opening the "Restrict With Stripe" panel', 'restrict-with-stripe')}</li>
-                                <li>{__('Selecting the Stripe Product to restrict the page or post by', 'restrict-with-stripe')}</li>
-                                <li>{__('Saving the page or post', 'restrict-with-stripe')}</li>
+                                <li>{__('Edit the page or post that you would like to restrict', 'restrict-with-stripe')}</li>
+                                <li>{__('Open the settings toolbar', 'restrict-with-stripe')}</li>
+                                <li>{__('Open the "Restrict With Stripe" panel', 'restrict-with-stripe')}</li>
+                                <li>{__('Select the Stripe Product to restrict the page or post by', 'restrict-with-stripe')}</li>
+                                <li>{__('Save the page or post', 'restrict-with-stripe')}</li>
                             </ol>
                         </PanelBody>
                         <PanelBody title={__('Restricting Individual Blocks', 'restrict-with-stripe')} initialOpen={false} >
                             <ol>
-                                <li>{__('Editing the page or post where you would like to restrict blocks', 'restrict-with-stripe')}</li>
-                                <li>{__('Inserting the "Restricted Content" block to the page or post', 'restrict-with-stripe')}</li>
-                                <li>{__('Adding content that should be restricted into that "Restrict Content" block', 'restrict-with-stripe')}</li>
-                                <li>{__('Selecting the Stripe Product to restrict those blocks by', 'restrict-with-stripe')}</li>
-                                <li>{__('Saving the page or post', 'restrict-with-stripe')}</li>
+                                <li>{__('Edit the page or post where you would like to restrict blocks', 'restrict-with-stripe')}</li>
+                                <li>{__('Insert the "Restricted Content" block to the page or post', 'restrict-with-stripe')}</li>
+                                <li>{__('Add content that should be restricted into that "Restrict Content" block', 'restrict-with-stripe')}</li>
+                                <li>{__('Select the Stripe Product to restrict those blocks by', 'restrict-with-stripe')}</li>
+                                <li>{__('Save the page or post', 'restrict-with-stripe')}</li>
                             </ol>
                         </PanelBody>
                     </PanelBody>
-                    <PanelBody title={__('Step 4: Customize Advanced Settings', 'restrict-with-stripe')} initialOpen={step4Open} >
+                    <PanelBody title={__('Step 4: Link to Stripe Customer Portal', 'restrict-with-stripe')} initialOpen={false}>
+                        <p>{__('The Stripe Customer Portal is a tool created by Stripe to allow customers to view their previous payments and manage their active subscriptions. It is important to link to the Customer Portal to give your users access to this information.', 'restrict-with-stripe')}</p>
+                        <PanelBody title={__('Using the Stripe Customer Portal Block', 'restrict-with-stripe')} initialOpen={false} >
+                            <ol>
+                                <li>{__('Edit the page or post that you would like to add the Customer Portal Block to', 'restrict-with-stripe')}</li>
+                                <li>{__('Insert the "Stripe Customer Portal" block to the page or post', 'restrict-with-stripe')}</li>
+                                <li>{__('Save the page or post', 'restrict-with-stripe')}</li>
+                            </ol>
+                            <p>{__('For more customzation options, follow the "Creating a Customized Customer Portal Block" instructions below.', 'restrict-with-stripe')}</p>
+                        </PanelBody>
+                        <PanelBody title={__('Creating a Customized Customer Portal Block', 'restrict-with-stripe')} initialOpen={false} >
+                            <ol>
+                            <li>{__('Edit the page or post that you would like to add the Customer Portal Block to', 'restrict-with-stripe')}</li>
+                                <li>{__('Insert a "Button" block to the page or post', 'restrict-with-stripe')}</li>
+                                <li>{__('Customize the style of the button as desired', 'restrict-with-stripe')}</li>
+                                <li>{__('Open the sidebar settings for the block using the "Show more settings" option', 'restrict-with-stripe')}</li>
+                                <li>{__('Under the "Advanced" tab, add "rwstripe-customer-portal-button" into the "Additional CSS Class(es)" text box', 'restrict-with-stripe')}</li>
+                                <li>{__('Save the page or post', 'restrict-with-stripe')}</li>
+                            </ol>
+                        </PanelBody>
+                        <PanelBody title={__('Creating a Customer Portal Menu Item', 'restrict-with-stripe')} initialOpen={false} >
+                            <ol>
+                                <li>{__('Edit the menu where you would like to add a Customer Portal menu item', 'restrict-with-stripe')}</li>
+                                <li>{__('In the "Screen Options" dropdown at the top of the screen, ensure that "CSS Classes" is enabled', 'restrict-with-stripe')}</li>
+                                <li>{__('Add a new "Custom Links" menu item with "#" as the URL and the desired link text', 'restrict-with-stripe')}</li>
+                                <li>{__('Edit that new menu item and add "rwstripe-customer-portal-button" into the "CSS Classes" text box', 'restrict-with-stripe')}</li>
+                            </ol>
+                        </PanelBody>
+                    </PanelBody>
+                    <PanelBody title={__('Step 5: Customize Advanced Settings', 'restrict-with-stripe')} initialOpen={false} >
                         <PanelBody title={__('Restricted Content Message', 'restrict-with-stripe')} initialOpen={false} >
                             <PanelBody title={__('Logged Out Users', 'restrict-with-stripe')} initialOpen={false} >
                                 <TextControl
