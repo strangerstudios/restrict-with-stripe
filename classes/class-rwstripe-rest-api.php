@@ -34,7 +34,7 @@ if ( class_exists( 'WP_REST_Controller' ) ) {
 			register_rest_route( $rwstripe_namespace, '/checkout',
 				array(
 					array(
-						'methods'  => WP_REST_Server::READABLE,
+						'methods'  => WP_REST_Server::CREATABLE,
 						'callback' => array( $this, 'create_checkout_session'),
 						'args' => array(
 							'price_id' => array(

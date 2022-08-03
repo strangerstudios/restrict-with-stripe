@@ -16,6 +16,7 @@ jQuery( document ).ready( function () {
 		jQuery.noConflict().ajax( {
 			url: rwstripe.restUrl + 'checkout',
 			dataType: 'json',
+			method: 'POST',
 			data: {
 				price_id: price_id,
 				email: email,
