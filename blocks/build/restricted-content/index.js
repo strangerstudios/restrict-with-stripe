@@ -63,31 +63,47 @@ class RWStripeRestrictionSelect extends Component {
         productList: data,
         loadingProducts: false
       });
+    }).catch(error => {
+      this.setState({
+        productList: error.message,
+        loadingProducts: false
+      });
     });
   }
 
   render() {
-    const product_checkboxes = this.state.productList.map(product => {
-      return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(CheckboxControl, {
-        key: product.id,
-        label: product.name,
-        checked: this.props.rwstripe_restricted_products.includes(product.id),
-        onChange: () => {
-          let newValue = [...this.props.rwstripe_restricted_products];
+    var product_checkboxes = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(Spinner, null);
 
-          if (newValue.includes(product.id)) {
-            newValue = newValue.filter(item => item !== product.id);
-          } else {
-            newValue.push(product.id);
-          }
+    if (!this.state.loadingProducts) {
+      if (!Array.isArray(this.state.productList)) {
+        product_checkboxes = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, __('Could not connect to Stripe. Please check your Stripe connection on the Restrict With Stripe settings page.', 'restrict-with-stripe'));
+      } else if (this.state.productList.length === 0) {
+        product_checkboxes = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, __('No products found. Please create a product in Stripe.', 'restrict-with-stripe'));
+      } else {
+        product_checkboxes = this.state.productList.map(product => {
+          return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(CheckboxControl, {
+            key: product.id,
+            label: product.name,
+            checked: this.props.rwstripe_restricted_products.includes(product.id),
+            onChange: () => {
+              let newValue = [...this.props.rwstripe_restricted_products];
 
-          this.props.setAttributes({
-            rwstripe_restricted_products: newValue
+              if (newValue.includes(product.id)) {
+                newValue = newValue.filter(item => item !== product.id);
+              } else {
+                newValue.push(product.id);
+              }
+
+              this.props.setAttributes({
+                rwstripe_restricted_products: newValue
+              });
+            }
           });
-        }
-      });
-    });
-    return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", null, this.state.loadingProducts ? (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(Spinner, null) : (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", null, product_checkboxes));
+        });
+      }
+    }
+
+    return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", null, product_checkboxes);
   }
 
 }
@@ -113,12 +129,12 @@ function Edit(_ref) {
   const blockProps = (0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.useBlockProps)(); // Check if blockProps.class contains the class 'is-selected'
 
   const isSelected = blockProps.className.includes('is-selected');
-  return [isSelected && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(InspectorControls, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(PanelBody, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(RWStripeRestrictionSelect, {
+  return [isSelected && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(InspectorControls, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(PanelBody, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("h4", null, __('Select products to restrict by:', 'restrict-with-stripe')), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(RWStripeRestrictionSelect, {
     rwstripe_restricted_products: attributes.rwstripe_restricted_products,
     setAttributes: setAttributes
   }))), isSelected && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", blockProps, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("span", {
     className: "rwstripe-block-title"
-  }, __('Restricted Content', 'restrict-with-stripe')), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(PanelBody, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(RWStripeRestrictionSelect, {
+  }, __('Restricted Content', 'restrict-with-stripe')), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(PanelBody, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("label", null, __('Select products to restrict by:', 'restrict-with-stripe')), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(RWStripeRestrictionSelect, {
     rwstripe_restricted_products: attributes.rwstripe_restricted_products,
     setAttributes: setAttributes
   })), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(InnerBlocks, {

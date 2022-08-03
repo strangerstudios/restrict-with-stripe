@@ -148,7 +148,7 @@ __webpack_require__.r(__webpack_exports__);
         }
       });
     });
-    return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("fragment", null, product_checkboxes);
+    return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("fragment", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("h4", null, __('Select products to restrict by:', 'restrict-with-stripe')), product_checkboxes);
   });
 
   class RWStripeSidebar extends Component {
@@ -172,18 +172,35 @@ __webpack_require__.r(__webpack_exports__);
           productList: data,
           loadingProducts: false
         });
+      }).catch(error => {
+        this.setState({
+          productList: error.message,
+          loadingProducts: false
+        });
       });
     }
 
     render() {
+      var sidebar_content = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(Spinner, null);
+
+      if (!this.state.loadingProducts) {
+        if (!Array.isArray(this.state.productList)) {
+          sidebar_content = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, __('Could not connect to Stripe. Please check your Stripe connection on the Restrict With Stripe settings page.', 'restrict-with-stripe'));
+        } else if (this.state.productList.length === 0) {
+          sidebar_content = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, __('No products found. Please create a product in Stripe.', 'restrict-with-stripe'));
+        } else {
+          sidebar_content = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(RestrictionSelectControl, {
+            label: __('Stripe Product', 'restrict-with-stripe'),
+            metaKey: 'rwstripe_stripe_product_ids',
+            products: this.state.productList
+          });
+        }
+      }
+
       return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(PluginDocumentSettingPanel, {
         name: "rwstripe-sidebar-panel",
         title: __('Restrict With Stripe', 'restrict-with-stripe')
-      }, this.state.loadingProducts ? (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(Spinner, null) : (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(RestrictionSelectControl, {
-        label: __('Stripe Product', 'restrict-with-stripe'),
-        metaKey: "rwstripe_stripe_product_ids",
-        products: this.state.productList
-      }));
+      }, sidebar_content);
     }
 
   }

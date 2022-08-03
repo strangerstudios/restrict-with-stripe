@@ -36,44 +36,51 @@ class RWStripeRestrictionSelect extends Component {
 				productList: data,
 				loadingProducts: false,
 			} );
+		} ).catch( ( error ) => {
+			this.setState( {
+				productList: error.message,
+				loadingProducts: false,
+			} );
 		} );
 	}
 
 	render() {
-		const product_checkboxes = this.state.productList.map(
-			( product ) => {
-				return (
-					<CheckboxControl
-						key={ product.id }
-						label={ product.name }
-						checked={ this.props.rwstripe_restricted_products.includes( product.id ) }
-						onChange={ () => {
-							let newValue = [...this.props.rwstripe_restricted_products];
-							if ( newValue.includes( product.id ) ) {
-								newValue = newValue.filter(
-									( item ) => item !== product.id
-								);
-							} else {
-								newValue.push( product.id )
-							}
-							this.props.setAttributes( {
-								rwstripe_restricted_products: newValue,
-							} )
-						} }
-					/>
-				)
+		var product_checkboxes = <Spinner />;
+		if ( ! this.state.loadingProducts ) {
+			if ( ! Array.isArray( this.state.productList ) ) {
+				product_checkboxes = <p>{ __('Could not connect to Stripe. Please check your Stripe connection on the Restrict With Stripe settings page.', 'restrict-with-stripe') }</p>;
+			} else if ( this.state.productList.length === 0 ) {
+				product_checkboxes = <p>{ __('No products found. Please create a product in Stripe.', 'restrict-with-stripe') }</p>;
+			} else {
+				product_checkboxes = this.state.productList.map(
+					( product ) => {
+						return (
+							<CheckboxControl
+								key={ product.id }
+								label={ product.name }
+								checked={ this.props.rwstripe_restricted_products.includes( product.id ) }
+								onChange={ () => {
+									let newValue = [...this.props.rwstripe_restricted_products];
+									if ( newValue.includes( product.id ) ) {
+										newValue = newValue.filter(
+											( item ) => item !== product.id
+										);
+									} else {
+										newValue.push( product.id )
+									}
+									this.props.setAttributes( {
+										rwstripe_restricted_products: newValue,
+									} )
+								} }
+							/>
+						)
+					}
+				);
 			}
-		);
-
+		}
 		return (
 			<div>
-				{ this.state.loadingProducts ? (
-					<Spinner />
-				) : (
-					<div>
-						{ product_checkboxes }
-					</div>
-				) }
+				{ product_checkboxes }
 			</div>
 		);
 	}
@@ -101,6 +108,7 @@ export default function Edit( { attributes, setAttributes } ) {
 		isSelected && (
 			<InspectorControls>
 				<PanelBody>
+					<h4>{ __('Select products to restrict by:', 'restrict-with-stripe') }</h4>
 					<RWStripeRestrictionSelect
 						rwstripe_restricted_products={
 							attributes.rwstripe_restricted_products
@@ -114,6 +122,7 @@ export default function Edit( { attributes, setAttributes } ) {
 			<div { ...blockProps }>
 				<span className="rwstripe-block-title">{ __( 'Restricted Content', 'restrict-with-stripe' ) }</span>
 				<PanelBody>
+					<label>{ __('Select products to restrict by:', 'restrict-with-stripe') }</label>
 					<RWStripeRestrictionSelect
 						rwstripe_restricted_products={
 							attributes.rwstripe_restricted_products
