@@ -1,0 +1,394 @@
+# Copyright (C) 2022 Stranger Studios
+# This file is distributed under the same license as the Restrict With Stripe plugin.
+msgid ""
+msgstr ""
+"Project-Id-Version: Restrict With Stripe 1.0\n"
+"Report-Msgid-Bugs-To: info@paidmembershipspro.com\n"
+"Last-Translator: Paid Memberships Pro <info@paidmembershipspro.com>\n"
+"Language-Team: Paid Memberships Pro <info@paidmembershipspro.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2022-08-04T19:43:00+00:00\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"X-Generator: WP-CLI 2.6.0\n"
+"X-Domain: restrict-with-stripe\n"
+
+#. Plugin Name of the plugin
+#: adminpages/profile.php:19
+#: adminpages/settings.php:9
+#: includes/blocks.php:16
+#: blocks/build/sidebar/index.js:1
+#: blocks/src/sidebar/index.js:106
+msgid "Restrict With Stripe"
+msgstr ""
+
+#. Description of the plugin
+msgid "Monetize your content using Stripe."
+msgstr ""
+
+#. Author of the plugin
+msgid "Stranger Studios"
+msgstr ""
+
+#: adminpages/profile.php:22
+msgid "Customer ID"
+msgstr ""
+
+#: adminpages/profile.php:29
+msgid "View Stripe Customer"
+msgstr ""
+
+#: adminpages/settings.php:104
+msgid "Invalid response from the Stripe Connect server."
+msgstr ""
+
+#: includes/blocks.php:79
+#: blocks/build/customer-portal/index.js:1
+#: blocks/src/customer-portal/edit.js:35
+msgid "Manage Purchases"
+msgstr ""
+
+#: includes/blocks.php:81
+msgid "Please log in to manage your purchases."
+msgstr ""
+
+#: includes/functions.php:75
+msgid "You must create an account or <a href=\"!!login_url!!\">log in</a> to purchase this content."
+msgstr ""
+
+#: includes/functions.php:77
+msgid "Create Account and Check Out"
+msgstr ""
+
+#: includes/functions.php:78
+msgid "You do not have access to this content."
+msgstr ""
+
+#: includes/functions.php:79
+msgid "Purchase Access"
+msgstr ""
+
+#: includes/functions.php:80
+msgid "This product is not purchasable."
+msgstr ""
+
+#: blocks/build/restricted-content/index.js:1
+#: blocks/build/sidebar/index.js:1
+#: blocks/src/restricted-content/edit.js:53
+#: blocks/src/sidebar/index.js:95
+msgid "No products found. Please create a product in Stripe."
+msgstr ""
+
+#: blocks/build/restricted-content/index.js:1
+#: blocks/build/sidebar/index.js:1
+#: blocks/src/restricted-content/edit.js:51
+#: blocks/src/sidebar/index.js:93
+msgid "Could not connect to Stripe. Please check your Stripe connection on the Restrict With Stripe settings page."
+msgstr ""
+
+#: blocks/build/restricted-content/index.js:1
+#: blocks/build/sidebar/index.js:1
+#: blocks/src/restricted-content/edit.js:111
+#: blocks/src/restricted-content/edit.js:125
+#: blocks/src/sidebar/index.js:54
+msgid "Select products to restrict by:"
+msgstr ""
+
+#: blocks/build/restricted-content/index.js:1
+#: blocks/src/restricted-content/edit.js:123
+#: blocks/src/restricted-content/edit.js:141
+msgid "Restricted Content"
+msgstr ""
+
+#: blocks/build/settings/admin.js:1
+#: blocks/src/settings/index.js:134
+msgid "Step 1: Connect to Stripe (Connected)"
+msgstr ""
+
+#: blocks/build/settings/admin.js:1
+#: blocks/src/settings/index.js:137
+#: blocks/src/settings/index.js:150
+msgid "Disconnect From Stripe"
+msgstr ""
+
+#: blocks/build/settings/admin.js:1
+#: blocks/src/settings/index.js:145
+msgid "Step 1: Connect to Stripe (Error)"
+msgstr ""
+
+#: blocks/build/settings/admin.js:1
+#: blocks/src/settings/index.js:146
+msgid "The following error is received when trying to communicate with Stripe:"
+msgstr ""
+
+#: blocks/build/settings/admin.js:1
+#: blocks/src/settings/index.js:123
+msgid "Step 1: Connect to Stripe"
+msgstr ""
+
+#: blocks/build/settings/admin.js:1
+#: blocks/src/settings/index.js:126
+msgid "Connect To Stripe"
+msgstr ""
+
+#: blocks/build/settings/admin.js:1
+#: blocks/src/settings/index.js:162
+msgid "Restrict With Stripe Settings"
+msgstr ""
+
+#: blocks/build/settings/admin.js:1
+#: blocks/src/settings/index.js:169
+msgid "Step 2: Create Products in Stripe"
+msgstr ""
+
+#: blocks/build/settings/admin.js:1
+#: blocks/src/settings/index.js:170
+msgid "Restrict With Stripe uses Stripe Products to track which site content a user has access to."
+msgstr ""
+
+#: blocks/build/settings/admin.js:1
+#: blocks/src/settings/index.js:171
+msgid "A Product should be created in Stripe for each set of content that you would like users to be able to purchase, whether it be a single post or a group of posts."
+msgstr ""
+
+#: blocks/build/settings/admin.js:1
+#: blocks/src/settings/index.js:174
+msgid "Create a New Product"
+msgstr ""
+
+#: blocks/build/settings/admin.js:1
+#: blocks/src/settings/index.js:178
+msgid "Step 3: Add Restrictions to Site Content"
+msgstr ""
+
+#: blocks/build/settings/admin.js:1
+#: blocks/src/settings/index.js:179
+msgid "Restricting Post and Pages"
+msgstr ""
+
+#: blocks/build/settings/admin.js:1
+#: blocks/src/settings/index.js:181
+msgid "Edit the page or post that you would like to restrict"
+msgstr ""
+
+#: blocks/build/settings/admin.js:1
+#: blocks/src/settings/index.js:182
+msgid "Open the settings toolbar"
+msgstr ""
+
+#: blocks/build/settings/admin.js:1
+#: blocks/src/settings/index.js:183
+msgid "Open the \"Restrict With Stripe\" panel"
+msgstr ""
+
+#: blocks/build/settings/admin.js:1
+#: blocks/src/settings/index.js:184
+msgid "Select the Stripe Product to restrict the page or post by"
+msgstr ""
+
+#: blocks/build/settings/admin.js:1
+#: blocks/src/settings/index.js:185
+#: blocks/src/settings/index.js:194
+#: blocks/src/settings/index.js:204
+#: blocks/src/settings/index.js:215
+msgid "Save the page or post"
+msgstr ""
+
+#: blocks/build/settings/admin.js:1
+#: blocks/src/settings/index.js:188
+msgid "Restricting Individual Blocks"
+msgstr ""
+
+#: blocks/build/settings/admin.js:1
+#: blocks/src/settings/index.js:190
+msgid "Edit the page or post where you would like to restrict blocks"
+msgstr ""
+
+#: blocks/build/settings/admin.js:1
+#: blocks/src/settings/index.js:191
+msgid "Insert the \"Restricted Content\" block to the page or post"
+msgstr ""
+
+#: blocks/build/settings/admin.js:1
+#: blocks/src/settings/index.js:192
+msgid "Add content that should be restricted into that \"Restrict Content\" block"
+msgstr ""
+
+#: blocks/build/settings/admin.js:1
+#: blocks/src/settings/index.js:193
+msgid "Select the Stripe Product to restrict those blocks by"
+msgstr ""
+
+#: blocks/build/settings/admin.js:1
+#: blocks/src/settings/index.js:198
+msgid "Step 4: Link to Stripe Customer Portal"
+msgstr ""
+
+#: blocks/build/settings/admin.js:1
+#: blocks/src/settings/index.js:199
+msgid "The Stripe Customer Portal is a tool created by Stripe to allow customers to view their previous payments and manage their active subscriptions. It is important to link to the Customer Portal to give your users access to this information."
+msgstr ""
+
+#: blocks/build/settings/admin.js:1
+#: blocks/src/settings/index.js:200
+msgid "Using the Stripe Customer Portal Block"
+msgstr ""
+
+#: blocks/build/settings/admin.js:1
+#: blocks/src/settings/index.js:202
+#: blocks/src/settings/index.js:210
+msgid "Edit the page or post that you would like to add the Customer Portal Block to"
+msgstr ""
+
+#: blocks/build/settings/admin.js:1
+#: blocks/src/settings/index.js:203
+msgid "Insert the \"Stripe Customer Portal\" block to the page or post"
+msgstr ""
+
+#: blocks/build/settings/admin.js:1
+#: blocks/src/settings/index.js:206
+msgid "For more customzation options, follow the \"Creating a Customized Customer Portal Block\" instructions below."
+msgstr ""
+
+#: blocks/build/settings/admin.js:1
+#: blocks/src/settings/index.js:208
+msgid "Creating a Customized Customer Portal Block"
+msgstr ""
+
+#: blocks/build/settings/admin.js:1
+#: blocks/src/settings/index.js:211
+msgid "Insert a \"Button\" block to the page or post"
+msgstr ""
+
+#: blocks/build/settings/admin.js:1
+#: blocks/src/settings/index.js:212
+msgid "Customize the style of the button as desired"
+msgstr ""
+
+#: blocks/build/settings/admin.js:1
+#: blocks/src/settings/index.js:213
+msgid "Open the sidebar settings for the block using the \"Show more settings\" option"
+msgstr ""
+
+#: blocks/build/settings/admin.js:1
+#: blocks/src/settings/index.js:214
+msgid "Under the \"Advanced\" tab, add \"rwstripe-customer-portal-button\" into the \"Additional CSS Class(es)\" text box"
+msgstr ""
+
+#: blocks/build/settings/admin.js:1
+#: blocks/src/settings/index.js:218
+msgid "Creating a Customer Portal Menu Item"
+msgstr ""
+
+#: blocks/build/settings/admin.js:1
+#: blocks/src/settings/index.js:220
+msgid "Edit the menu where you would like to add a Customer Portal menu item"
+msgstr ""
+
+#: blocks/build/settings/admin.js:1
+#: blocks/src/settings/index.js:221
+msgid "In the \"Screen Options\" dropdown at the top of the screen, ensure that \"CSS Classes\" is enabled"
+msgstr ""
+
+#: blocks/build/settings/admin.js:1
+#: blocks/src/settings/index.js:222
+msgid "Add a new \"Custom Links\" menu item with \"#\" as the URL and the desired link text"
+msgstr ""
+
+#: blocks/build/settings/admin.js:1
+#: blocks/src/settings/index.js:223
+msgid "Edit that new menu item and add \"rwstripe-customer-portal-button\" into the \"CSS Classes\" text box"
+msgstr ""
+
+#: blocks/build/settings/admin.js:1
+#: blocks/src/settings/index.js:227
+msgid "Step 5: Customize Advanced Settings"
+msgstr ""
+
+#: blocks/build/settings/admin.js:1
+#: blocks/src/settings/index.js:228
+msgid "Restricted Content Message"
+msgstr ""
+
+#: blocks/build/settings/admin.js:1
+#: blocks/src/settings/index.js:229
+msgid "Logged Out Users"
+msgstr ""
+
+#: blocks/build/settings/admin.js:1
+#: blocks/src/settings/index.js:231
+msgid "Use !!login_url!! to generate a URL to the site's login page."
+msgstr ""
+
+#: blocks/build/settings/admin.js:1
+#: blocks/src/settings/index.js:232
+#: blocks/src/settings/index.js:250
+#: blocks/src/settings/index.js:262
+msgid "Message"
+msgstr ""
+
+#: blocks/build/settings/admin.js:1
+#: blocks/src/settings/index.js:237
+#: blocks/src/settings/index.js:255
+msgid "Button Text"
+msgstr ""
+
+#: blocks/build/settings/admin.js:1
+#: blocks/src/settings/index.js:243
+msgid "Collect Password During Registration"
+msgstr ""
+
+#: blocks/build/settings/admin.js:1
+#: blocks/src/settings/index.js:248
+msgid "Logged In Users"
+msgstr ""
+
+#: blocks/build/settings/admin.js:1
+#: blocks/src/settings/index.js:260
+msgid "Product is not Purchasable"
+msgstr ""
+
+#: blocks/build/settings/admin.js:1
+#: blocks/src/settings/index.js:298
+msgid "Settings Saved"
+msgstr ""
+
+#: blocks/build/settings/admin.js:1
+#: blocks/src/settings/index.js:307
+msgid "Save Failed"
+msgstr ""
+
+#: blocks/build/settings/admin.js:1
+#: blocks/src/settings/index.js:316
+msgid "Save"
+msgstr ""
+
+#: blocks/build/sidebar/index.js:1
+#: blocks/src/sidebar/index.js:98
+msgid "Stripe Product"
+msgstr ""
+
+#: blocks/build/customer-portal/block.json
+#: blocks/src/customer-portal/block.json
+msgctxt "block title"
+msgid "Stripe Customer Portal"
+msgstr ""
+
+#: blocks/build/customer-portal/block.json
+#: blocks/src/customer-portal/block.json
+msgctxt "block description"
+msgid "Redirect users to Stripe to manage their purchases."
+msgstr ""
+
+#: blocks/build/restricted-content/block.json
+#: blocks/src/restricted-content/block.json
+msgctxt "block title"
+msgid "Restricted Content"
+msgstr ""
+
+#: blocks/build/restricted-content/block.json
+#: blocks/src/restricted-content/block.json
+msgctxt "block description"
+msgid "Restrict individual blocks with Stripe products."
+msgstr ""
