@@ -24,8 +24,6 @@ Go to Settings > Restrict With Stripe in the WordPress admin to begin setup.
 4. Link to Stripe Customer Portal: Give customers access to their payment history and other account information.
 5. Customize Advanced Settings: Customize the plugin to fit the needs of your specific site.
 
-**Please ensure that once installing this version of the plugin to remove `-dev` from the plugin's folder name.**
-
 ## Bugs ##
 If you find an issue/bug, let us know by [creating a detailed GitHub issue](https://github.com/strangerstudios/restrict-with-stripe/issues/new).
 
