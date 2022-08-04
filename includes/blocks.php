@@ -27,20 +27,20 @@ function rwstripe_register_block_types() {
 	register_block_type(
 		RWSTRIPE_DIR . '/blocks/build/restricted-content',
 		array(
-			'render_callback' => 'rwstripe_handle_restricted_content_block',
+			'render_callback' => 'rwstripe_render_restricted_content_block',
 		)
 	);
 	register_block_type(
 		RWSTRIPE_DIR . '/blocks/build/customer-portal',
 		array(
-			'render_callback' => 'rwstripe_customer_portal_shortcode',
+			'render_callback' => 'rwstripe_render_customer_portal_block',
 		)
 	);
 }
 add_action( 'init', 'rwstripe_register_block_types' );
 
 /**
- * Server rendering for restricted content block.
+ * Render the restricted content block.
  *
  * @since 1.0
  *
@@ -49,7 +49,7 @@ add_action( 'init', 'rwstripe_register_block_types' );
  *
  * @return string
  **/
-function rwstripe_handle_restricted_content_block( $attributes, $content ) {
+function rwstripe_render_restricted_content_block( $attributes, $content ) {
 	// Make sure this block is actually restricted.
 	if ( array_key_exists( 'rwstripe_restricted_products', $attributes ) && is_array( $attributes['rwstripe_restricted_products'] ) && ! empty( $attributes['rwstripe_restricted_products'] ) ) {
 		// Check if the current user has access to this restricted page/post.
@@ -62,3 +62,25 @@ function rwstripe_handle_restricted_content_block( $attributes, $content ) {
 	}
 	return do_blocks( $content );
 }
+
+/**
+ * Render the customer portal block. Also used as the render callback for
+ * the customer portal shortcode.
+ *
+ * @since 1.0
+ *
+ * @return string HTML for link to Stripe Customer Portal.
+ */
+function rwstripe_render_customer_portal_block() {
+	$content_pre = '<div class="rwstripe_customer_portal_shortcode">';
+	$content_post = '</div>';
+
+	if ( is_user_logged_in() ) {
+		$content = '<button type="button" class="rwstripe-customer-portal-button">' . esc_html__( 'Manage Purchases', 'restrict-with-stripe' ) . '</button>';
+	} else {
+		$content = '<a href="' . esc_url( wp_login_url( get_permalink() ) ) . '">' . esc_html__( 'Please log in to manage your purchases.', 'restrict-with-stripe' ) . '</a>';
+	}
+
+	return $content_pre . $content . $content_post;
+}
+add_shortcode( 'rwstripe_customer_portal', 'rwstripe_render_customer_portal_block' );

@@ -11,7 +11,18 @@ function rwstripe_admin_menu() {
 add_action('admin_menu', 'rwstripe_admin_menu');
 
 /**
- * Register Restrict With Stripe settings.
+ * Populate the settings page.
+ *
+ * @since 1.0
+ */
+function rwstripe_render_settings_page() {
+	?>
+        <div id="rwstripe-settings"></div>
+    <?php
+}
+
+/**
+ * Register RWS settings with REST API so that they can be edited in JS.
  *
  * @since 1.0
  */
@@ -51,54 +62,6 @@ function rwstripe_settings_init() {
 	);
 }
 add_action( 'rest_api_init', 'rwstripe_settings_init' );
-
-/**
- * Populate the settings page.
- *
- * @since 1.0
- */
-function rwstripe_render_settings_page() {
-	?>
-        <div id="rwstripe-settings"></div>
-    <?php
-}
-
-/**
- * Render the connection settings section.
- *
- * @since 1.0
- */
-function rwstripe_connection_settings_callback() {
-	$RWStripe_Stripe = RWStripe_Stripe::get_instance();
-	$stripe_user_id = get_option( 'rwstripe_stripe_user_id', '' );
-	$connect_url_base = apply_filters( 'rwstipe_stripe_connect_url', 'https://connect.paidmembershipspro.com' );
-	if ( ! empty( $stripe_user_id ) ) {
-		$connect_url = add_query_arg(
-			array(
-				'action' => 'disconnect',
-				'gateway_environment' => 'sandbox',
-				'stripe_user_id' => $stripe_user_id,
-				'return_url' => rawurlencode( admin_url( 'options-general.php?page=rwstripe' ) ),
-			),
-			$connect_url_base
-		);
-		?>
-		<a href="<?php echo esc_url_raw( $connect_url ); ?>" class="rwstripe-stripe-connect"><span><?php esc_html_e( 'Disconnect From Stripe', 'restrict-with-stripe' ); ?></span></a>
-		<?php
-	} else {
-		$connect_url = add_query_arg(
-			array(
-				'action' => 'authorize',
-				'gateway_environment' => 'sandbox',
-				'return_url' => rawurlencode( admin_url( 'options-general.php?page=rwstripe' ) ),
-			),
-			$connect_url_base
-		);
-		?>
-		<a href="<?php echo esc_url_raw( $connect_url ); ?>" class="rwstripe-stripe-connect"><span><?php esc_html_e( 'Connect with Stripe', 'restrict-with-stripe' ); ?></span></a>
-		<?php
-	}
-}
 
 /**
  * Validate the restricted content message settings.
