@@ -2,11 +2,11 @@
 /**
  * Plugin Name: Restrict With Stripe
  * Description: Monetize your content using Stripe.
- * Version: 0.0
+ * Version: 1.0
  * Author: Stranger Studios
  * Text Domain: restrict-with-stripe
  */
-define( 'RWSTRIPE_VERSION', '0.0' );
+define( 'RWSTRIPE_VERSION', '1.0' );
 define( 'RWSTRIPE_DIR', dirname( __FILE__ ) );
 define( 'RWSTRIPE_BASE_FILE', __FILE__ );
 

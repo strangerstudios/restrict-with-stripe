@@ -10,7 +10,7 @@ class RWStripe_Stripe {
 	/**
 	 * Connect to Stripe.
 	 *
-	 * @since TBD
+	 * @since 1.0
 	 */
 	private function __construct() {
 		$modules = array( 'curl', 'mbstring', 'json' );
@@ -33,7 +33,7 @@ class RWStripe_Stripe {
 	/**
 	 * Get the singleton instance.
 	 *
-	 * @since TBD
+	 * @since 1.0
 	 *
 	 * @return RWStripe_Stripe
 	 */
@@ -47,7 +47,7 @@ class RWStripe_Stripe {
 	/**
 	 * Get a price from Stripe.
 	 *
-	 * @since TBD
+	 * @since 1.0
 	 *
 	 * @param string $price_id to get.
 	 * @return Stripe\Price|string error message or Stripe\Price object.
@@ -67,7 +67,7 @@ class RWStripe_Stripe {
 	/**
 	 * Get all products from Stripe.
 	 *
-	 * @since TBD
+	 * @since 1.0
 	 *
 	 * @return Stripe\Product[]|string Array of Stripe\Product objects or error message.
 	 */
@@ -86,7 +86,7 @@ class RWStripe_Stripe {
 	/**
 	 * Get a product from Stripe.
 	 *
-	 * @since TBD
+	 * @since 1.0
 	 *
 	 * @param string $product_id to get.
 	 * @return Stripe\Product|string error message or Stripe\Product object.
@@ -107,7 +107,7 @@ class RWStripe_Stripe {
 	/**
 	 * Get the default price for a given product in Stripe. 
 	 *
-	 * @since TBD
+	 * @since 1.0
 	 *
 	 * @param string $product_id to get prices for.
 	 * @return Stripe\Price|null|string The default price for the product, null if no default price exists, or error message.
@@ -133,7 +133,7 @@ class RWStripe_Stripe {
 	 *
 	 * TODO: Maybe trash this method.
 	 *
-	 * @since TBD
+	 * @since 1.0
 	 *
 	 * @return Stripe\Price[]|string Array of Stripe\Price objects or error message.
 	 */
@@ -152,7 +152,7 @@ class RWStripe_Stripe {
 	/**
 	 * Create a new customer in Stripe with a given email address.
 	 *
-	 * @since TBD
+	 * @since 1.0
 	 *
 	 * @param string $email to create customer with.
 	 * @return Stripe\Customer|string Stripe\Customer object or error message.
@@ -169,7 +169,7 @@ class RWStripe_Stripe {
 	/**
 	 * Update the email for a given customer in Stripe.
 	 *
-	 * @since TBD
+	 * @since 1.0
 	 *
 	 * @param string $customer_id to update.
 	 * @param string $email to update with.
@@ -187,7 +187,7 @@ class RWStripe_Stripe {
 	/**
 	 * Get a Customer Portal URL for a given customer.
 	 *
-	 * @since TBD
+	 * @since 1.0
 	 *
 	 * @param string $customer_id to get URL for.
 	 * @return Stripe\BillingPortal\Session|string Stripe\BillingPortal\Session object or error message.
@@ -267,7 +267,7 @@ class RWStripe_Stripe {
 	 * Check if a customer has an active subscription for a given product or has
 	 * purchased it as a one-time payment.
 	 *
-	 * @since TBD
+	 * @since 1.0
 	 *
 	 * @param string $customer_id to check.
 	 * @param string[] $product_ids to check.
@@ -312,7 +312,7 @@ class RWStripe_Stripe {
 	 * Get a $0 reccurring price for the given product.
 	 * If one does not exist, create it.
 	 *
-	 * @since TBD
+	 * @since 1.0
 	 *
 	 * @param string $product_id Product to get free recurring price for.
 	 * @param string $currency   Currency to get price in.
@@ -355,7 +355,7 @@ class RWStripe_Stripe {
 	/**
 	 * Create a checkout session.
 	 *
-	 * @since TBD
+	 * @since 1.0
 	 *
 	 * @param string $price_id to create session for.
 	 * @param string $customer_id to create session for.

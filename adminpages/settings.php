@@ -3,7 +3,7 @@
 /*
  * Add settings page for Restrict With Stripe.
  *
- * @since TBD
+ * @since 1.0
  */
 function rwstripe_admin_menu() {
 	add_options_page( esc_html__( 'Restrict With Stripe', 'restrict-with-stripe' ),  esc_html__( 'Restrict With Stripe', 'restrict-with-stripe' ), 'manage_options', 'rwstripe', 'rwstripe_render_settings_page');	
@@ -13,7 +13,7 @@ add_action('admin_menu', 'rwstripe_admin_menu');
 /**
  * Register Restrict With Stripe settings.
  *
- * @since TBD
+ * @since 1.0
  */
 function rwstripe_settings_init() {
 	register_setting(
@@ -55,7 +55,7 @@ add_action( 'rest_api_init', 'rwstripe_settings_init' );
 /**
  * Populate the settings page.
  *
- * @since TBD
+ * @since 1.0
  */
 function rwstripe_render_settings_page() {
 	?>
@@ -66,7 +66,7 @@ function rwstripe_render_settings_page() {
 /**
  * Render the connection settings section.
  *
- * @since TBD
+ * @since 1.0
  */
 function rwstripe_connection_settings_callback() {
 	$RWStripe_Stripe = RWStripe_Stripe::get_instance();
@@ -103,7 +103,7 @@ function rwstripe_connection_settings_callback() {
 /**
  * Validate the restricted content message settings.
  *
- * @since TBD
+ * @since 1.0
  *
  * @param array $input The input to validate.
  * @return array The validated input.
@@ -121,7 +121,7 @@ function rwstripe_restricted_content_message_validate( $input ) {
 /**
  * Handle responses from the Stripe Connect server.
  *
- * @since TBD
+ * @since 1.0
  */
 function rwstripe_handle_connect_to_stripe_response() {
 	// Is user have permission to edit give setting.

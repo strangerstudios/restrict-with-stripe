@@ -4,7 +4,7 @@
  * Swap out page/post content with a prompt to purchase access
  * if the page/post is restricted and the user does not already have access.
  *
- * @since TBD
+ * @since 1.0
  *
  * @param string $content The content to potentially replace.
  *
@@ -34,7 +34,7 @@ add_filter( 'the_content', 'rwstripe_the_content' );
 /**
  * Output the "restricted content" message.
  *
- * @since TBD
+ * @since 1.0
  *
  * @param array|string $product_ids The product IDs that restrict the content.
  */
@@ -143,7 +143,7 @@ function rwstripe_restricted_content_message( $product_ids ) {
 /**
  * If user is not logged in, hide menu items attempting to send users to customer portal.
  *
- * @since TBD
+ * @since 1.0
  *
  * @param array $items The menu items to potentially hide.
  * @return array $items The menu items to show.

@@ -3,7 +3,7 @@
 /**
  * Get the customer ID for a user and creates a new customer if one does not exist.
  * 
- * @since TBD
+ * @since 1.0
  *
  * @param int $user_id User ID. Defaults to current user.
  *

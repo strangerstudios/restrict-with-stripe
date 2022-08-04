@@ -3,7 +3,7 @@
 /**
  * Set up shortcode to display link to Stripe Customer Portal.
  *
- * @since TBD
+ * @since 1.0
  *
  * @return string HTML for link to Stripe Customer Portal.
  */

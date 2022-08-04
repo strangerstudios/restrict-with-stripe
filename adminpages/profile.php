@@ -4,7 +4,7 @@
  * Allow admins to set Stripe Customer IDs for users and
  * access their Stripe Customer Portal.
  *
- * @since TBD
+ * @since 1.0
  *
  * @param WP_User $user User being viewed.
  */
@@ -41,7 +41,7 @@ add_action( 'edit_user_profile', 'rwstripe_edit_user_profile' );
 /**
  * Save the Stripe Customer ID for a user.
  *
- * @since TBD
+ * @since 1.0
  */
 function rwstripe_user_profile_update() {
 	if ( ! current_user_can( 'manage_options' ) ) {
@@ -64,7 +64,7 @@ add_action( 'edit_user_profile_update', 'rwstripe_user_profile_update' );
 /**
  * If a user's email address change, try to update it in Stripe.
  *
- * @since TBD
+ * @since 1.0
  *
  * @param int $user_id ID of user whose email address changed.
  * @param WP_User $old_user Old user object.

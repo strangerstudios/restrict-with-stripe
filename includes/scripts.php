@@ -3,7 +3,7 @@
 /**
  * Set up JavaScript to handle frontend actions and css.
  *
- * @since TBD
+ * @since 1.0
  */
 function rwstripe_enqueue_scripts() {
 	wp_register_script( 'rwstripe',
@@ -30,7 +30,7 @@ add_action( 'wp_enqueue_scripts', 'rwstripe_enqueue_scripts' );
 /**
  * Set up JavaScript to handle backend buttons and css.
  *
- * @since TBD
+ * @since 1.0
  */
 function rwstripe_enqueue_admin_scripts() {
 	// Enqueue script for settings page.
