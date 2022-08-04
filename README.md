@@ -2,7 +2,7 @@
 
 ### Welcome to the Restrict With Stripe GitHub Repository
 
-Restrict with Stripe enables you to integrate your website with Stripe to sell access to restricted posts, pages, blocks, and more.
+Restrict with Stripe integrates your website with Stripe to sell access to restricted posts, pages, blocks, and more.
 
 ## Restrict With Stripe is Open Source Software 
 
