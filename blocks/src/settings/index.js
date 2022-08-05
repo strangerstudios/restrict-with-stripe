@@ -201,6 +201,15 @@ class App extends Component {
                                 <li>{__('Save the category or tag', 'restrict-with-stripe')}</li>
                             </ol>
                         </PanelBody>
+                        <PanelBody title={__('Restricting Elementor Widgets', 'restrict-with-stripe')} initialOpen={false} >
+                            <ol>
+                                <li>{__('Select the widget that you would like to restrict', 'restrict-with-stripe')}</li>
+                                <li>{__('Open the "Advanced" editor tab', 'restrict-with-stripe')}</li>
+                                <li>{__('Open the "Restrict With Stripe" panel', 'restrict-with-stripe')}</li>
+                                <li>{__('Select the Stripe Product to restrict the widget by', 'restrict-with-stripe')}</li>
+                                <li>{__('Click the "Update" button', 'restrict-with-stripe')}</li>
+                            </ol>
+                        </PanelBody>
                     </PanelBody>
                     <PanelBody title={__('Step 4: Link to Stripe Customer Portal', 'restrict-with-stripe')} initialOpen={rwstripe.stripe_user_id}>
                         <p>{__('The Stripe Customer Portal is a tool created by Stripe to allow customers to view their previous payments and manage their active subscriptions. It is important to link to the Customer Portal to give your users access to this information.', 'restrict-with-stripe')}</p>
