@@ -121,6 +121,7 @@ class RWStripe_Elementor {
                 )
             );
         } else {
+            // Show restriction checkboxes.
             $formatted_products = array();
             foreach ( $products as $product ) {
                 $formatted_products[$product->id] = $product->name;
@@ -132,7 +133,20 @@ class RWStripe_Elementor {
                     'multiple' => 'true',
                     'options' => $formatted_products,
                     'label_block' => 'true',
-                    'description' => __( 'Select products to restrict content to.', 'restrict-with-stripe' ),
+                    'description' => __( 'Select products to restrict content to', 'restrict-with-stripe' ),
+                )
+            );
+
+            // Add toggle to enable/disable showing checkout form to users without access.
+            $element->add_control(
+                'rwstripe_show_checkout_form', array(
+                    'label' => __( 'Show purchase link:', 'restrict-with-stripe' ),
+                    'description' => __( 'Allow users without access to purhcase this content', 'restrict-with-stripe' ),
+                    'type' => Controls_Manager::SWITCHER,
+                    'label_on' => __( 'Yes', 'restrict-with-stripe' ),
+                    'label_off' => __( 'No', 'restrict-with-stripe' ),
+                    'return_value' => 'true',
+                    'default' => false,
                 )
             );
         }
@@ -165,6 +179,12 @@ class RWStripe_Elementor {
 		// Check if the current user has access to this restricted page/post.
 		$RWStripe_Stripe = RWStripe_Stripe::get_instance();
 		if ( ! is_user_logged_in() || ! $RWStripe_Stripe->customer_has_product( rwstripe_get_customer_id_for_user(), $settings['rwstripe_stripe_product_ids'] ) ) {
+            // User does not have access. Check if checkout form should be shown.
+            if ( empty( $settings['rwstripe_show_checkout_form'] ) ) {
+                return '';
+            }
+
+            // Render checkout form.
 			ob_start();
 			rwstripe_restricted_content_message( $settings['rwstripe_stripe_product_ids'] );
 			return ob_get_clean();
