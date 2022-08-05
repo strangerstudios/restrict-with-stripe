@@ -15,6 +15,10 @@ class RWStripe_Elementor {
             'element' => 'common',
             'action'  => '_section_style',
         ),
+        array(
+            'element' => 'section',
+            'action'  => 'section_advanced',
+        )
     );
     public $section_name = 'rwstripe_elementor_section';
 
@@ -89,6 +93,7 @@ class RWStripe_Elementor {
 
 		// Filter elementor render_content hook
 		add_action( 'elementor/widget/render_content', array( $this, 'rwstripe_elementor_render_content' ), 10, 2 );
+        add_action( 'elementor/frontend/section/should_render', array( $this, 'rwstripe_elementor_should_render' ), 10, 2 );
 	}
 
 	/**
@@ -136,21 +141,56 @@ class RWStripe_Elementor {
                     'description' => __( 'Select products to restrict content to', 'restrict-with-stripe' ),
                 )
             );
-
-            // Add toggle to enable/disable showing checkout form to users without access.
-            $element->add_control(
-                'rwstripe_show_checkout_form', array(
-                    'label' => __( 'Show purchase link:', 'restrict-with-stripe' ),
-                    'description' => __( 'Allow users without access to purhcase this content', 'restrict-with-stripe' ),
-                    'type' => Controls_Manager::SWITCHER,
-                    'label_on' => __( 'Yes', 'restrict-with-stripe' ),
-                    'label_off' => __( 'No', 'restrict-with-stripe' ),
-                    'return_value' => 'true',
-                    'default' => false,
-                )
-            );
+            // If this is not a section, add toggle to enable/disable showing checkout form to users without access.
+            if ( $element->get_name() !== 'section' ) {
+                $element->add_control(
+                    'rwstripe_show_checkout_form', array(
+                        'label' => __( 'Show purchase link:', 'restrict-with-stripe' ),
+                        'description' => __( 'Allow users without access to purhcase this content', 'restrict-with-stripe' ),
+                        'type' => Controls_Manager::SWITCHER,
+                        'label_on' => __( 'Yes', 'restrict-with-stripe' ),
+                        'label_off' => __( 'No', 'restrict-with-stripe' ),
+                        'return_value' => 'true',
+                        'default' => false,
+                    )
+                );
+            }
         }
 	}
+
+    /**
+     * Check if user access to content. Also used to hide restricted sections.
+     *
+     * @since 1.0
+     *
+     * @param bool $should_render Whether the section should be rendered.
+     * @param Object $element The element to add the section to.
+     * @return bool Whether the section should be rendered.
+     */
+    public function rwstripe_elementor_should_render( $should_render, $element ) {
+        // Don't hide content in editor mode.
+		if ( \Elementor\Plugin::$instance->editor->is_edit_mode() ) {
+			return $should_render;
+		}
+
+		// Bypass if it's already hidden.
+		if ( $should_render === false ) {
+			return $should_render;
+		}
+		
+		// Get the element settings.
+        $settings = $element->get_active_settings();
+
+        // Check if this element is restricted.
+		if ( empty( $settings['rwstripe_stripe_product_ids'] ) || ! is_array( $settings['rwstripe_stripe_product_ids'] ) ) {
+            return true;
+        }
+		
+		// Check if the current user has access to this restricted page/post.
+		$RWStripe_Stripe = RWStripe_Stripe::get_instance();
+		return ( is_user_logged_in() && $RWStripe_Stripe->customer_has_product( rwstripe_get_customer_id_for_user(), $settings['rwstripe_stripe_product_ids'] ) );
+
+    }
 
 	/**
 	 * Filter content of Elementor widgets.
@@ -162,35 +202,20 @@ class RWStripe_Elementor {
      * @return string The filtered content.
 	 */
 	public function rwstripe_elementor_render_content( $content, $widget ){
-
-        // Don't hide content in editor mode.
-        if ( \Elementor\Plugin::$instance->editor->is_edit_mode() ) {
+        // Check if this element should be rendered as-is.
+        if ( $this->rwstripe_elementor_should_render( true, $widget ) ) {
             return $content;
         }
 
-        // Get the element settings.
+        // User does not have access. Check if checkout form should be shown.
         $settings = $widget->get_active_settings();
-
-        // Check if this element is restricted.
-		if ( empty( $settings['rwstripe_stripe_product_ids'] ) || ! is_array( $settings['rwstripe_stripe_product_ids'] ) ) {
-            return $content;
+        if ( empty( $settings['rwstripe_show_checkout_form'] ) ) {
+            return '';
         }
-		
-		// Check if the current user has access to this restricted page/post.
-		$RWStripe_Stripe = RWStripe_Stripe::get_instance();
-		if ( ! is_user_logged_in() || ! $RWStripe_Stripe->customer_has_product( rwstripe_get_customer_id_for_user(), $settings['rwstripe_stripe_product_ids'] ) ) {
-            // User does not have access. Check if checkout form should be shown.
-            if ( empty( $settings['rwstripe_show_checkout_form'] ) ) {
-                return '';
-            }
 
-            // Render checkout form.
-			ob_start();
-			rwstripe_restricted_content_message( $settings['rwstripe_stripe_product_ids'] );
-			return ob_get_clean();
-		}
-
-        // User has access, return the content.
-        return $content;
+        // Render checkout form.
+        ob_start();
+        rwstripe_restricted_content_message( $settings['rwstripe_stripe_product_ids'] );
+        return ob_get_clean();
 	}
 }
