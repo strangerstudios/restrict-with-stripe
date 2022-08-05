@@ -23,6 +23,7 @@ require_once( RWSTRIPE_DIR . '/includes/functions.php' ); // Declare common func
 require_once( RWSTRIPE_DIR . '/includes/content.php' );   // Filter content to be shown in frontend
 require_once( RWSTRIPE_DIR . '/includes/scripts.php' );   // Enqueue all JavaScript.
 require_once( RWSTRIPE_DIR . '/includes/blocks.php' );    // Register blocks.
+require_once( RWSTRIPE_DIR . '/includes/currencies.php' ); // Handle currency formatting.
 require_once( RWSTRIPE_DIR . '/includes/compatibility.php' ); // Set up compatibility with other plugins.
 
 require_once( RWSTRIPE_DIR . '/classes/class-rwstripe-stripe.php' );   // Facilitate interactions with Stripe.

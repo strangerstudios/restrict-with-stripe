@@ -133,28 +133,11 @@ function rwstripe_restricted_content_message( $product_ids ) {
 					<?php
 				}
 
-				// If there are multiple purchasable products, show a dropdown of products.
-				if ( count( $purchasable_products ) > 1 ) {
-					?>
-					<select name="rwstripe-product-id">
-						<option value="">-- <?php echo esc_html( __( 'Select a product', 'restrict_with_stripe' ) ); ?> --</option>
-						<?php
-						foreach ( $purchasable_products as $product ) {
-							?>
-							<option value="<?php echo esc_attr( $product->default_price ); ?>"><?php echo esc_html( $product->name ); ?></option>
-							<?php
-						}
-						?>
-					</select>
-					<br/>
-					<?php
-				} else {
-					?>
-					<input type="hidden" name="rwstripe-product-id" value="<?php echo esc_attr( $purchasable_products[0]->default_price ); ?>" />
-					<?php
-				}
+				// Show dropdown of products to purchase.
+				rwstripe_restricted_content_message_render_product_dropdown( $purchasable_products );
+
 				?>
-				<button type="submit" class="rwstripe-checkout-button"><?php echo esc_html( $restriced_content_message_options['logged_out_button_text'], 'restrict-with-stripe' ); ?></button>
+				<button type="submit" class="rwstripe-checkout-button"><?php echo esc_html( $restriced_content_message_options['logged_out_button_text'] ); ?></button>
 			</form>
 			<?php
 		} else {
@@ -165,32 +148,46 @@ function rwstripe_restricted_content_message( $product_ids ) {
 			<div class="rwstripe-checkout-error-message"></div>
 			<form class="rwstripe-restricted-content-message-register">
 				<?php
-				// If there are multiple purchasable products, show a dropdown of products.
-				if ( count( $purchasable_products ) > 1 ) {
-					?>
-					<select name="rwstripe-product-id">
-						<option value="">-- <?php echo esc_html( __( 'Select a product', 'restrict_with_stripe' ) ); ?> --</option>
-						<?php
-						foreach ( $purchasable_products as $product ) {
-							?>
-							<option value="<?php echo esc_attr( $product->default_price ); ?>"><?php echo esc_html( $product->name ); ?></option>
-							<?php
-						}
-						?>
-					</select>
-					<br/>
-					<?php
-				} else {
-					?>
-					<input type="hidden" name="rwstripe-product-id" value="<?php echo esc_attr( $purchasable_products[0]->default_price ); ?>" />
-					<?php
-				}
+				// Show dropdown of products to purchase.
+				rwstripe_restricted_content_message_render_product_dropdown( $purchasable_products );
 				?>
-				<button type="submit" class="rwstripe-checkout-button"><?php echo esc_html( $restriced_content_message_options['logged_in_button_text'], 'restrict-with-stripe' ); ?></button>
+				<button type="submit" class="rwstripe-checkout-button"><?php echo esc_html( $restriced_content_message_options['logged_in_button_text'] ); ?></button>
 			</form>
 			<?php
 		}
 		?>
 	</div>
 	<?php
+}
+
+/**
+ * Helper function for rendering the product dropdown in the restricted content message.
+ *
+ * @since 1.0
+ *
+ * @param array $purchasable_products The products to render in the dropdown.
+ */
+function rwstripe_restricted_content_message_render_product_dropdown( $purchasable_products ) {
+	// If there are multiple purchasable products, show a dropdown of products.
+	if ( count( $purchasable_products ) > 1 ) {
+		$RWStripe_Stripe = RWStripe_Stripe::get_instance();
+		?>
+		<select name="rwstripe-product-id">
+			<option value="">-- <?php echo esc_html( __( 'Select a product', 'restrict_with_stripe' ) ); ?> --</option>
+			<?php
+			foreach ( $purchasable_products as $product ) {
+				$price = $RWStripe_Stripe->get_price( $product->default_price );
+				?>
+				<option value="<?php echo esc_attr( $product->default_price ); ?>"><?php echo esc_html( $product->name ) . ' ( ' . rwstripe_format_price( $price ) . ' )'; ?></option>
+				<?php
+			}
+			?>
+		</select>
+		<br/>
+		<?php
+	} else {
+		?>
+		<input type="hidden" name="rwstripe-product-id" value="<?php echo esc_attr( $purchasable_products[0]->default_price ); ?>" />
+		<?php
+	}
 }
