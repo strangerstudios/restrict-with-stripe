@@ -55,6 +55,12 @@ function rwstripe_render_restricted_content_block( $attributes, $content ) {
 		// Check if the current user has access to this restricted page/post.
 		$RWStripe_Stripe = RWStripe_Stripe::get_instance();
 		if ( ! is_user_logged_in() || ! $RWStripe_Stripe->customer_has_product( rwstripe_get_customer_id_for_user(), $attributes['rwstripe_restricted_products'] ) ) {
+			// User does not have access. Check if checkout form should be shown.
+			if ( empty( $attributes['rwstripe_show_checkout_form'] ) ) {
+				return '';
+			}
+	
+			// Render checkout form.
 			ob_start();
 			rwstripe_restricted_content_message( $attributes['rwstripe_restricted_products'] );
 			return ob_get_clean();

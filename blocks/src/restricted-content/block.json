@@ -11,6 +11,10 @@
 		"rwstripe_restricted_products": {
 			"type": "array",
 			"default": []
+		},
+		"rwstripe_show_checkout_form": {
+			"type": "boolean",
+			"default": true
 		}
 	},
 	"supports": {

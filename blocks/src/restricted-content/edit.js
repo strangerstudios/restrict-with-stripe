@@ -115,6 +115,18 @@ export default function Edit( { attributes, setAttributes } ) {
 						}
 						setAttributes={ setAttributes }
 					/>
+					<hr/>
+					<h4>{ __('Show purchase link:', 'restrict-with-stripe') }</h4>
+					<CheckboxControl
+						label={ __('Allow users without access to purhcase this content', 'restrict-with-stripe') }
+						checked={ attributes.rwstripe_show_checkout_form }
+						onChange={ ( value ) => {
+							setAttributes( {
+								rwstripe_show_checkout_form: value,
+							} );
+						}
+						}
+					/>
 				</PanelBody>
 			</InspectorControls>
 		),
