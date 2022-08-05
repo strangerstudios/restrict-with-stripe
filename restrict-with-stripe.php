@@ -17,6 +17,7 @@ add_action( 'plugins_loaded', 'rwstripe_load_textdomain' );
 
 require_once( RWSTRIPE_DIR . '/adminpages/settings.php' ); // Set up settings page in admin.
 require_once( RWSTRIPE_DIR . '/adminpages/profile.php' );  // Add settings for admin profile page.
+require_once( RWSTRIPE_DIR . '/adminpages/terms.php' ); // Allow restricting terms.
 
 require_once( RWSTRIPE_DIR . '/includes/functions.php' ); // Declare common functions.
 require_once( RWSTRIPE_DIR . '/includes/content.php' );   // Filter content to be shown in frontend
