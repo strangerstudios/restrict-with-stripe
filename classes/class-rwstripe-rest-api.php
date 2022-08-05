@@ -129,6 +129,11 @@ if ( class_exists( 'WP_REST_Controller' ) ) {
 				if ( is_wp_error( $current_user_id ) ) {
 					return new WP_Error( 'rwstripe_error', __( 'Error creating user.', 'rwstripe' ), array( 'status' => 400 ) );
 				}
+
+				// Maybe send registration email.
+				if ( ! $restricted_content_message_options['logged_out_collect_password'] ) {
+					wp_new_user_notification( $current_user_id, null, 'user' );
+				}
 	
 				// Log the user into this new account.
 				wp_set_current_user( $current_user_id );
