@@ -9,6 +9,7 @@
 define( 'RWSTRIPE_VERSION', '1.0' );
 define( 'RWSTRIPE_DIR', dirname( __FILE__ ) );
 define( 'RWSTRIPE_BASE_FILE', __FILE__ );
+define( 'RWSTRIPE_BASENAME', plugin_basename( __FILE__ ) );
 
 function rwstripe_load_textdomain() {
 	load_plugin_textdomain( 'restrict-with-stripe', false, plugin_basename( RWSTRIPE_DIR ) . '/languages' );
@@ -18,6 +19,7 @@ add_action( 'plugins_loaded', 'rwstripe_load_textdomain' );
 require_once( RWSTRIPE_DIR . '/adminpages/settings.php' ); // Set up settings page in admin.
 require_once( RWSTRIPE_DIR . '/adminpages/profile.php' );  // Add settings for admin profile page.
 require_once( RWSTRIPE_DIR . '/adminpages/terms.php' ); // Allow restricting terms.
+require_once( RWSTRIPE_DIR . '/adminpages/plugins.php' ); // Add links to settings on plugins page.
 
 require_once( RWSTRIPE_DIR . '/includes/functions.php' ); // Declare common functions.
 require_once( RWSTRIPE_DIR . '/includes/content.php' );   // Filter content to be shown in frontend
