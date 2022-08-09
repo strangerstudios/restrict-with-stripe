@@ -28,58 +28,16 @@ function rwstripe_render_settings_page() {
  */
 function rwstripe_settings_init() {
 	register_setting(
-		'rwstripe_restricted_content_message',
-		'rwstripe_restricted_content_message',
+		'rwstripe_collect_password',
+		'rwstripe_collect_password',
 		array(
-			'sanitize_callback' => 'rwstripe_restricted_content_message_validate',
-			'show_in_rest'      => array(
-				'schema' => array(
-					'type' => 'object',
-					'properties' => array(
-						'logged_out_message' => array(
-							'type' => 'string',
-						),
-						'logged_out_collect_password' => array(
-							'type' => 'boolean',
-						),
-						'logged_out_button_text' => array(
-							'type' => 'string',
-						),
-						'logged_in_message' => array(
-							'type' => 'string',
-						),
-						'logged_in_button_text' => array(
-							'type' => 'string',
-						),
-						'not_purchasable_message' => array(
-							'type' => 'string',
-						),
-					),
-				),
-			),
-			'default' => rwstripe_get_restricted_content_message_options(),
+			'type'         => 'boolean',
+			'show_in_rest' => true,
+			'default' => true,
 		)
 	);
 }
 add_action( 'rest_api_init', 'rwstripe_settings_init' );
-
-/**
- * Validate the restricted content message settings.
- *
- * @since 1.0
- *
- * @param array $input The input to validate.
- * @return array The validated input.
- */
-function rwstripe_restricted_content_message_validate( $input ) {
-	$restricted_content_message_options = rwstripe_get_restricted_content_message_options();
-	$input['logged_out_message'] = wp_kses_post( $input['logged_out_message'] );
-	$input['logged_out_button_text'] = sanitize_text_field( $input['logged_out_button_text'] );
-	$input['logged_in_message'] = wp_kses_post( $input['logged_in_message'] );
-	$input['logged_in_button_text'] = sanitize_text_field( $input['logged_in_button_text'] );
-	$input['not_purchasable_message'] = wp_kses_post( $input['not_purchasable_message'] );
-	return $input;
-}
 
 /**
  * Handle responses from the Stripe Connect server.

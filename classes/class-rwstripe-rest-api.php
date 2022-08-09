@@ -108,8 +108,8 @@ if ( class_exists( 'WP_REST_Controller' ) ) {
 				}
 
 				// Check if user should have sent a password:
-				$restricted_content_message_options = rwstripe_get_restricted_content_message_options();
-				if ( $restricted_content_message_options['logged_out_collect_password'] ) {
+				$collecting_password = get_option( 'rwstripe_collect_password', true );
+				if ( $collecting_password ) {
 					// We should have a password. Check if we do.
 					$password = sanitize_text_field( $params['password'] );
 				} else {
@@ -131,7 +131,7 @@ if ( class_exists( 'WP_REST_Controller' ) ) {
 				}
 
 				// Maybe send registration email.
-				if ( ! $restricted_content_message_options['logged_out_collect_password'] ) {
+				if ( $collecting_password ) {
 					wp_new_user_notification( $current_user_id, null, 'user' );
 				}
 	

@@ -51,12 +51,7 @@ class App extends Component {
         super(...arguments);
 
         this.state = {
-            logged_out_message: '',
-            logged_out_collect_password: false,
-            logged_out_button_text: '',
-            logged_in_message: '',
-            logged_in_button_text: '',
-            not_purchasable_message: '',
+            rwstripe_collect_password: false,
             isAPILoaded: false,
             productList: [],
             areProductsLoaded: false,
@@ -66,14 +61,10 @@ class App extends Component {
     componentDidMount() {
         // Load site settings.
         apiFetch({ path: '/wp/v2/settings' }).then((settings) => {
-            if (settings.rwstripe_restricted_content_message) {
+            console.log(settings);
+            if ( settings.hasOwnProperty( 'rwstripe_collect_password' ) ) {
                 this.setState({
-                    logged_out_message: settings.rwstripe_restricted_content_message.logged_out_message,
-                    logged_out_collect_password: settings.rwstripe_restricted_content_message.logged_out_collect_password,
-                    logged_out_button_text: settings.rwstripe_restricted_content_message.logged_out_button_text,
-                    logged_in_message: settings.rwstripe_restricted_content_message.logged_in_message,
-                    logged_in_button_text: settings.rwstripe_restricted_content_message.logged_in_button_text,
-                    not_purchasable_message: settings.rwstripe_restricted_content_message.not_purchasable_message,
+                    rwstripe_collect_password: settings.rwstripe_collect_password,
                     isAPILoaded: true,
                 });
             }
@@ -96,12 +87,7 @@ class App extends Component {
 
     render() {
         const {
-            logged_out_message,
-            logged_out_collect_password,
-            logged_out_button_text,
-            logged_in_message,
-            logged_in_button_text,
-            not_purchasable_message,
+            rwstripe_collect_password,
             isAPILoaded,
             productList,
             areProductsLoaded,
@@ -241,57 +227,17 @@ class App extends Component {
                         </PanelBody>
                     </PanelBody>
                     <PanelBody title={__('Step 5: Customize Advanced Settings', 'restrict-with-stripe')} initialOpen={rwstripe.stripe_user_id} >
-                        <PanelBody title={__('Restricted Content Message', 'restrict-with-stripe')} initialOpen={false} >
-                            <PanelBody title={__('Logged Out Users', 'restrict-with-stripe')} initialOpen={false} >
-                                <TextControl
-                                    help={__('Use !!login_url!! to generate a URL to the site\'s login page.', 'restrict-with-stripe')}
-                                    label={__('Message', 'restrict-with-stripe')}
-                                    onChange={(logged_out_message) => this.setState({ logged_out_message })}
-                                    value={logged_out_message}
-                                />
-                                <TextControl
-                                    label={__('Button Text', 'restrict-with-stripe')}
-                                    onChange={(logged_out_button_text) => this.setState({ logged_out_button_text })}
-                                    value={logged_out_button_text}
-                                />
-                                <br/>
-                                <ToggleControl
-                                    label={__('Collect Password During Registration', 'restrict-with-stripe')}
-                                    onChange={(logged_out_collect_password) => this.setState({ logged_out_collect_password })}
-                                    checked={logged_out_collect_password}
-                                />
-                            </PanelBody>
-                            <PanelBody title={__('Logged In Users', 'restrict-with-stripe')} initialOpen={false} >
-                                <TextControl
-                                    label={__('Message', 'restrict-with-stripe')}
-                                    onChange={(logged_in_message) => this.setState({ examlogged_in_messagepleText2 })}
-                                    value={logged_in_message}
-                                />
-                                <TextControl
-                                    label={__('Button Text', 'restrict-with-stripe')}
-                                    onChange={(logged_in_button_text) => this.setState({ logged_in_button_text })}
-                                    value={logged_in_button_text}
-                                />
-                            </PanelBody>
-                            <PanelBody title={__('Product is not Purchasable', 'restrict-with-stripe')} initialOpen={false} >
-                                <TextControl
-                                    label={__('Message', 'restrict-with-stripe')}
-                                    onChange={(not_purchasable_message) => this.setState({ not_purchasable_message })}
-                                    value={not_purchasable_message}
-                                />
-                            </PanelBody>
-                        </PanelBody>
+                        <ToggleControl
+                            label={__('Collect Password During Registration', 'restrict-with-stripe')}
+                            onChange={(rwstripe_collect_password) => this.setState({ rwstripe_collect_password })}
+                            checked={rwstripe_collect_password}
+                        />
                         <Button
                             isPrimary
                             isLarge
                             onClick={() => {
                                 const {
-                                    logged_out_message,
-                                    logged_out_collect_password,
-                                    logged_out_button_text,
-                                    logged_in_message,
-                                    logged_in_button_text,
-                                    not_purchasable_message,
+                                    rwstripe_collect_password,
                                 } = this.state;
 
                                 // POST
@@ -299,14 +245,7 @@ class App extends Component {
                                     path: '/wp/v2/settings',
                                     method: 'POST',
                                     data: {
-                                        ['rwstripe_restricted_content_message']: {
-                                            logged_out_message: logged_out_message,
-                                            logged_out_collect_password: logged_out_collect_password,
-                                            logged_out_button_text: logged_out_button_text,
-                                            logged_in_message: logged_in_message,
-                                            logged_in_button_text: logged_in_button_text,
-                                            not_purchasable_message: not_purchasable_message,
-                                        },
+                                        rwstripe_collect_password: rwstripe_collect_password,
                                     },
                                 }).then((res) => {
                                     dispatch('core/notices').createNotice(

@@ -65,26 +65,6 @@ function rwstripe_register_post_meta() {
 }
 add_action( 'init', 'rwstripe_register_post_meta' );
 
-/**
- * Get options for the restricted content message.
- *
- * @since 1.0
- */
-function rwstripe_get_restricted_content_message_options() {
-    $default_options = array(
-        'logged_out_message' => __( 'You must create an account or <a href="!!login_url!!">log in</a> to purchase this content.', 'restrict-with-stripe' ),
-        'logged_out_collect_password' => false,
-		'logged_out_button_text' => __( 'Create Account and Check Out', 'restrict-with-stripe' ),
-		'logged_in_message' => __( 'You do not have access to this content.', 'restrict-with-stripe' ),
-		'logged_in_button_text' => __( 'Purchase Access', 'restrict-with-stripe' ),
-		'not_purchasable_message' => __( 'This product is not purchasable.', 'restrict-with-stripe' ),
-    );
-    $options = get_option( 'rwstripe_restricted_content_message' );
-    if ( ! is_array( $options ) ) {
-        $options = array();
-    }
-    return array_merge( $default_options, $options );
-}
 
 /**
  * Output the "restricted content" message.
@@ -97,8 +77,6 @@ function rwstripe_restricted_content_message( $product_ids ) {
 	if ( ! is_array( $product_ids ) ) {
 		$product_ids = array( $product_ids );
 	}
-
-	$restriced_content_message_options = rwstripe_get_restricted_content_message_options();
 
 	// Build an array of purchasable products.
 	$purchasable_products = array();
@@ -116,10 +94,10 @@ function rwstripe_restricted_content_message( $product_ids ) {
 		<?php
 		if ( empty( $purchasable_products ) ) {
 			// No products available for purchase.
-			echo esc_html( $restriced_content_message_options['not_purchasable_message'] );
+			esc_html_e( 'This product is not purchasable.', 'restrict-with-stripe' );
 		} elseif ( ! is_user_logged_in() ) {
 			// User not logged in. Show form to create account and purchase product.
-			echo strip_tags( str_replace( '!!login_url!!', wp_login_url( get_permalink() ), $restriced_content_message_options['logged_out_message'] ), '<a>' );
+			echo strip_tags( sprintf( __( 'You must create an account or <a href="%s">log in</a> to purchase this content.', 'restrict-with-stripe' ), wp_login_url( get_permalink() ) ), '<a>' );
 			?>
 			<br/>
 			<div class="rwstripe-checkout-error-message"></div>
@@ -127,7 +105,7 @@ function rwstripe_restricted_content_message( $product_ids ) {
 				<input type="email" name="rwstripe-email" placeholder="<?php echo esc_attr( __( 'Email Adress', 'restrict_with_stripe' ) ); ?>" /><br/>
 				<?php
 				// Maybe collect a password.
-				if ( $restriced_content_message_options['logged_out_collect_password'] ) {
+				if ( get_option( 'rwstripe_collect_password', true ) ) {
 					?>
 					<input type="password" name="rwstripe-password" placeholder="<?php echo esc_attr( __( 'Password', 'restrict_with_stripe' ) ); ?>" autocomplete="on" /><br/>
 					<?php
@@ -137,13 +115,13 @@ function rwstripe_restricted_content_message( $product_ids ) {
 				rwstripe_restricted_content_message_render_product_dropdown( $purchasable_products );
 
 				?>
-				<button type="submit" class="rwstripe-checkout-button"><?php echo esc_html( $restriced_content_message_options['logged_out_button_text'] ); ?></button>
+				<button type="submit" class="rwstripe-checkout-button"><?php esc_html_e('Create Account and Check Out', 'restrict-with-stripe' ); ?></button>
 			</form>
 			<?php
 		} else {
 			// User is logged in. Show form to purchase product.
 			?>
-			<?php echo esc_html( $restriced_content_message_options['logged_in_message'] ) ?>
+			<?php esc_html_e( 'You do not have access to this content.', 'restrict-with-stripe' ); ?>
 			<br/>
 			<div class="rwstripe-checkout-error-message"></div>
 			<form class="rwstripe-restricted-content-message-register">
@@ -151,7 +129,7 @@ function rwstripe_restricted_content_message( $product_ids ) {
 				// Show dropdown of products to purchase.
 				rwstripe_restricted_content_message_render_product_dropdown( $purchasable_products );
 				?>
-				<button type="submit" class="rwstripe-checkout-button"><?php echo esc_html( $restriced_content_message_options['logged_in_button_text'] ); ?></button>
+				<button type="submit" class="rwstripe-checkout-button"><?php echo esc_html_e( 'You do not have access to this product.', 'restrict-with-stripe' ); ?></button>
 			</form>
 			<?php
 		}
