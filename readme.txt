@@ -4,7 +4,7 @@ Tags: subscriptions, ecommerce, e-commerce, stripe, restrict access, restrict co
 Requires at least: 5.2
 Tested up to: 6.0.1
 Requires PHP: 5.6
-Stable tag: 1.0
+Stable tag: 0.1
 
 Integrate with Stripe to sell access to restricted posts, pages, categories, tags, blocks, and more.
 
@@ -33,5 +33,3 @@ Please visit the [WordPress support forum](https://wordpress.org/support/plugin/
 If you find an issue/bug, let us know by [creating a detailed GitHub issue](https://github.com/strangerstudios/restrict-with-stripe/issues/new).
 
 == Changelog ==
-= 1.0 - xxxx-xx-xx =
-* Initial release.
