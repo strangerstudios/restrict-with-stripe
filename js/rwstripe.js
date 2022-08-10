@@ -6,6 +6,8 @@ jQuery( document ).ready( function () {
 	jQuery( '.rwstripe-checkout-button' ).click( function ( e ) {
 		// Disable the button to prevent multiple clicks.
 		jQuery( '.rwstripe-checkout-button' ).prop( 'disabled', true );
+		const button_text = jQuery( '.rwstripe-checkout-button' ).text();
+		jQuery( '.rwstripe-checkout-button' ).text( rwstripe.processing_message );
 
 		// Get the value of the rwstripe-email field next to the pay button.
 		var price_id = jQuery( this ).siblings().filter( 'input[name="rwstripe-product-id"], select[name="rwstripe-product-id"]' ).val();
@@ -39,6 +41,7 @@ jQuery( document ).ready( function () {
 
 				// Disable the button so that the user can try again.
 				jQuery( '.rwstripe-checkout-button' ).prop( 'disabled', false );
+				jQuery( '.rwstripe-checkout-button' ).text( button_text );
 			},
 		} );
 	} );
@@ -50,6 +53,8 @@ jQuery( document ).ready( function () {
 	jQuery( '.rwstripe-customer-portal-button' ).click( function ( e ) {
 		// Disable the button to prevent multiple clicks.
 		jQuery( '.rwstripe-customer-portal-button' ).prop( 'disabled', true );
+		const button_text = jQuery( '.rwstripe-customer-portal-button' ).html();
+		jQuery( '.rwstripe-customer-portal-button' ).html( '<a>' + rwstripe.processing_message + '<a>' );
 
 		// Create a portal session.
 		jQuery.noConflict().ajax( {
@@ -64,6 +69,8 @@ jQuery( document ).ready( function () {
 			error: function ( xhr, ajaxOptions, thrownError ) {
 				var err = eval( '(' + xhr.responseText + ')' );
 				alert( err.message );
+				jQuery( '.rwstripe-customer-portal-button' ).prop( 'disabled', false );
+				jQuery( '.rwstripe-customer-portal-button' ).html( button_text );
 			},
 		} );
 	} );

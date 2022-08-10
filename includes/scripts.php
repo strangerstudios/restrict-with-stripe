@@ -14,6 +14,7 @@ function rwstripe_enqueue_scripts() {
 	$localize_vars = array(
 		'restUrl' => rest_url() . 'rwstripe/v1/',
 		'nonce' => wp_create_nonce( 'wp_rest' ),
+		'processing_message' => __( 'Processing...', 'restrict-with-stripe' ),
 	);
 	wp_localize_script( 'rwstripe', 'rwstripe', $localize_vars );
 	wp_enqueue_script( 'rwstripe' );
