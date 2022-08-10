@@ -114,8 +114,17 @@ function rwstripe_restricted_content_message( $product_ids ) {
 				// Show dropdown of products to purchase.
 				rwstripe_restricted_content_message_render_product_dropdown( $purchasable_products );
 
+				// Build text for submit button.
+				$submit_text = __('Create Account and Check Out', 'restrict-with-stripe' );
+
+				// Show price if only one product is available.
+				if ( count( $purchasable_products ) == 1 ) {
+					$price = $RWStripe_Stripe->get_price( $purchasable_products[0]->default_price );
+					$submit_text .= ' (' . rwstripe_format_price( $price ) . ')';
+				}
+
 				?>
-				<button type="submit" class="rwstripe-checkout-button"><?php esc_html_e('Create Account and Check Out', 'restrict-with-stripe' ); ?></button>
+				<button type="submit" class="rwstripe-checkout-button"><?php echo esc_html( $submit_text ); ?></button>
 			</form>
 			<?php
 		} else {
@@ -128,8 +137,18 @@ function rwstripe_restricted_content_message( $product_ids ) {
 				<?php
 				// Show dropdown of products to purchase.
 				rwstripe_restricted_content_message_render_product_dropdown( $purchasable_products );
+
+				// Build text for submit button.
+				$submit_text = __('Purchase', 'restrict-with-stripe' );
+
+				// Show price if only one product is available.
+				if ( count( $purchasable_products ) == 1 ) {
+					$price = $RWStripe_Stripe->get_price( $purchasable_products[0]->default_price );
+					$submit_text .= ' (' . rwstripe_format_price( $price ) . ')';
+				}
+
 				?>
-				<button type="submit" class="rwstripe-checkout-button"><?php echo esc_html_e( 'Purchase', 'restrict-with-stripe' ); ?></button>
+				<button type="submit" class="rwstripe-checkout-button"><?php echo esc_html( $submit_text ); ?></button>
 			</form>
 			<?php
 		}
