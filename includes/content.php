@@ -71,23 +71,3 @@ function rwstripe_the_content( $content ) {
 	return $content;
 }
 add_filter( 'the_content', 'rwstripe_the_content' );
-
-/**
- * If user is not logged in, hide menu items attempting to send users to customer portal.
- *
- * @since 1.0
- *
- * @param array $items The menu items to potentially hide.
- * @return array $items The menu items to show.
- */
-function rwstripe_hide_customer_portal_menu_items( $items ) {
-	if ( ! is_user_logged_in() ) {
-		foreach ( $items as $key => $item ) {
-			if ( in_array( 'rwstripe-customer-portal-button', $item->classes ) ) {
-				unset( $items[$key] );
-			}
-		}
-	}
-	return $items;
-}
-add_action( 'wp_nav_menu_objects', 'rwstripe_hide_customer_portal_menu_items' );

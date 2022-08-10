@@ -27,6 +27,7 @@ require_once( RWSTRIPE_DIR . '/includes/scripts.php' );   // Enqueue all JavaScr
 require_once( RWSTRIPE_DIR . '/includes/blocks.php' );    // Register blocks.
 require_once( RWSTRIPE_DIR . '/includes/currencies.php' ); // Handle currency formatting.
 require_once( RWSTRIPE_DIR . '/includes/compatibility.php' ); // Set up compatibility with other plugins.
+require_once( RWSTRIPE_DIR . '/includes/menus.php' ); // Set up custom menu items.
 
 require_once( RWSTRIPE_DIR . '/classes/class-rwstripe-stripe.php' );   // Facilitate interactions with Stripe.
 require_once( RWSTRIPE_DIR . '/classes/class-rwstripe-rest-api.php' ); // Set up REST API endpoints.

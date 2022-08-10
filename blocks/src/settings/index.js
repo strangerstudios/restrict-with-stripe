@@ -238,6 +238,18 @@ class App extends Component {
                     </PanelBody>
                     <PanelBody title={__('Step 4: Link to Stripe Customer Portal', 'restrict-with-stripe')} initialOpen={rwstripe.stripe_user_id}>
                         <p>{__('The Stripe Customer Portal is a tool created by Stripe to allow customers to view their previous payments and manage their active subscriptions. It is important to link to the Customer Portal to give your users access to this information.', 'restrict-with-stripe')}</p>
+                        <PanelBody title={__('Creating a Customer Portal Menu Item', 'restrict-with-stripe')} initialOpen={false} >
+                            <ol>
+                                <li>{__('Edit the menu where you would like to add a menu item linking to the Stripe Customer Portal', 'restrict-with-stripe')}</li>
+                                <li>{__('In the "Restrict With Stripe" panel, select the "Stripe Customer Portal" menu item and click "Add to Menu"', 'restrict-with-stripe')}</li>
+                                <li>{__('Click "Save Menu"', 'restrict-with-stripe')}</li>
+                            </ol>
+                            <a href={rwstripe.admin_url + "nav-menus.php"}>
+                                <Button isPrimary isLarge >
+                                    {__('Edit Menus', 'restrict-with-stripe')}
+                                </Button>
+                            </a>
+                        </PanelBody>
                         <PanelBody title={__('Using the Stripe Customer Portal Block', 'restrict-with-stripe')} initialOpen={false} >
                             <ol>
                                 <li>{__('Edit the page or post that you would like to add the Customer Portal Block to', 'restrict-with-stripe')}</li>
@@ -254,14 +266,6 @@ class App extends Component {
                                 <li>{__('Open the sidebar settings for the block using the "Show more settings" option', 'restrict-with-stripe')}</li>
                                 <li>{__('Under the "Advanced" tab, add "rwstripe-customer-portal-button" into the "Additional CSS Class(es)" text box', 'restrict-with-stripe')}</li>
                                 <li>{__('Save the page or post', 'restrict-with-stripe')}</li>
-                            </ol>
-                        </PanelBody>
-                        <PanelBody title={__('Creating a Customer Portal Menu Item', 'restrict-with-stripe')} initialOpen={false} >
-                            <ol>
-                                <li>{__('Edit the menu where you would like to add a Customer Portal menu item', 'restrict-with-stripe')}</li>
-                                <li>{__('In the "Screen Options" dropdown at the top of the screen, ensure that "CSS Classes" is enabled', 'restrict-with-stripe')}</li>
-                                <li>{__('Add a new "Custom Links" menu item with "#" as the URL and the desired link text', 'restrict-with-stripe')}</li>
-                                <li>{__('Edit that new menu item and add "rwstripe-customer-portal-button" into the "CSS Classes" text box', 'restrict-with-stripe')}</li>
                             </ol>
                         </PanelBody>
                     </PanelBody>
