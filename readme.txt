@@ -6,7 +6,7 @@ Tested up to: 6.0.1
 Requires PHP: 5.6
 Stable tag: 0.1
 
-Integrate with Stripe to sell access to restricted posts, pages, categories, tags, blocks, and more.
+Integrate with Stripe to sell access to restricted posts, pages, categories, and more!
 
 == Installation ==
 
