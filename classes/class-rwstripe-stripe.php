@@ -45,6 +45,27 @@ class RWStripe_Stripe {
     }
 
 	/**
+	 * Get the Stripe account object.
+	 *
+	 * Includes branding settings.
+	 *
+	 * @since 1.0
+	 *
+	 * @return Stripe\Account|string The Stripe account object or an error message.
+	 */
+	public function get_account() {
+		static $account;
+		if ( ! isset( $account ) ) {
+			try {
+				$account = Stripe\Account::retrieve();
+			} catch ( Exception $e ) {
+				$account = $e->getMessage();
+			}
+		}
+		return $account;
+	}
+
+	/**
 	 * Get a price from Stripe.
 	 *
 	 * @since 1.0
