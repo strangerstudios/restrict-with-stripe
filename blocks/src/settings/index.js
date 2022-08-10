@@ -200,15 +200,6 @@ class App extends Component {
                             </a>
 
                         </PanelBody>
-                        <PanelBody title={__('Restricting Individual Blocks', 'restrict-with-stripe')} initialOpen={false} >
-                            <ol>
-                                <li>{__('Edit the page or post where you would like to restrict blocks', 'restrict-with-stripe')}</li>
-                                <li>{__('Insert the "Restricted Content" block to the page or post', 'restrict-with-stripe')}</li>
-                                <li>{__('Add content that should be restricted into that "Restrict Content" block', 'restrict-with-stripe')}</li>
-                                <li>{__('Select the Stripe Product to restrict those blocks by', 'restrict-with-stripe')}</li>
-                                <li>{__('Save the page or post', 'restrict-with-stripe')}</li>
-                            </ol>
-                        </PanelBody>
                         <PanelBody title={__('Restricting Categories and Tags', 'restrict-with-stripe')} initialOpen={false} >
                             <ol>
                                 <li>{__('Edit the category or tag that you would like to restrict', 'restrict-with-stripe')}</li>
@@ -225,15 +216,6 @@ class App extends Component {
                                     {__('View Tags', 'restrict-with-stripe')}
                                 </Button>
                             </a>
-                        </PanelBody>
-                        <PanelBody title={__('Restricting Elementor Widgets', 'restrict-with-stripe')} initialOpen={false} >
-                            <ol>
-                                <li>{__('Select the widget that you would like to restrict', 'restrict-with-stripe')}</li>
-                                <li>{__('Open the "Advanced" editor tab', 'restrict-with-stripe')}</li>
-                                <li>{__('Open the "Restrict With Stripe" panel', 'restrict-with-stripe')}</li>
-                                <li>{__('Select the Stripe Product to restrict the widget by', 'restrict-with-stripe')}</li>
-                                <li>{__('Click the "Update" button', 'restrict-with-stripe')}</li>
-                            </ol>
                         </PanelBody>
                     </PanelBody>
                     <PanelBody title={__('Step 4: Link to Stripe Customer Portal', 'restrict-with-stripe')} initialOpen={rwstripe.stripe_user_id}>

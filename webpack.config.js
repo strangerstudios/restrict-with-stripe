@@ -18,7 +18,6 @@ config.entry = {
 		'sidebar',
 		'index.js'
 	),
-	//'settings/index': path.resolve(
 	'settings/admin': path.resolve(
 		process.cwd(),
 		'blocks',
@@ -31,13 +30,6 @@ config.entry = {
 		'blocks',
 		'src',
 		'customer-portal',
-		'index.js'
-	),
-	'restricted-content/index': path.resolve(
-		process.cwd(),
-		'blocks',
-		'src',
-		'restricted-content',
 		'index.js'
 	),
 };

@@ -25,12 +25,6 @@ add_filter( 'block_categories_all', 'rwstripe_block_categories' );
  */
 function rwstripe_register_block_types() {
 	register_block_type(
-		RWSTRIPE_DIR . '/blocks/build/restricted-content',
-		array(
-			'render_callback' => 'rwstripe_render_restricted_content_block',
-		)
-	);
-	register_block_type(
 		RWSTRIPE_DIR . '/blocks/build/customer-portal',
 		array(
 			'render_callback' => 'rwstripe_render_customer_portal_block',
@@ -38,36 +32,6 @@ function rwstripe_register_block_types() {
 	);
 }
 add_action( 'init', 'rwstripe_register_block_types' );
-
-/**
- * Render the restricted content block.
- *
- * @since 1.0
- *
- * @param array $attributes Contains product IDs to restrict by.
- * @param string $content Contains the inner content to be rendered.
- *
- * @return string
- **/
-function rwstripe_render_restricted_content_block( $attributes, $content ) {
-	// Make sure this block is actually restricted.
-	if ( array_key_exists( 'rwstripe_restricted_products', $attributes ) && is_array( $attributes['rwstripe_restricted_products'] ) && ! empty( $attributes['rwstripe_restricted_products'] ) ) {
-		// Check if the current user has access to this restricted page/post.
-		$RWStripe_Stripe = RWStripe_Stripe::get_instance();
-		if ( ! is_user_logged_in() || ! $RWStripe_Stripe->customer_has_product( rwstripe_get_customer_id_for_user(), $attributes['rwstripe_restricted_products'] ) ) {
-			// User does not have access. Check if checkout form should be shown.
-			if ( empty( $attributes['rwstripe_show_checkout_form'] ) ) {
-				return '';
-			}
-	
-			// Render checkout form.
-			ob_start();
-			rwstripe_restricted_content_message( $attributes['rwstripe_restricted_products'] );
-			return ob_get_clean();
-		}
-	}
-	return do_blocks( $content );
-}
 
 /**
  * Render the customer portal block. Also used as the render callback for
