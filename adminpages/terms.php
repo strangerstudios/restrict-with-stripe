@@ -18,6 +18,13 @@ function rwstripe_term_add_form_fields() {
 		if ( is_string( $products ) ) {
 			echo esc_html( __( 'Error getting products.', 'restrict-with-stripe' ) . ' ' . $products );
 		} else {
+			// If we have lots of products, put checkboxes in a scrollable div.
+			if ( count( $products ) > 10 ) {
+				?>
+				<div class="rwstripe-scrollable-div">
+				<?php
+			}
+
 			// Render checkboxes for each product.
 			foreach ( $products as $product ) {
 				?>
@@ -25,6 +32,13 @@ function rwstripe_term_add_form_fields() {
 					<input type="checkbox" name="rwstripe_stripe_product_ids[]" value="<?php echo esc_attr( $product->id ); ?>" >
 					<?php echo esc_html( $product->name ); ?>
 				</label>
+				<?php
+			}
+
+			// Close scrollable div.
+			if ( count( $products ) > 10 ) {
+				?>
+				</div>
 				<?php
 			}
 		}
@@ -64,12 +78,26 @@ function rwstripe_term_edit_form_fields( $term ) {
 				$restiction_meta = array();
 			}
 
+			// If we have lots of products, put checkboxes in a scrollable div.
+			if ( count( $products ) > 10 ) {
+				?>
+				<div class="rwstripe-scrollable-div">
+				<?php
+			}
+
 			// Render checkboxes for each product.
 			foreach ( $products as $product ) {
 				?>
 					<input type="checkbox" name="rwstripe_stripe_product_ids[]" value="<?php echo esc_attr( $product->id ); ?>" <?php checked( in_array( $product->id, $restiction_meta ) ); ?> >
 					<label><?php echo esc_html( $product->name ); ?></label>
 					<br/>
+				<?php
+			}
+
+			// Close scrollable div.
+			if ( count( $products ) > 10 ) {
+				?>
+				</div>
 				<?php
 			}
 		}

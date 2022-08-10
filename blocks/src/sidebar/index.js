@@ -52,7 +52,15 @@
 		return (
 			<fragment>
 				<h4>{ __('Select products to restrict by:', 'restrict-with-stripe') }</h4>
-				{product_checkboxes}
+				{
+					product_checkboxes.length > 6 ? (
+						<div className="rwstripe-scrollable-div">
+							{ product_checkboxes }
+						</div>
+					) : (
+						product_checkboxes
+					)
+				}
 			</fragment>
 		);
 	} );

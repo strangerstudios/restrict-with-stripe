@@ -78,6 +78,14 @@ function rwstripe_enqueue_admin_scripts() {
 		plugins_url( 'blocks/build/settings/style-admin.css', RWSTRIPE_BASE_FILE ),
 		array( 'wp-components' ),
 	);
+
+	// Enqueue style for admin pages.
+	wp_enqueue_style(
+		'rwstripe-admin',
+		plugins_url( 'css/rwstripe-admin.css', RWSTRIPE_BASE_FILE ),
+		array(),
+		RWSTRIPE_VERSION
+	);
 }
 add_action( 'admin_enqueue_scripts', 'rwstripe_enqueue_admin_scripts' );
 

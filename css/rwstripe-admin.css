@@ -1,0 +1,8 @@
+.rwstripe-scrollable-div {
+    height: 200px;
+	width: 90%;
+	background: #FFFFFF;
+	border: 1px solid #CCC;
+	overflow: auto;
+    padding: 10px;
+}
