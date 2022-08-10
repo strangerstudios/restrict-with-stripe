@@ -8,8 +8,8 @@ import {
     Placeholder,
     SnackbarList,
     Spinner,
-    TextControl,
     ToggleControl,
+    Icon,
 } from '@wordpress/components';
 
 import {
@@ -118,6 +118,11 @@ class App extends Component {
             // We can successfully communicate with Stripe.
             step1 = (
                 <PanelBody title={ __( 'Step 1: Connect to Stripe (Connected)', 'restrict-with-stripe' ) } initialOpen={false} >
+                    <a href="https://dashboard.stripe.com/" target="_blank">
+                        <Button isPrimary isLarge >
+                            {__('Go To Stripe Dashboard', 'restrict-with-stripe')}
+                        </Button>
+                    </a><br /><br />
                     <a href={rwstripe.stripe_connect_url} class="rwstripe-stripe-connect">
                         <span>
                             {__('Disconnect From Stripe', 'restrict-with-stripe')}
@@ -145,21 +150,34 @@ class App extends Component {
                 <div className="rwstripe-settings__header">
                     <div className="rwstripe-settings__container">
                         <div className="rwstripe-settings__title">
-                            <h1>{__('Restrict With Stripe Settings', 'restrict-with-stripe')}</h1>
+                            <h1>{__('Restrict With Stripe Set Up', 'restrict-with-stripe')} <Icon icon="lock" /></h1>
                         </div>
                     </div>
                 </div>
 
                 <div className="rwstripe-settings__main">
                     {step1}
-                    <PanelBody title={__('Step 2: Create Products in Stripe', 'restrict-with-stripe')} initialOpen={rwstripe.stripe_user_id} >
+                    <PanelBody title={__('Step 2: Create Products in Stripe', 'restrict-with-stripe')} initialOpen={rwstripe.stripe_user_id && ! productList.length} >
                         <p>{__('Restrict With Stripe uses Stripe Products to track which site content a user has access to.', 'restrict-with-stripe')}</p>
                         <p>{__('A Product should be created in Stripe for each set of content that you would like users to be able to purchase, whether it be a single post or a group of posts.', 'restrict-with-stripe')}</p>
-                        <a href="https://dashboard.stripe.com/products/create" target="_blank">
-                            <Button isPrimary isLarge >
-                                {__('Create a New Product', 'restrict-with-stripe')}
-                            </Button>
-                        </a>
+                        {
+                            productList.length > 0 ?
+                            <fragment>
+                                <a href="https://dashboard.stripe.com/products" target="_blank">
+                                    <Button isPrimary isLarge >
+                                        { __('Manage %d Products', 'restrict-with-stripe').replace('%d', productList.length) }
+                                    </Button>
+                                </a>
+                            </fragment>
+                            :
+                                <fragment>
+                                    <a href="https://dashboard.stripe.com/products/create" target="_blank">
+                                        <Button isPrimary isLarge >
+                                            {__('Create a New Product', 'restrict-with-stripe')}
+                                        </Button>
+                                    </a>
+                                </fragment>
+                        }
                     </PanelBody>
                     <PanelBody title={__('Step 3: Add Restrictions to Site Content', 'restrict-with-stripe')} initialOpen={rwstripe.stripe_user_id}>
                         <PanelBody title={__('Restricting Post and Pages', 'restrict-with-stripe')} initialOpen={false} >
@@ -170,6 +188,17 @@ class App extends Component {
                                 <li>{__('Select the Stripe Product to restrict the page or post by', 'restrict-with-stripe')}</li>
                                 <li>{__('Save the page or post', 'restrict-with-stripe')}</li>
                             </ol>
+                            <a href={rwstripe.admin_url + 'edit.php?post_type=post'}>
+                                <Button isPrimary isLarge >
+                                    {__('View Posts', 'restrict-with-stripe')}
+                                </Button>
+                            </a> &nbsp;
+                            <a href={rwstripe.admin_url + 'edit.php?post_type=page'}>
+                                <Button isPrimary isLarge >
+                                    {__('View Pages', 'restrict-with-stripe')}
+                                </Button>
+                            </a>
+
                         </PanelBody>
                         <PanelBody title={__('Restricting Individual Blocks', 'restrict-with-stripe')} initialOpen={false} >
                             <ol>
@@ -186,6 +215,16 @@ class App extends Component {
                                 <li>{__('Select the Stripe Product to restrict the page or post by', 'restrict-with-stripe')}</li>
                                 <li>{__('Save the category or tag', 'restrict-with-stripe')}</li>
                             </ol>
+                            <a href={rwstripe.admin_url + 'edit-tags.php?taxonomy=category'}>
+                                <Button isPrimary isLarge >
+                                    {__('View Categories', 'restrict-with-stripe')}
+                                </Button>
+                            </a> &nbsp;
+                            <a href={rwstripe.admin_url + 'edit-tags.php?taxonomy=post_tag'}>
+                                <Button isPrimary isLarge >
+                                    {__('View Tags', 'restrict-with-stripe')}
+                                </Button>
+                            </a>
                         </PanelBody>
                         <PanelBody title={__('Restricting Elementor Widgets', 'restrict-with-stripe')} initialOpen={false} >
                             <ol>

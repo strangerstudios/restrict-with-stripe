@@ -69,6 +69,7 @@ function rwstripe_enqueue_admin_scripts() {
 	wp_localize_script( 'rwstripe-settings', 'rwstripe', array(
 		'stripe_user_id' => $stripe_user_id,
 		'stripe_connect_url' => $stripe_connect_url,
+		'admin_url' => admin_url(),
 	) );
 
 	// Enqueue style for settings page.
