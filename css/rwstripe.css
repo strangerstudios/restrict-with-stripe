@@ -82,3 +82,9 @@
 	line-height: 1.15;
 	width: 90%;
 }
+
+.rwstripe-term-restriction-message {
+	text-align: center;
+	margin: auto;
+	width: 610px;
+}

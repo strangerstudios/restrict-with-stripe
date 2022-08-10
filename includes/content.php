@@ -152,6 +152,55 @@ add_filter("comments_array", "rwstripe_comments_filter", 10, 2);
 add_filter("comments_open", "rwstripe_comments_filter", 10, 2);
 
 /**
+ * Add purchase option to restricted categories and tags.
+ *
+ * @since 1.0
+ */
+function rwstripe_add_term_purchase_option() {
+	global $current_user;
+
+	// Make sure we only add the purchase option once.
+	static $tried_to_add_purchase_option = false;
+	if ( $tried_to_add_purchase_option ) {
+		return;
+	}
+
+	// Make sure we are on the archive page for a category or a tag.
+	if ( ! is_category() && ! is_tag() ) {
+		return;
+	}
+
+	// We are going to try to add the purchase option. We only want to do this once.
+	$tried_to_add_purchase_option = true;
+
+	// Get the term ID.
+	$term_id = get_queried_object_id();
+
+	// Get restricted products for this term.
+	$restricted_products = get_term_meta( $term_id, 'rwstripe_stripe_product_ids', true );
+	if ( ! is_array( $restricted_products ) || empty( $restricted_products ) ) {
+		// No restrictions. No need to add the purchase option.
+		return;
+	}
+
+	// Check if the current user has any of the restricted products.
+	$RWStripe_Stripe = RWStripe_Stripe::get_instance();
+	if ( empty( $current_user->ID ) || ! $RWStripe_Stripe->customer_has_product( rwstripe_get_customer_id_for_user(), $restricted_products ) ) {
+		// The user does not have access to any of the restricted products. Show the restriction message.
+		?><div class="rwstripe-term-restriction-message"><?php
+		if ( is_category() ) {
+			?><h3><?php esc_html_e( 'This category is restricted.', 'restrict-content-pro' ); ?></h3><?php
+		} else {
+			?><h3><?php esc_html_e( 'This tag is restricted.', 'restrict-content-pro' ); ?></h3><?php
+		}
+		rwstripe_restricted_content_message( $restricted_products );
+		?></div><?php
+	}
+}
+add_filter( 'the_post', 'rwstripe_add_term_purchase_option', 10 );
+
+
+/**
  * Get the restricted products for a given post ID.
  *
  * @since 1.0
