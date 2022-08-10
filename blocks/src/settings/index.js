@@ -51,7 +51,8 @@ class App extends Component {
         super(...arguments);
 
         this.state = {
-            rwstripe_collect_password: false,
+            rwstripe_show_excerpts: true,
+            rwstripe_collect_password: true,
             isAPILoaded: false,
             productList: [],
             areProductsLoaded: false,
@@ -62,8 +63,9 @@ class App extends Component {
         // Load site settings.
         apiFetch({ path: '/wp/v2/settings' }).then((settings) => {
             console.log(settings);
-            if ( settings.hasOwnProperty( 'rwstripe_collect_password' ) ) {
+            if ( settings.hasOwnProperty( 'rwstripe_show_excerpts' ) ) {
                 this.setState({
+                    rwstripe_show_excerpts: settings.rwstripe_show_excerpts,
                     rwstripe_collect_password: settings.rwstripe_collect_password,
                     isAPILoaded: true,
                 });
@@ -87,6 +89,7 @@ class App extends Component {
 
     render() {
         const {
+            rwstripe_show_excerpts,
             rwstripe_collect_password,
             isAPILoaded,
             productList,
@@ -253,6 +256,11 @@ class App extends Component {
                     </PanelBody>
                     <PanelBody title={__('Step 5: Customize Advanced Settings', 'restrict-with-stripe')} initialOpen={rwstripe.stripe_user_id} >
                         <ToggleControl
+                            label={__('Show Excerpts', 'restrict-with-stripe')}
+                            onChange={(rwstripe_show_excerpts) => this.setState({ rwstripe_show_excerpts })}
+                            checked={rwstripe_show_excerpts}
+                        />
+                        <ToggleControl
                             label={__('Collect Password During Registration', 'restrict-with-stripe')}
                             onChange={(rwstripe_collect_password) => this.setState({ rwstripe_collect_password })}
                             checked={rwstripe_collect_password}
@@ -262,6 +270,7 @@ class App extends Component {
                             isLarge
                             onClick={() => {
                                 const {
+                                    rwstripe_show_excerpts,
                                     rwstripe_collect_password,
                                 } = this.state;
 
@@ -270,6 +279,7 @@ class App extends Component {
                                     path: '/wp/v2/settings',
                                     method: 'POST',
                                     data: {
+                                        rwstripe_show_excerpts: rwstripe_show_excerpts,
                                         rwstripe_collect_password: rwstripe_collect_password,
                                     },
                                 }).then((res) => {

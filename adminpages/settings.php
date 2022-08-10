@@ -28,6 +28,15 @@ function rwstripe_render_settings_page() {
  */
 function rwstripe_settings_init() {
 	register_setting(
+		'rwstripe_show_excerpts',
+		'rwstripe_show_excerpts',
+		array(
+			'type'         => 'boolean',
+			'show_in_rest' => true,
+			'default' => true,
+		)
+	);
+	register_setting(
 		'rwstripe_collect_password',
 		'rwstripe_collect_password',
 		array(

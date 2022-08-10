@@ -129,7 +129,7 @@ function rwstripe_restricted_content_message( $product_ids ) {
 				// Show dropdown of products to purchase.
 				rwstripe_restricted_content_message_render_product_dropdown( $purchasable_products );
 				?>
-				<button type="submit" class="rwstripe-checkout-button"><?php echo esc_html_e( 'You do not have access to this product.', 'restrict-with-stripe' ); ?></button>
+				<button type="submit" class="rwstripe-checkout-button"><?php echo esc_html_e( 'Purchase', 'restrict-with-stripe' ); ?></button>
 			</form>
 			<?php
 		}

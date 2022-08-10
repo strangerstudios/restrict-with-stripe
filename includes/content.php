@@ -30,13 +30,87 @@ function rwstripe_the_content( $content ) {
 	// Check if the current user has access to this restricted page/post.
 	$RWStripe_Stripe = RWStripe_Stripe::get_instance();
 	if ( empty( $current_user->ID ) || ! $RWStripe_Stripe->customer_has_product( rwstripe_get_customer_id_for_user(), $restricted_product_ids ) ) {
+		// User doesn't have access.
+		// Check if we should still show an excerpt.
+		if ( get_option( 'rwstripe_show_excerpts', true ) ) {
+			// Show excerpt.
+			global $post;
+			if( $post->post_excerpt ) {
+				// Defined exerpt.
+				$content = wpautop( $post->post_excerpt );
+			} elseif(strpos($content, "<span id=\"more-" . $post->ID . "\"></span>") !== false) {
+				// More tag.
+				$pos = strpos($content, "<span id=\"more-" . $post->ID . "\"></span>");
+				$content = substr($content, 0, $pos);
+			} elseif(strpos($content, 'class="more-link">') !== false) {
+				// More link.
+				$content = preg_replace("/\<a.*class\=\"more\-link\".*\>.*\<\/a\>/", "", $content);
+			} elseif(strpos($content, "<!-- wp:more -->") !== false) {
+				// More block.
+				$pos = strpos($content, "<!-- wp:more -->");
+				$content = substr($content, 0, $pos);
+			} elseif(strpos($content, "<!--more-->") !== false) {
+				// More tag.
+				$pos = strpos($content, "<!--more-->");
+				$content = substr($content, 0, $pos);
+			} else {
+				//auto generated excerpt. pulled from wp_trim_excerpt
+				$content = strip_shortcodes( $content );
+				$content = str_replace(']]>', ']]&gt;', $content);
+				$content = wp_strip_all_tags( $content );
+				$excerpt_length = apply_filters('excerpt_length', 55);
+				$words = preg_split("/[\n\r\t ]+/", $content, $excerpt_length + 1, PREG_SPLIT_NO_EMPTY);
+				if ( count($words) > $excerpt_length ) {
+					array_pop($words);
+					$content = implode(' ', $words);
+					$content = $content . "... ";
+				} else {
+					$content = implode(' ', $words) . "... ";
+				}
+
+				$content = wpautop($content);
+			}
+		} else {
+			// Not showing an excerpt. Wipe the content.
+			$content = '';
+		}
 		ob_start();
 		rwstripe_restricted_content_message( $restricted_product_ids );
-		$content = ob_get_clean();
+		$content .= ob_get_clean();
 	}
 	return $content;
 }
-add_filter( 'the_content', 'rwstripe_the_content' );
+add_filter( 'the_content', 'rwstripe_the_content', 5 );
+add_filter( 'the_content_rss', 'rwstripe_the_content', 5 );
+add_filter( 'comment_text_rss', 'rwstripe_the_content', 5 );
+
+/**
+ * Do not restrict the excerpt.
+ *
+ * @since 1.0
+ *
+ * @param string $content The content to potentially replace.
+ * @return string $content The new content to show.
+ */
+function rwstripe_get_the_excerpt_start( $content ) {	
+	remove_filter('the_content', 'rwstripe_the_content', 5);		
+	return $content;
+}
+add_filter('get_the_excerpt', 'rwstripe_get_the_excerpt_start', 1);
+
+/**
+ * Continue restricting after the excerpt is generated.
+ *
+ * @since 1.0
+ *
+ * @param string $content The content to potentially replace.
+ * @return string $content The new content to show.
+ */
+function rwstripe_get_the_excerpt_end($content, $skipcheck = false) {	
+	add_filter('the_content', 'rwstripe_the_content', 5);		
+	return $content;
+}
+add_filter('get_the_excerpt', 'rwstripe_get_the_excerpt_end', 100);
 
 /**
  * Restrict comments if the user does not have access to the page/post.
