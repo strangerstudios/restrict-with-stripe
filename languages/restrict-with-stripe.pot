@@ -1,8 +1,8 @@
 # Copyright (C) 2022 Stranger Studios
-# This file is distributed under the same license as the Restrict With Stripe plugin.
+# This file is distributed under the same license as the Restrict with Stripe plugin.
 msgid ""
 msgstr ""
-"Project-Id-Version: Restrict With Stripe 1.0\n"
+"Project-Id-Version: Restrict with Stripe 1.0\n"
 "Report-Msgid-Bugs-To: info@paidmembershipspro.com\n"
 "Last-Translator: Paid Memberships Pro <info@paidmembershipspro.com>\n"
 "Language-Team: Paid Memberships Pro <info@paidmembershipspro.com>\n"
