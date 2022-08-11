@@ -162,13 +162,13 @@ if ( class_exists( 'WP_REST_Controller' ) ) {
 		public function get_customer_portal_url( $request ) {
 			$customer_id = rwstripe_get_customer_id_for_user();
 			if ( empty( $customer_id ) ) {
-				return new WP_REST_Response( array( 'error' => 'Could not get customer ID.' ), 500 );
+				return new WP_Error( 'rwstripe_error', __( 'Could not get customer ID.', 'rwstripe' ), array( 'status' => 500 ) );
 			}
 
 			$rwstripe = RWStripe_Stripe::get_instance();
 			$get_customer_portal_session = $rwstripe->get_customer_portal_session( $customer_id );
 			if ( is_string( $get_customer_portal_session ) ) {
-				return new WP_REST_Response( array( 'error' => 'Could not get customer portal link. ' . $get_customer_portal_session ), 500 );
+				return new WP_Error( 'rwstripe_error', __( 'Could not get customer portal link.', 'rwstripe' ) . ' ' . $get_customer_portal_session, array( 'status' => 500 ) );
 			}
 			return new WP_REST_Response( $get_customer_portal_session->url, 200 );
 		}

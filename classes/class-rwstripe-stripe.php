@@ -234,7 +234,7 @@ class RWStripe_Stripe {
 		}
 
 		// If we still don't have a portal configuration, create one.
-		if ( ! isset( $portal_configuration_id ) ) {
+		if ( empty( $portal_configuration_id ) ) {
 			$portal_configuration_params = array(
 				'business_profile' => array(
 					'headline' => esc_html__( 'Manage Your Subscriptions', 'woocommerce-gateway-stripe' ),
