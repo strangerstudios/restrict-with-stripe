@@ -20,7 +20,7 @@ function rwstripe_edit_user_profile( $user ) {
 	<table>
 		<tr>
 			<th><?php esc_html_e( 'Customer ID', 'restrict-with-stripe' ); ?></th>
-			<td><input type='text' name='rwstripe_customer_id' value='<?php echo esc_html( $customer_id ); ?>'></td>
+			<td><input type='text' name='rwstripe_customer_id' value='<?php echo esc_html( $customer_id ); ?>' disabled></td>
 		</tr>
 		<?php
 		if ( ! empty( $customer_id ) ) {
