@@ -32,7 +32,7 @@
 				return (
 					<CheckboxControl
 						key={ product.id }
-						label={ product.name }
+						label={ product.name + ( product.default_price ? '' : ' (' + __('no default price set', 'restrict-with-stripe') + ')' ) }
 						checked={ props.metaValue.includes( product.id ) }
 						onChange={ () => {
 							let newValue = [...props.metaValue];

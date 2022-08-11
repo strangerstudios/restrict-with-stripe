@@ -30,7 +30,12 @@ function rwstripe_term_add_form_fields() {
 				?>
 				<label>
 					<input type="checkbox" name="rwstripe_stripe_product_ids[]" value="<?php echo esc_attr( $product->id ); ?>" >
-					<?php echo esc_html( $product->name ); ?>
+					<?php 
+						echo esc_html( $product->name );
+						if ( empty( $product->default_price ) ) {
+							echo ' (' . esc_html__( 'no default price set', 'restrict-with-stripe' ) . ')';
+						}
+					?>
 				</label>
 				<?php
 			}
@@ -89,7 +94,14 @@ function rwstripe_term_edit_form_fields( $term ) {
 			foreach ( $products as $product ) {
 				?>
 					<input type="checkbox" name="rwstripe_stripe_product_ids[]" value="<?php echo esc_attr( $product->id ); ?>" <?php checked( in_array( $product->id, $restiction_meta ) ); ?> >
-					<label><?php echo esc_html( $product->name ); ?></label>
+					<label>
+					<?php
+						echo esc_html( $product->name );
+						if ( empty( $product->default_price ) ) {
+							echo ' (' . esc_html__( 'no default price set', 'restrict-with-stripe' ) . ')';
+						}
+					?>
+					</label>
 					<br/>
 				<?php
 			}

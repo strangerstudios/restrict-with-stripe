@@ -80,12 +80,30 @@ function rwstripe_restricted_content_message( $product_ids ) {
 
 	// Build an array of purchasable products.
 	$purchasable_products = array();
+	$errors = array();
 	$RWStripe_Stripe = RWStripe_Stripe::get_instance();
 	foreach ( $product_ids as $product_id ) {
 		$product = $RWStripe_Stripe->get_product( $product_id );
 		if ( ! empty( $product->default_price ) ) {
 			$purchasable_products[] = $product;
+		} elseif ( is_string( $product ) ) {
+			$errors[] = $product;
+		} else {
+			$errors[] = sprintf( __( 'Product %s does not have a default price.', 'restrict-content-pro' ), $product_id );
 		}
+	}
+
+	// If the user is an admin and there are errors, show them.
+	if ( current_user_can( 'manage_options' ) && ! empty( $errors ) ) {
+		echo '<div>';
+		echo '<h3>' . __( 'Admins Only', 'restrict-content-pro' ) . '</h3>';
+		echo '<p>' . esc_html__( 'The following errors occured while building the restricted content message:', 'restrict-content-pro' ) . '</p>';
+		echo '<ul>';
+		foreach ( $errors as $error ) {
+			echo '<li>' . esc_html( $error ) . '</li>';
+		}
+		echo '</ul>';
+		echo '</div>';
 	}
 
 	// Build restricted content message.
