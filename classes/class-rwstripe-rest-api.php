@@ -127,7 +127,7 @@ if ( class_exists( 'WP_REST_Controller' ) ) {
 	
 				// Check that user was created successfully.
 				if ( is_wp_error( $current_user_id ) ) {
-					return new WP_Error( 'rwstripe_error', __( 'Error creating user.', 'rwstripe' ), array( 'status' => 400 ) );
+					return new WP_Error( 'rwstripe_error', esc_html( $current_user_id->get_error_message() ), array( 'status' => 400 ) );
 				}
 
 				// Maybe send registration email.
