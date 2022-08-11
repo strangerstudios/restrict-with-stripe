@@ -285,6 +285,30 @@ class RWStripe_Stripe {
 	}
 
 	/**
+	 * Get all subscriptions for a given customer.
+	 *
+	 * @since 1.0
+	 *
+	 * @param string $customer_id to get subscriptions for.
+	 * @return Stripe\Subscription[]|string Array of Stripe\Subscription objects or error message.
+	 */
+	public function get_subscriptions_for_customer( $customer_id ) {
+		static $cached_subscriptions = array();
+		if ( isset( $cached_subscriptions[ $customer_id ] ) ) {
+			return $cached_subscriptions[ $customer_id ];
+		}
+
+		try {
+			$subscriptions = Stripe\Subscription::all( array( 'customer' => $customer_id ) );
+		} catch ( Exception $e ) {
+			$subscriptions = $e->getMessage();
+		}
+
+		$cached_subscriptions[ $customer_id ] = $subscriptions;
+		return $subscriptions;
+	}
+
+	/**
 	 * Check if a customer has an active subscription for a given product or has
 	 * purchased it as a one-time payment.
 	 *
@@ -301,14 +325,9 @@ class RWStripe_Stripe {
 		}
 
 		// Get all subscriptions for the customer.
-		$subscription_params = array(
-			'customer' => $customer_id,
-			'limit' => 100,
-		);
-		try {
-			$subscriptions = Stripe\Subscription::all( $subscription_params );
-		} catch( Exception $e ) {
-			$subscriptions = array();
+		$subscriptions = $this->get_subscriptions_for_customer( $customer_id );
+		if ( is_string( $subscriptions ) ) {
+			return __( 'Error getting subscriptions.', 'restrict-with-stripe' ) . ' ' . $subscriptions;
 		}
 
 		// Check if the customer has an active subscription for any of the products.
