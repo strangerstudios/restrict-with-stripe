@@ -233,17 +233,6 @@ class RWStripe_Stripe {
 			}
 		}
 
-		// If we don't have a default portal configuration, check if this plugin has created one.
-		if ( ! isset( $portal_configuration_id ) ) {
-			$saved_portal_configuration_id = get_option( 'rwstripe_portal_configuration_id', '' );
-			foreach( $portal_configurations as $portal_configuration ) {
-				if ( $portal_configuration->id == $saved_portal_configuration_id ) {
-					$portal_configuration_id = $portal_configuration->id;
-					break;
-				}
-			}
-		}
-
 		// If we still don't have a portal configuration, create one.
 		if ( ! isset( $portal_configuration_id ) ) {
 			$portal_configuration_params = array(
@@ -267,7 +256,6 @@ class RWStripe_Stripe {
 
 			if ( ! empty( $portal_configuration ) ) {
 				$portal_configuration_id = $portal_configuration->id;
-				update_option( 'rwstripe_portal_configuration_id', $portal_configuration_id );
 			}
 		}
 
