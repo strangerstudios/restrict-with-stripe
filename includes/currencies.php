@@ -93,7 +93,7 @@ function rwstripe_euro_position_from_locale($position = 'right') {
  *
  * @param Stripe/Price $price The price to format.
  */
-function rwstripe_format_price( $price ) {
+function rwstripe_format_price( $price, $no_html = false ) {
     global $rwstripe_currency_variations;
 
     // Set up a default currency format.
@@ -111,7 +111,16 @@ function rwstripe_format_price( $price ) {
         $currency_format = array_merge( $currency_format, $rwstripe_currency_variations[ strtoupper( $price->currency ) ] );
     }
 
-    $formatted = number_format(
+    // The return string.
+    $formatted = '';
+
+    // Wrap in a div for styling.
+    if ( empty( $no_html ) ) {
+        $formatted .= '<div class="rwstripe-price">';
+    }
+
+    // Format the numerical value.
+    $format_number = number_format(
         (float) $price->unit_amount / (float) pow( 10, $currency_format['decimals'] ),
         $currency_format['decimals'],
         $currency_format['decimal_separator'],
@@ -120,13 +129,17 @@ function rwstripe_format_price( $price ) {
 
     // which side is the symbol on?
     if ( $currency_format['position'] == 'left' ) {
-        $formatted = $currency_format['symbol'] . $formatted;
+        $format_number = $currency_format['symbol'] . $format_number;
     } else {
-        $formatted = $formatted . $currency_format['symbol'];
+        $format_number = $format_number . $currency_format['symbol'];
     }
 
     // Trim empty decimals off the end.
-    $formatted = preg_replace( '/' . preg_quote( $currency_format['decimal_separator'], '/' ) . '0+$/', '', $formatted );
+    if ( ! empty( $no_html ) ) {
+        $formatted .= preg_replace( '/' . preg_quote( $currency_format['decimal_separator'], '/' ) . '0+$/', '', $format_number );
+    } else {
+        $formatted .= '<span class="rwstripe-price-unit">' . preg_replace( '/' . preg_quote( $currency_format['decimal_separator'], '/' ) . '0+$/', '', $format_number ) . '</span>';
+    }
 
     // If this is a recurring price, append that information.
     if ( $price->recurring ) {
@@ -134,7 +147,20 @@ function rwstripe_format_price( $price ) {
         if ( intval( $price->recurring->interval_count ) > 1 ) {
             $interval_count_string = $price->recurring->interval_count . ' ';
         }
-        $formatted .= ' / ' . $interval_count_string . $price->recurring->interval;
+        if ( empty( $no_html ) ) {
+            $formatted .= '<span class="rwstripe-price-per">' . __( 'per', 'restrict-with-stripe' ) . '</span>';
+            $formatted .= '<span class="rwstripe-price-interval-count">' . $interval_count_string  . '</span>';
+            $formatted .= '<span class="rwstripe-price-interval">' . $price->recurring->interval . '</span>';
+        } else {
+            $formatted .= ' ' . __( 'per', 'restrict-with-stripe' );
+            $formatted .= ' ' . $interval_count_string;
+            $formatted .= ' ' . $price->recurring->interval;
+        }
+    }
+
+    if ( empty( $no_html ) ) {
+        // Close the wrapping div.
+        $formatted .= '</div>';
     }
 
     return $formatted;
