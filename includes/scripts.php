@@ -43,7 +43,7 @@ function rwstripe_enqueue_admin_scripts() {
 	wp_set_script_translations( 'rwstripe-settings', 'restrict-with-stripe' );
 
 	// Localize data for connecting to Stripe.
-	$stripe_user_id = get_option( 'rwstripe_stripe_user_id' );
+	$stripe_user_id = get_option( 'rwstripe_stripe_account_id' );
 	$connect_url_base = apply_filters( 'rwstipe_stripe_connect_url', 'https://connect.paidmembershipspro.com' );
 	if ( empty( $stripe_user_id ) ) {
 		// Need to connect to Stripe.
@@ -111,5 +111,8 @@ function rwstripe_enqueue_block_editor_assets() {
 		array( 'wp-edit-post', 'wp-element', 'wp-components', 'wp-plugins', 'wp-data' )
 	);
 	wp_set_script_translations( 'rwstripe-sidebar', 'restrict-with-stripe' );
+	wp_localize_script( 'rwstripe-sidebar', 'rwstripeSidebar', array(
+		'restricted_product_ids_meta_key' => rwstripe_get_meta_key( 'restricted_product_ids' ),
+	) );
 }
 add_action( 'enqueue_block_editor_assets', 'rwstripe_enqueue_block_editor_assets' );

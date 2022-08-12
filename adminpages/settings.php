@@ -67,21 +67,24 @@ function rwstripe_handle_connect_to_stripe_response() {
 			|| ! isset( $_REQUEST['pmpro_stripe_publishable_key'] )
 			|| ! isset( $_REQUEST['pmpro_stripe_user_id'] )
 			|| ! isset( $_REQUEST['pmpro_stripe_access_token'] )
+			|| ! isset( $_REQUEST['pmpro_stripe_connected_environment'] )
 		) {
 			$error = esc_html__( 'Invalid response from the Stripe Connect server.', 'restrict-with-stripe' );
 		} else {
 			// Update keys.
-			update_option( 'rwstripe_stripe_user_id', sanitize_text_field( $_REQUEST['pmpro_stripe_user_id'] ) );
+			update_option( 'rwstripe_stripe_account_id', sanitize_text_field( $_REQUEST['pmpro_stripe_user_id'] ) );
 			update_option( 'rwstripe_stripe_access_token', sanitize_text_field( $_REQUEST['pmpro_stripe_access_token'] ) );
 			update_option( 'rwstripe_stripe_publishable_key', sanitize_text_field( $_REQUEST['pmpro_stripe_publishable_key'] ) );
+			update_option( 'rwstripe_stripe_environment', sanitize_text_field( $_REQUEST['pmpro_stripe_connected_environment'] ) );
 
 			wp_redirect( admin_url( 'options-general.php?page=rwstripe' ) );
 			exit;
 		}
 	} elseif ( isset( $_REQUEST['pmpro_stripe_disconnected'] ) ) {
-		delete_option( 'rwstripe_stripe_user_id' );
+		delete_option( 'rwstripe_stripe_account_id' );
 		delete_option( 'rwstripe_stripe_access_token' );
 		delete_option( 'rwstripe_stripe_publishable_key' );
+		delete_option( 'rwstripe_stripe_environment' );
 	}
 
 	// TODO: Show error messages from failed connection.

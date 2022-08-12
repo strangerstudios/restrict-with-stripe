@@ -97,14 +97,14 @@
 		render() {
 			var sidebar_content = <Spinner />;
 			if ( ! this.state.loadingProducts ) {
-				if ( ! Array.isArray( this.state.productList ) ) {
+				if ( ! Array.isArray( this.state.productList ) || 'undefined' === typeof rwstripeSidebar.restricted_product_ids_meta_key ) {
 					sidebar_content = <p>{ __('Could not connect to Stripe. Please check your Stripe connection on the Restrict with Stripe settings page.', 'restrict-with-stripe') }</p>;
 				} else if ( this.state.productList.length === 0 ) {
 					sidebar_content = <p>{ __('No products found. Please create a product in Stripe.', 'restrict-with-stripe') }</p>;
 				} else {
 					sidebar_content = <RestrictionSelectControl
 						label={ __( 'Stripe Product', 'restrict-with-stripe' ) }
-						metaKey={ 'rwstripe_stripe_product_ids' }
+						metaKey={ rwstripeSidebar.restricted_product_ids_meta_key }
 						products={ this.state.productList }
 					/>;
 				}

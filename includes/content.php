@@ -173,11 +173,19 @@ function rwstripe_add_term_purchase_option() {
 	// We are going to try to add the purchase option. We only want to do this once.
 	$tried_to_add_purchase_option = true;
 
+	// Get the meta key for restricted products.
+	$meta_key = rwstripe_get_meta_key( 'restricted_product_ids' );
+	if ( empty( $meta_key ) ) {
+		// Not connected to a Stripe account.
+		return;
+	}
+
+
 	// Get the term ID.
 	$term_id = get_queried_object_id();
 
 	// Get restricted products for this term.
-	$restricted_products = get_term_meta( $term_id, 'rwstripe_stripe_product_ids', true );
+	$restricted_products = get_term_meta( $term_id, $meta_key, true );
 	if ( ! is_array( $restricted_products ) || empty( $restricted_products ) ) {
 		// No restrictions. No need to add the purchase option.
 		return;
@@ -212,8 +220,15 @@ function rwstripe_get_restricted_products_for_post( $post_id ) {
 	// Build list of products restricing this content.
 	$restricted_product_ids = array();
 
+	// Get the Stripe account-specific meta key for restricted product ids.
+	$meta_key = rwstripe_get_meta_key( 'restricted_product_ids' );
+	if ( empty( $meta_key ) ) {
+		// We aren't connected to Stripe.
+		return $restricted_product_ids;
+	}
+
 	// Consider post restrictions.
-	$post_restrictions = get_post_meta( $post_id, 'rwstripe_stripe_product_ids', true );
+	$post_restrictions = get_post_meta( $post_id, $meta_key, true );
 	if ( is_array( $post_restrictions ) ) {
 		$restricted_product_ids = array_merge( $restricted_product_ids, $post_restrictions );
 	}
@@ -222,7 +237,7 @@ function rwstripe_get_restricted_products_for_post( $post_id ) {
 	$post_categories = wp_get_post_categories( $post_id );
 	if ( is_array( $post_categories ) ) {
 		foreach ( $post_categories as $category_id ) {
-			$category_restrictions = get_term_meta( $category_id, 'rwstripe_stripe_product_ids', true );
+			$category_restrictions = get_term_meta( $category_id, $meta_key, true );
 			if ( is_array( $category_restrictions ) ) {
 				$restricted_product_ids = array_merge( $restricted_product_ids, $category_restrictions );
 			}
@@ -233,7 +248,7 @@ function rwstripe_get_restricted_products_for_post( $post_id ) {
 	$post_tags = wp_get_post_tags( $post_id );
 	if ( is_array( $post_tags ) ) {
 		foreach ( $post_tags as $tag ) {
-			$tag_restrictions = get_term_meta( $tag->term_id, 'rwstripe_stripe_product_ids', true );
+			$tag_restrictions = get_term_meta( $tag->term_id, $meta_key, true );
 			if ( is_array( $tag_restrictions ) ) {
 				$restricted_product_ids = array_merge( $restricted_product_ids, $tag_restrictions );
 			}
