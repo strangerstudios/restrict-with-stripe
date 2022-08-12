@@ -1,4 +1,4 @@
-=== Restrict With Stripe ===
+=== Restrict with Stripe ===
 Contributors: strangerstudios, dlparker1005
 Tags: subscriptions, ecommerce, e-commerce, stripe, restrict access, restrict content
 Requires at least: 5.2
@@ -11,12 +11,12 @@ Integrate with Stripe to sell access to restricted posts, pages, categories, and
 == Installation ==
 
 = Download, Install and Activate! =
-1. Go to Plugins > Add New to find and install Restrict With Stripe.
+1. Go to Plugins > Add New to find and install Restrict with Stripe.
 2. Or, download the latest version of the plugin, then go to Plugins > Add New and click the "Upload Plugin" button to upload your .zip file.
 3. Activate the plugin.
 
 = Complete the Initial Plugin Setup =
-Go to Settings > Restrict With Stripe in the WordPress admin to begin setup.
+Go to Settings > Restrict with Stripe in the WordPress admin to begin setup.
 
 1. Connect to Stripe: Integrate your site with Stripe.
 2. Create Products in Stripe: Create a product for each post, page, block, or other content you want to sell.

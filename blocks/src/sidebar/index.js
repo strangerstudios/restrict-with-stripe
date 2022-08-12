@@ -98,7 +98,7 @@
 			var sidebar_content = <Spinner />;
 			if ( ! this.state.loadingProducts ) {
 				if ( ! Array.isArray( this.state.productList ) ) {
-					sidebar_content = <p>{ __('Could not connect to Stripe. Please check your Stripe connection on the Restrict With Stripe settings page.', 'restrict-with-stripe') }</p>;
+					sidebar_content = <p>{ __('Could not connect to Stripe. Please check your Stripe connection on the Restrict with Stripe settings page.', 'restrict-with-stripe') }</p>;
 				} else if ( this.state.productList.length === 0 ) {
 					sidebar_content = <p>{ __('No products found. Please create a product in Stripe.', 'restrict-with-stripe') }</p>;
 				} else {
@@ -111,7 +111,7 @@
 			}
 
 			return (
-				<PluginDocumentSettingPanel name="rwstripe-sidebar-panel" title={ __( 'Restrict With Stripe', 'restrict-with-stripe' ) } >
+				<PluginDocumentSettingPanel name="rwstripe-sidebar-panel" title={ __( 'Restrict with Stripe', 'restrict-with-stripe' ) } >
 					{sidebar_content}
 				</PluginDocumentSettingPanel>
 			);

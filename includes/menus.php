@@ -8,7 +8,7 @@
 function rwstripe_add_nav_menu_meta_box() {
     add_meta_box(
         'rwstripe_nav_menu_meta_box',
-        __( 'Restrict With Stripe', 'restrict-with-stripe' ),
+        __( 'Restrict with Stripe', 'restrict-with-stripe' ),
         'rwstripe_nav_menu_meta_box_callback',
         'nav-menus',
         'side',

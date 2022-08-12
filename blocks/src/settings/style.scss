@@ -19,14 +19,16 @@
                 display: flex;
                 justify-content: center;
 
-                .dashicon {
-                    color: #757575;
+                img {
+                    max-width: 350px;
                 }
+
             }
         }
     }
 
     .rwstripe-settings__main {
+        counter-reset: step;
         margin-left: auto;
         margin-right: auto;
         max-width: 750px;
@@ -39,8 +41,58 @@
         .components-panel__body {
             background: #ffffff;
             border: 1px solid #e2e4e7;
-            margin: 1rem 0;
+            margin: 20px 0;
+
+            .components-panel__body-title {
+                counter-increment: step;
+
+                .components-button {
+                    font-size: 18px;
+                }
+                .components-button:before {
+                    background-color: #e2e4e7;
+                    border-radius: 999px;
+                    content: counter(step)" ";
+                    display: inline-block;
+                    margin-right: 10px;
+                    padding: 4px 10px;
+                }
+            }
+
+            .columns {
+                border: 1px solid #e2e4e7;
+                display: flex;
+                margin-top: 20px;
+
+                .column {
+                    flex: 1;
+                    padding: 20px;
+                }
+                .column:last-child {
+                    align-items: center;
+                    background-color: #e2e4e7;
+                    display: flex;
+                    justify-content: center;
+                    padding: 20px;
+                }
+                .column > :last-child {
+                    margin-bottom: 0;
+                }
+            }
+
+            p,
+            ol,
+            label {
+                font-size: 14px;
+                line-height: 20px;
+            }
+            p,
+            ol {
+                margin-bottom: 20px;
+                margin-top: 20px;
+            }
         }
+
     }
 
     .components-base-control__help {
