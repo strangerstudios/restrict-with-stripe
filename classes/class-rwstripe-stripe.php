@@ -96,7 +96,10 @@ class RWStripe_Stripe {
 		static $products = null;
 		if ( $products === null ) {
 			try {
-				$products = Stripe\Product::all( array( 'limit' => 100 ) );
+				$products = Stripe\Product::all( array( 
+					'limit' => 100,
+					'active' => true,
+				) );
 			} catch ( Exception $e ) {
 				$products = $e->getMessage();
 			}
