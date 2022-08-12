@@ -1,6 +1,7 @@
 import './style.scss';
 
 import apiFetch from '@wordpress/api-fetch';
+import rwsLogo from '../../assets/restrict-with-stripe.png';
 
 import {
     Button,
@@ -109,7 +110,7 @@ class App extends Component {
         if ( ! rwstripe.stripe_user_id ) {
             // User is not connected to Stripe.
             step1 = (
-                <PanelBody title={ __( 'Step 1: Connect to Stripe', 'restrict-with-stripe' ) }>
+                <PanelBody title={ __( 'Connect to Stripe', 'restrict-with-stripe' ) }>
                     <a href={rwstripe.stripe_connect_url} class="rwstripe-stripe-connect">
                     <span>
                         {__('Connect To Stripe', 'restrict-with-stripe')}
@@ -120,12 +121,9 @@ class App extends Component {
         } else if ( true === areProductsLoaded ) {
             // We can successfully communicate with Stripe.
             step1 = (
-                <PanelBody title={ __( 'Step 1: Connect to Stripe (Connected)', 'restrict-with-stripe' ) } initialOpen={false} >
-                    <a href="https://dashboard.stripe.com/" target="_blank">
-                        <Button isPrimary isLarge >
-                            {__('Go To Stripe Dashboard', 'restrict-with-stripe')}
-                        </Button>
-                    </a><br /><br />
+                <PanelBody title={ __( 'Connect to Stripe (Connected)', 'restrict-with-stripe' ) } initialOpen={false} >
+                    <p>{ __('Connected to account: %d.', 'restrict-with-stripe').replace('%d', rwstripe.stripe_user_id) }</p>
+                    <p><a href={rwstripe.stripe_dashboard_url} target="_blank">{__('Visit your Stripe account dashboard', 'restrict-with-stripe')}</a></p>
                     <a href={rwstripe.stripe_connect_url} class="rwstripe-stripe-connect">
                         <span>
                             {__('Disconnect From Stripe', 'restrict-with-stripe')}
@@ -136,7 +134,7 @@ class App extends Component {
         } else {
             // User is connected to Stripe, but we can't use the API.
             step1 = (
-                <PanelBody title={ __( 'Step 1: Connect to Stripe (Error)', 'restrict-with-stripe' ) } >
+                <PanelBody title={ __( 'Connect to Stripe (Error)', 'restrict-with-stripe' ) } >
                     <p>{ __('The following error is received when trying to communicate with Stripe:', 'restrict-with-stripe')}</p>
                     <p>{areProductsLoaded}</p>
                     <a href={rwstripe.stripe_connect_url} class="rwstripe-stripe-connect">
@@ -153,20 +151,20 @@ class App extends Component {
                 <div className="rwstripe-settings__header">
                     <div className="rwstripe-settings__container">
                         <div className="rwstripe-settings__title">
-                            <h1>{__('Restrict With Stripe Set Up', 'restrict-with-stripe')} <Icon icon="lock" /></h1>
+                           <img src={rwsLogo} alt="{__('Restrict with Stripe', 'restrict-with-stripe')}" />
                         </div>
                     </div>
                 </div>
 
                 <div className="rwstripe-settings__main">
                     {step1}
-                    <PanelBody title={__('Step 2: Create Products in Stripe', 'restrict-with-stripe')} initialOpen={rwstripe.stripe_user_id && ! productList.length} >
-                        <p>{__('Restrict With Stripe uses Stripe Products to track which site content a user has access to.', 'restrict-with-stripe')}</p>
-                        <p>{__('A Product should be created in Stripe for each set of content that you would like users to be able to purchase, whether it be a single post or a group of posts.', 'restrict-with-stripe')}</p>
+                    <PanelBody title={__('Create Products in Stripe', 'restrict-with-stripe')} initialOpen={rwstripe.stripe_user_id && ! productList.length} >
+                        <p>{__('Restrict with Stripe uses Stripe Products to track user access to site content.', 'restrict-with-stripe')}</p>
+                        <p>{__('Create a unique Stripe Product for each piece of content you need to restrict, whether it be a single post or page, a category of posts, or something else.', 'restrict-with-stripe')}</p>
                         {
                             productList.length > 0 ?
                             <fragment>
-                                <a href="https://dashboard.stripe.com/products" target="_blank">
+                                <a href={rwstripe.stripe_manage_products_url} target="_blank">
                                     <Button isPrimary isLarge >
                                         { __('Manage %d Products', 'restrict-with-stripe').replace('%d', productList.length) }
                                     </Button>
@@ -174,7 +172,7 @@ class App extends Component {
                             </fragment>
                             :
                                 <fragment>
-                                    <a href="https://dashboard.stripe.com/products/create" target="_blank">
+                                    <a href={rwstripe.stripe_create_product_url} target="_blank">
                                         <Button isPrimary isLarge >
                                             {__('Create a New Product', 'restrict-with-stripe')}
                                         </Button>
@@ -182,92 +180,99 @@ class App extends Component {
                                 </fragment>
                         }
                     </PanelBody>
-                    <PanelBody title={__('Step 3: Add Restrictions to Site Content', 'restrict-with-stripe')} initialOpen={rwstripe.stripe_user_id}>
-                        <PanelBody title={__('Restricting Post and Pages', 'restrict-with-stripe')} initialOpen={false} >
-                            <ol>
-                                <li>{__('Edit the page or post that you would like to restrict', 'restrict-with-stripe')}</li>
-                                <li>{__('Open the settings toolbar', 'restrict-with-stripe')}</li>
-                                <li>{__('Open the "Restrict With Stripe" panel', 'restrict-with-stripe')}</li>
-                                <li>{__('Select the Stripe Product to restrict the page or post by', 'restrict-with-stripe')}</li>
-                                <li>{__('Save the page or post', 'restrict-with-stripe')}</li>
-                            </ol>
-                            <a href={rwstripe.admin_url + 'edit.php?post_type=post'}>
-                                <Button isPrimary isLarge >
-                                    {__('View Posts', 'restrict-with-stripe')}
-                                </Button>
-                            </a> &nbsp;
-                            <a href={rwstripe.admin_url + 'edit.php?post_type=page'}>
-                                <Button isPrimary isLarge >
-                                    {__('View Pages', 'restrict-with-stripe')}
-                                </Button>
-                            </a>
-
-                        </PanelBody>
-                        <PanelBody title={__('Restricting Categories and Tags', 'restrict-with-stripe')} initialOpen={false} >
-                            <ol>
-                                <li>{__('Edit the category or tag that you would like to restrict', 'restrict-with-stripe')}</li>
-                                <li>{__('Select the Stripe Product to restrict the page or post by', 'restrict-with-stripe')}</li>
-                                <li>{__('Save the category or tag', 'restrict-with-stripe')}</li>
-                            </ol>
-                            <a href={rwstripe.admin_url + 'edit-tags.php?taxonomy=category'}>
-                                <Button isPrimary isLarge >
-                                    {__('View Categories', 'restrict-with-stripe')}
-                                </Button>
-                            </a> &nbsp;
-                            <a href={rwstripe.admin_url + 'edit-tags.php?taxonomy=post_tag'}>
-                                <Button isPrimary isLarge >
-                                    {__('View Tags', 'restrict-with-stripe')}
-                                </Button>
-                            </a>
-                        </PanelBody>
+                    <PanelBody title={__('Restrict Site Content', 'restrict-with-stripe')} initialOpen={rwstripe.stripe_user_id}>
+                        <p>{__('Restrict a single piece of content or protect a group of posts by category or tag.', 'restrict-with-stripe')}</p>
+                        <div className="columns">
+                            <div className="column">
+                                <h3>{__('For Posts and Pages', 'restrict-with-stripe', 'restrict-with-stripe')}</h3>
+                                <ol>
+                                    <li>{__('Edit the post or page', 'restrict-with-stripe')}</li>
+                                    <li>{__('Open the Settings panel', 'restrict-with-stripe')}</li>
+                                    <li>{__('Select Stripe Products in the "Restrict with Stripe" panel', 'restrict-with-stripe')}</li>
+                                    <li>{__('Save changes', 'restrict-with-stripe')}</li>
+                                </ol>
+                                <a href={rwstripe.admin_url + 'edit.php?post_type=post'}>
+                                    <Button isSecondary >
+                                        {__('View Posts', 'restrict-with-stripe')}
+                                    </Button>
+                                </a> &nbsp;
+                                <a href={rwstripe.admin_url + 'edit.php?post_type=page'}>
+                                    <Button isSecondary >
+                                        {__('View Pages', 'restrict-with-stripe')}
+                                    </Button>
+                                </a>
+                            </div>
+                            <div className="column">
+                                gif here
+                            </div>
+                        </div>
+                        <div className="columns">
+                            <div className="column">
+                                <h3>{__('For Categories and Tags', 'restrict-with-stripe', 'restrict-with-stripe')}</h3>
+                                <ol>
+                                    <li>{__('Edit the category or tag', 'restrict-with-stripe')}</li>
+                                    <li>{__('Select Stripe Products', 'restrict-with-stripe')}</li>
+                                    <li>{__('Save changes', 'restrict-with-stripe')}</li>
+                                </ol>
+                                <a href={rwstripe.admin_url + 'edit-tags.php?taxonomy=category'}>
+                                    <Button isSecondary >
+                                        {__('View Categories', 'restrict-with-stripe')}
+                                    </Button>
+                                </a> &nbsp;
+                                <a href={rwstripe.admin_url + 'edit-tags.php?taxonomy=post_tag'}>
+                                    <Button isSecondary >
+                                        {__('View Tags', 'restrict-with-stripe')}
+                                    </Button>
+                                </a>
+                            </div>
+                            <div className="column">
+                                gif here
+                            </div>
+                        </div>
                     </PanelBody>
-                    <PanelBody title={__('Step 4: Link to Stripe Customer Portal', 'restrict-with-stripe')} initialOpen={rwstripe.stripe_user_id}>
-                        <p>{__('The Stripe Customer Portal is a tool created by Stripe to allow customers to view their previous payments and manage their active subscriptions. It is important to link to the Customer Portal to give your users access to this information.', 'restrict-with-stripe')}</p>
-                        <PanelBody title={__('Creating a Customer Portal Menu Item', 'restrict-with-stripe')} initialOpen={false} >
-                            <ol>
-                                <li>{__('Edit the menu where you would like to add a menu item linking to the Stripe Customer Portal', 'restrict-with-stripe')}</li>
-                                <li>{__('In the "Restrict With Stripe" panel, select the "Stripe Customer Portal" menu item and click "Add to Menu"', 'restrict-with-stripe')}</li>
-                                <li>{__('Click "Save Menu"', 'restrict-with-stripe')}</li>
-                            </ol>
-                            <a href={rwstripe.admin_url + "nav-menus.php"}>
-                                <Button isPrimary isLarge >
-                                    {__('Edit Menus', 'restrict-with-stripe')}
-                                </Button>
-                            </a>
-                        </PanelBody>
-                        <PanelBody title={__('Using the Stripe Customer Portal Block', 'restrict-with-stripe')} initialOpen={false} >
-                            <ol>
-                                <li>{__('Edit the page or post that you would like to add the Customer Portal Block to', 'restrict-with-stripe')}</li>
-                                <li>{__('Insert the "Stripe Customer Portal" block to the page or post', 'restrict-with-stripe')}</li>
-                                <li>{__('Save the page or post', 'restrict-with-stripe')}</li>
-                            </ol>
-                            <p>{__('For more customzation options, follow the "Creating a Customized Customer Portal Block" instructions below.', 'restrict-with-stripe')}</p>
-                        </PanelBody>
-                        <PanelBody title={__('Creating a Customized Customer Portal Block', 'restrict-with-stripe')} initialOpen={false} >
-                            <ol>
-                            <li>{__('Edit the page or post that you would like to add the Customer Portal Block to', 'restrict-with-stripe')}</li>
-                                <li>{__('Insert a "Button" block to the page or post', 'restrict-with-stripe')}</li>
-                                <li>{__('Customize the style of the button as desired', 'restrict-with-stripe')}</li>
-                                <li>{__('Open the sidebar settings for the block using the "Show more settings" option', 'restrict-with-stripe')}</li>
-                                <li>{__('Under the "Advanced" tab, add "rwstripe-customer-portal-button" into the "Additional CSS Class(es)" text box', 'restrict-with-stripe')}</li>
-                                <li>{__('Save the page or post', 'restrict-with-stripe')}</li>
-                            </ol>
-                        </PanelBody>
+                    <PanelBody title={__('Link to Stripe Customer Portal', 'restrict-with-stripe')} initialOpen={rwstripe.stripe_user_id}>
+                        <p>{__('The Customer Portal is a Stripe tool that allows customers to view previous payments and manage active subscriptions. Give customers a link to the portal using one of the methods below:', 'restrict-with-stripe')}</p>
+                        <div className="columns">
+                            <div className="column">
+                                <h3>{__('Create a "Customer Portal" Menu Item', 'restrict-with-stripe', 'restrict-with-stripe')}</h3>
+                                <ol>
+                                    <li>{__('Edit the desired menu', 'restrict-with-stripe')}</li>
+                                    <li>{__('In the "Restrict with Stripe" panel, select the "Stripe Customer Portal" menu item and click "Add to Menu"', 'restrict-with-stripe')}</li>
+                                    <li>{__('Click "Save Menu"', 'restrict-with-stripe')}</li>
+                                </ol>
+                            </div>
+                            <div className="column">
+                                gif here
+                            </div>
+                        </div>
+                        <div className="columns">
+                            <div className="column">
+                                <h3>{__('Use the "Stripe Customer Portal" Block', 'restrict-with-stripe', 'restrict-with-stripe')}</h3>
+                                <ol>
+                                    <li>{__('Edit the desired page', 'restrict-with-stripe')}</li>
+                                    <li>{__('Insert the "Stripe Customer Portal" block', 'restrict-with-stripe')}</li>
+                                    <li>{__('Save changes', 'restrict-with-stripe')}</li>
+                                </ol>
+                            </div>
+                            <div className="column">
+                                gif here
+                            </div>
+                        </div>
                     </PanelBody>
-                    <PanelBody title={__('Step 5: Customize Advanced Settings', 'restrict-with-stripe')} initialOpen={rwstripe.stripe_user_id} >
+                    <PanelBody title={__('Customize Advanced Settings', 'restrict-with-stripe')} initialOpen={rwstripe.stripe_user_id} >
+                        <p>{__('Confirm advanced settings for default behavior (optional).', 'restrict-with-stripe')}</p>
                         <ToggleControl
-                            label={__('Show Excerpts', 'restrict-with-stripe')}
+                            label={__('Show a content excerpt on restricted posts or pages', 'restrict-with-stripe')}
                             onChange={(rwstripe_show_excerpts) => this.setState({ rwstripe_show_excerpts })}
                             checked={rwstripe_show_excerpts}
                         />
                         <ToggleControl
-                            label={__('Collect Password During Registration', 'restrict-with-stripe')}
+                            label={__('Allow customers to choose a password during registration', 'restrict-with-stripe')}
                             onChange={(rwstripe_collect_password) => this.setState({ rwstripe_collect_password })}
                             checked={rwstripe_collect_password}
                         />
-                        <Button
+                        <p><Button
                             isPrimary
-                            isLarge
                             onClick={() => {
                                 const {
                                     rwstripe_show_excerpts,
@@ -304,7 +309,7 @@ class App extends Component {
                             }}
                         >
                             {__('Save', 'restrict-with-stripe')}
-                        </Button>
+                        </Button></p>
                     </PanelBody>
                 </div>
 

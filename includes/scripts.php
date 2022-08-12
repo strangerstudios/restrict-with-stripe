@@ -67,9 +67,18 @@ function rwstripe_enqueue_admin_scripts() {
 			$connect_url_base
 		);
 	}
+	// TODO: Update this once we are not in test always mode.
+	$stripe_dashboard_url = 'https://dashboard.stripe.com/' . $stripe_user_id . '/test';
+	$stripe_manage_products_url = 'https://dashboard.stripe.com/' . $stripe_user_id . '/test/products';
+	$stripe_create_product_url = 'https://dashboard.stripe.com/' . $stripe_user_id . '/test/products/create';
+
+	// Localize the settings.
 	wp_localize_script( 'rwstripe-settings', 'rwstripe', array(
 		'stripe_user_id' => $stripe_user_id,
 		'stripe_connect_url' => $stripe_connect_url,
+		'stripe_dashboard_url' => $stripe_dashboard_url,
+		'stripe_manage_products_url' => $stripe_manage_products_url,
+		'stripe_create_product_url' => $stripe_create_product_url,
 		'admin_url' => admin_url(),
 	) );
 
