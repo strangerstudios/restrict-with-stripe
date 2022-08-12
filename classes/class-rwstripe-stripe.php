@@ -371,7 +371,7 @@ class RWStripe_Stripe {
 			$price = Stripe\Price::create( array(
 				'product' => $product_id,
 				'unit_amount' => 0,
-				'currency' => $curency,
+				'currency' => $currency,
 				'recurring' => array(
 					'interval' => 'year',
 					'interval_count' => 1,
@@ -429,6 +429,7 @@ class RWStripe_Stripe {
 			'subscription_data' => array(
 				'application_fee_percent' => 2,
 			),
+			'payment_method_collection' => 'if_required',
 		);
 
 		try {
