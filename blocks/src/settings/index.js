@@ -107,7 +107,7 @@ class App extends Component {
 
         // Build step 1:
         var step1;
-        if ( ! rwstripe.stripe_user_id ) {
+        if ( ! rwstripe.stripe_account_id ) {
             // User is not connected to Stripe.
             step1 = (
                 <PanelBody title={ __( 'Connect to Stripe', 'restrict-with-stripe' ) }>
@@ -122,7 +122,7 @@ class App extends Component {
             // We can successfully communicate with Stripe.
             step1 = (
                 <PanelBody title={ __( 'Connect to Stripe (Connected)', 'restrict-with-stripe' ) } initialOpen={false} >
-                    <p>{ __('Connected to account: %d.', 'restrict-with-stripe').replace('%d', rwstripe.stripe_user_id) }</p>
+                    <p>{ __('Connected to account: %d.', 'restrict-with-stripe').replace('%d', rwstripe.stripe_account_id) }</p>
                     <p><a href={rwstripe.stripe_dashboard_url} target="_blank">{__('Visit your Stripe account dashboard', 'restrict-with-stripe')}</a></p>
                     <a href={rwstripe.stripe_connect_url} class="rwstripe-stripe-connect">
                         <span>
@@ -158,7 +158,7 @@ class App extends Component {
 
                 <div className="rwstripe-settings__main">
                     {step1}
-                    <PanelBody title={__('Create Products in Stripe', 'restrict-with-stripe')} initialOpen={rwstripe.stripe_user_id && ! productList.length} >
+                    <PanelBody title={__('Create Products in Stripe', 'restrict-with-stripe')} initialOpen={rwstripe.stripe_account_id && ! productList.length} >
                         <p>{__('Restrict with Stripe uses Stripe Products to track user access to site content.', 'restrict-with-stripe')}</p>
                         <p>{__('Create a unique Stripe Product for each piece of content you need to restrict, whether it be a single post or page, a category of posts, or something else.', 'restrict-with-stripe')}</p>
                         {
@@ -180,7 +180,7 @@ class App extends Component {
                                 </fragment>
                         }
                     </PanelBody>
-                    <PanelBody title={__('Restrict Site Content', 'restrict-with-stripe')} initialOpen={rwstripe.stripe_user_id}>
+                    <PanelBody title={__('Restrict Site Content', 'restrict-with-stripe')} initialOpen={rwstripe.stripe_account_id}>
                         <p>{__('Restrict a single piece of content or protect a group of posts by category or tag.', 'restrict-with-stripe')}</p>
                         <div className="columns">
                             <div className="column">
@@ -230,7 +230,7 @@ class App extends Component {
                             </div>
                         </div>
                     </PanelBody>
-                    <PanelBody title={__('Link to Stripe Customer Portal', 'restrict-with-stripe')} initialOpen={rwstripe.stripe_user_id}>
+                    <PanelBody title={__('Link to Stripe Customer Portal', 'restrict-with-stripe')} initialOpen={rwstripe.stripe_account_id}>
                         <p>{__('The Customer Portal is a Stripe tool that allows customers to view previous payments and manage active subscriptions. Give customers a link to the portal using one of the methods below:', 'restrict-with-stripe')}</p>
                         <div className="columns">
                             <div className="column">
@@ -259,7 +259,7 @@ class App extends Component {
                             </div>
                         </div>
                     </PanelBody>
-                    <PanelBody title={__('Customize Advanced Settings', 'restrict-with-stripe')} initialOpen={rwstripe.stripe_user_id} >
+                    <PanelBody title={__('Customize Advanced Settings', 'restrict-with-stripe')} initialOpen={rwstripe.stripe_account_id} >
                         <p>{__('Confirm advanced settings for default behavior (optional).', 'restrict-with-stripe')}</p>
                         <ToggleControl
                             label={__('Show a content excerpt on restricted posts or pages', 'restrict-with-stripe')}

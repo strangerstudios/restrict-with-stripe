@@ -75,7 +75,7 @@ function rwstripe_handle_connect_to_stripe_response() {
 			update_option( 'rwstripe_stripe_account_id', sanitize_text_field( $_REQUEST['pmpro_stripe_user_id'] ) );
 			update_option( 'rwstripe_stripe_access_token', sanitize_text_field( $_REQUEST['pmpro_stripe_access_token'] ) );
 			update_option( 'rwstripe_stripe_publishable_key', sanitize_text_field( $_REQUEST['pmpro_stripe_publishable_key'] ) );
-			update_option( 'rwstripe_stripe_environment', sanitize_text_field( $_REQUEST['pmpro_stripe_connected_environment'] ) );
+			update_option( 'rwstripe_stripe_environment', $_REQUEST['pmpro_stripe_connected_environment'] === 'live' ? 'live' : 'test' );
 
 			wp_redirect( admin_url( 'options-general.php?page=rwstripe' ) );
 			exit;

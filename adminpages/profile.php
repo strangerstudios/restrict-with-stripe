@@ -34,7 +34,7 @@ function rwstripe_edit_user_profile( $user ) {
 			?>
 			<tr>
 				<th><?php esc_html_e( 'View Stripe Customer', 'restrict-with-stripe' ); ?></th>
-				<td><a href="<?php echo esc_url( 'https://dashboard.stripe.com/customers/' . $customer_id ); ?>"><?php echo esc_url( 'https://dashboard.stripe.com/customers/' . $customer_id ); ?></a></td>
+				<td><a href="<?php echo esc_url( rwstripe_get_dashboard_link() . 'customers/' . $customer_id ); ?>"><?php echo esc_url( rwstripe_get_dashboard_link() . 'customers/' . $customer_id ); ?></a></td>
 			</tr>
 			<?php
 		}

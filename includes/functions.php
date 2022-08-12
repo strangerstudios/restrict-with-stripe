@@ -66,6 +66,28 @@ function rwstripe_get_meta_key( $base_meta_key ) {
 }
 
 /**
+ * Get a link to the Stripe Dashboard for the current Stripe account.
+ *
+ * @since 1.0
+ *
+ * @return string Link to the Stripe Dashboard.
+ */
+function rwstripe_get_dashboard_link() {
+	// Get Stripe account ID and environment from options.
+	$account_id = get_option( 'rwstripe_stripe_account_id' );
+	$environment = get_option( 'rwstripe_stripe_environment' );
+
+	$dashboard_url = 'https://dashboard.stripe.com/';
+	if ( ! empty( $account_id ) ) {
+		$dashboard_url .= $account_id . '/';
+	}
+	if ( ! empty( $environment ) ) {
+		$dashboard_url .= $environment . '/';
+	}
+	return $dashboard_url;
+}
+
+/**
  * Register the restricted_product_ids post meta
  * so that it can be updated in the block editor.
  *
