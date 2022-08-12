@@ -81,10 +81,45 @@ function rwstripe_handle_connect_to_stripe_response() {
 			exit;
 		}
 	} elseif ( isset( $_REQUEST['pmpro_stripe_disconnected'] ) ) {
-		delete_option( 'rwstripe_stripe_account_id' );
-		delete_option( 'rwstripe_stripe_access_token' );
-		delete_option( 'rwstripe_stripe_publishable_key' );
-		delete_option( 'rwstripe_stripe_environment' );
+		if ( 'false' === $_REQUEST['pmpro_stripe_disconnected'] ) {
+			$error = esc_html__( 'Invalid response from the Stripe Connect server.', 'restrict-with-stripe' );
+		} else {
+			// Try to keep track of Stripe accounts that we have disconnected from.
+			if ( isset( $_REQUEST['stripe_user_id'] ) && isset( $_REQUEST['pmpro_stripe_disconnected_environment'] ) ) {
+				$disconnected_accounts = get_option( 'rwstripe_disconnected_accounts', array() );
+
+				// Check if we have already disconnected this account.
+				$updated = false;
+				foreach ( $disconnected_accounts as $key => $account ) {
+					if ( $account['id'] === $_REQUEST['stripe_user_id'] && $account['environment'] === ( $_REQUEST['pmpro_stripe_disconnected_environment'] === 'live' ? 'live' : 'test' ) ) {
+						// Update the timestamp.
+						$disconnected_accounts[$key]['timestamp'] = time();
+						$updated = true;
+						break;
+					}
+				}
+
+				// If we didn't find the account, add it.
+				if ( ! $updated ) {
+					$disconnected_accounts[] = array(
+						'id' => $_REQUEST['stripe_user_id'],
+						'environment' => $_REQUEST['pmpro_stripe_disconnected_environment'] === 'live' ? 'live' : 'test',
+						'timestamp' => time(),
+					);
+				}
+				
+				update_option( 'rwstripe_disconnected_accounts', $disconnected_accounts );
+			}
+
+			// Delete keys.
+			delete_option( 'rwstripe_stripe_account_id' );
+			delete_option( 'rwstripe_stripe_access_token' );
+			delete_option( 'rwstripe_stripe_publishable_key' );
+			delete_option( 'rwstripe_stripe_environment' );
+
+			wp_redirect( admin_url( 'options-general.php?page=rwstripe' ) );
+			exit;
+		}
 	}
 
 	// TODO: Show error messages from failed connection.

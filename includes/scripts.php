@@ -64,7 +64,7 @@ function rwstripe_enqueue_admin_scripts() {
 			array(
 				'action' => 'disconnect',
 				'gateway_environment' => 'sandbox',
-				'stripe_account_id' => $stripe_account_id,
+				'stripe_user_id' => $stripe_account_id,
 				'return_url' => rawurlencode( admin_url( 'options-general.php?page=rwstripe' ) ),
 			),
 			$connect_url_base
