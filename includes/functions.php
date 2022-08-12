@@ -117,12 +117,20 @@ function rwstripe_restricted_content_message( $product_ids ) {
 			// User not logged in. Show form to create account and purchase product.
 			?>
 			<div class="rwstripe-checkout-heading"><?php esc_html_e( 'Purchase Access', 'restrict-with-stripe' ); ?></div>
+
 			<?php
+				// Show a message if on a term archive.
+				if ( is_category() || is_tag() ) { ?>
+					<p><?php echo sprintf( __( 'Complete checkout now to access everything in <em>%s</em>.', 'restrict-with-stripe' ), get_the_archive_title() ); ?></p>
+					<?php
+				}
+
 				// Show price if only one product is available.
 				if ( count( $purchasable_products ) == 1 ) {
 					$price = $RWStripe_Stripe->get_price( $purchasable_products[0]->default_price );
 					echo rwstripe_format_price( $price );
 				}
+
 			?>
 			<p><?php echo strip_tags( sprintf( __( 'Create a new account or <a href="%s">log in</a> to purchase access.', 'restrict-with-stripe' ), wp_login_url( get_permalink() ) ), '<a>' ); ?></p>
 			<div class="rwstripe-error"></div>
@@ -150,6 +158,12 @@ function rwstripe_restricted_content_message( $product_ids ) {
 			?>
 			<div class="rwstripe-checkout-heading"><?php esc_html_e( 'Purchase Access', 'restrict-with-stripe' ); ?></div>
 			<?php
+				// Show a message if on a term archive.
+				if ( is_category() || is_tag() ) { ?>
+					<p><?php echo sprintf( __( 'Complete checkout now to access everything in <em>%s</em>.', 'restrict-with-stripe' ), get_the_archive_title() ); ?></p>
+					<?php
+				}
+
 				// Show price if only one product is available.
 				if ( count( $purchasable_products ) == 1 ) {
 					$price = $RWStripe_Stripe->get_price( $purchasable_products[0]->default_price );
