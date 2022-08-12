@@ -25,6 +25,9 @@ function rwstripe_enqueue_scripts() {
 		RWSTRIPE_VERSION
 	);
 	wp_enqueue_style( 'rwstripe' );
+
+	// Load Dashicons for frontend.
+	wp_enqueue_style( 'dashicons' );
 }
 add_action( 'wp_enqueue_scripts', 'rwstripe_enqueue_scripts' );
 

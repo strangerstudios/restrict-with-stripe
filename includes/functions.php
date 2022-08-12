@@ -89,15 +89,15 @@ function rwstripe_restricted_content_message( $product_ids ) {
 		} elseif ( is_string( $product ) ) {
 			$errors[] = $product;
 		} else {
-			$errors[] = sprintf( __( 'Product %s does not have a default price.', 'restrict-content-pro' ), $product_id );
+			$errors[] = sprintf( __( 'Product %s does not have a default price.', 'restrict-with-stripe' ), $product_id );
 		}
 	}
 
 	// If the user is an admin and there are errors, show them.
 	if ( current_user_can( 'manage_options' ) && ! empty( $errors ) ) {
 		echo '<div>';
-		echo '<h3>' . __( 'Admins Only', 'restrict-content-pro' ) . '</h3>';
-		echo '<p>' . esc_html__( 'The following errors occured while building the restricted content message:', 'restrict-content-pro' ) . '</p>';
+		echo '<h3>' . __( 'Admins Only', 'restrict-with-stripe' ) . '</h3>';
+		echo '<p>' . esc_html__( 'The following errors occured while building the restricted content message:', 'restrict-with-stripe' ) . '</p>';
 		echo '<ul>';
 		foreach ( $errors as $error ) {
 			echo '<li>' . esc_html( $error ) . '</li>';
@@ -108,24 +108,31 @@ function rwstripe_restricted_content_message( $product_ids ) {
 
 	// Build restricted content message.
 	?>
-	<div>
+	<div class="rwstripe-checkout">
 		<?php
 		if ( empty( $purchasable_products ) ) {
 			// No products available for purchase.
 			esc_html_e( 'This product is not purchasable.', 'restrict-with-stripe' );
 		} elseif ( ! is_user_logged_in() ) {
 			// User not logged in. Show form to create account and purchase product.
-			echo strip_tags( sprintf( __( 'You must create an account or <a href="%s">log in</a> to purchase this content.', 'restrict-with-stripe' ), wp_login_url( get_permalink() ) ), '<a>' );
 			?>
-			<br/>
-			<div class="rwstripe-checkout-error-message"></div>
-			<form class="rwstripe-restricted-content-message-register">
-				<input type="email" name="rwstripe-email" placeholder="<?php echo esc_attr( __( 'Email Adress', 'restrict_with_stripe' ) ); ?>" /><br/>
+			<div class="rwstripe-checkout-heading"><?php esc_html_e( 'Purchase Access', 'restrict-with-stripe' ); ?></div>
+			<?php
+				// Show price if only one product is available.
+				if ( count( $purchasable_products ) == 1 ) {
+					$price = $RWStripe_Stripe->get_price( $purchasable_products[0]->default_price );
+					echo rwstripe_format_price( $price );
+				}
+			?>
+			<p><?php echo strip_tags( sprintf( __( 'Create a new account or <a href="%s">log in</a> to purchase access.', 'restrict-with-stripe' ), wp_login_url( get_permalink() ) ), '<a>' ); ?></p>
+			<div class="rwstripe-error"></div>
+			<form class="rwstripe-register">
+				<input type="email" name="rwstripe-email" placeholder="<?php echo esc_attr( __( 'Email Address', 'restrict_with_stripe' ) ); ?>" />
 				<?php
 				// Maybe collect a password.
 				if ( get_option( 'rwstripe_collect_password', true ) ) {
 					?>
-					<input type="password" name="rwstripe-password" placeholder="<?php echo esc_attr( __( 'Password', 'restrict_with_stripe' ) ); ?>" autocomplete="on" /><br/>
+					<input type="password" name="rwstripe-password" placeholder="<?php echo esc_attr( __( 'Password', 'restrict_with_stripe' ) ); ?>" autocomplete="on" />
 					<?php
 				}
 
@@ -133,14 +140,7 @@ function rwstripe_restricted_content_message( $product_ids ) {
 				rwstripe_restricted_content_message_render_product_dropdown( $purchasable_products );
 
 				// Build text for submit button.
-				$submit_text = __('Create Account and Check Out', 'restrict-with-stripe' );
-
-				// Show price if only one product is available.
-				if ( count( $purchasable_products ) == 1 ) {
-					$price = $RWStripe_Stripe->get_price( $purchasable_products[0]->default_price );
-					$submit_text .= ' (' . rwstripe_format_price( $price ) . ')';
-				}
-
+				$submit_text = __('Create Account &amp; Checkout', 'restrict-with-stripe' );
 				?>
 				<button type="submit" class="rwstripe-checkout-button"><?php echo esc_html( $submit_text ); ?></button>
 			</form>
@@ -148,23 +148,22 @@ function rwstripe_restricted_content_message( $product_ids ) {
 		} else {
 			// User is logged in. Show form to purchase product.
 			?>
-			<?php esc_html_e( 'You do not have access to this content.', 'restrict-with-stripe' ); ?>
-			<br/>
-			<div class="rwstripe-checkout-error-message"></div>
-			<form class="rwstripe-restricted-content-message-register">
+			<div class="rwstripe-checkout-heading"><?php esc_html_e( 'Purchase Access', 'restrict-with-stripe' ); ?></div>
+			<?php
+				// Show price if only one product is available.
+				if ( count( $purchasable_products ) == 1 ) {
+					$price = $RWStripe_Stripe->get_price( $purchasable_products[0]->default_price );
+					echo rwstripe_format_price( $price );
+				}
+			?>
+			<div class="rwstripe-error"></div>
+			<form class="rwstripe-register">
 				<?php
 				// Show dropdown of products to purchase.
 				rwstripe_restricted_content_message_render_product_dropdown( $purchasable_products );
 
 				// Build text for submit button.
-				$submit_text = __('Purchase', 'restrict-with-stripe' );
-
-				// Show price if only one product is available.
-				if ( count( $purchasable_products ) == 1 ) {
-					$price = $RWStripe_Stripe->get_price( $purchasable_products[0]->default_price );
-					$submit_text .= ' (' . rwstripe_format_price( $price ) . ')';
-				}
-
+				$submit_text = __('Checkout Now', 'restrict-with-stripe' );
 				?>
 				<button type="submit" class="rwstripe-checkout-button"><?php echo esc_html( $submit_text ); ?></button>
 			</form>
@@ -188,17 +187,16 @@ function rwstripe_restricted_content_message_render_product_dropdown( $purchasab
 		$RWStripe_Stripe = RWStripe_Stripe::get_instance();
 		?>
 		<select name="rwstripe-product-id">
-			<option value="">-- <?php echo esc_html( __( 'Select a product', 'restrict_with_stripe' ) ); ?> --</option>
+			<option value="">-- <?php echo esc_html( __( 'Choose one', 'restrict_with_stripe' ) ); ?> --</option>
 			<?php
 			foreach ( $purchasable_products as $product ) {
 				$price = $RWStripe_Stripe->get_price( $product->default_price );
 				?>
-				<option value="<?php echo esc_attr( $product->default_price ); ?>"><?php echo esc_html( $product->name ) . ' ( ' . rwstripe_format_price( $price ) . ' )'; ?></option>
+				<option value="<?php echo esc_attr( $product->default_price ); ?>"><?php echo esc_html( $product->name ) . ' (' . rwstripe_format_price( $price, true ) . ')'; ?></option>
 				<?php
 			}
 			?>
 		</select>
-		<br/>
 		<?php
 	} else {
 		?>

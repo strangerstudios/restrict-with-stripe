@@ -1,7 +1,6 @@
 .rwstripe_customer_portal_shortcode a,
 .rwstripe_customer_portal_shortcode a:link,
-.rwstripe_customer_portal_shortcode .rwstripe-customer-portal-button,
-.rwstripe-checkout-button {
+.rwstripe_customer_portal_shortcode .rwstripe-customer-portal-button {
 	background-color: #EFEFEF;
 	background-image: none;
 	border: 1px solid #D6D6D6;
@@ -29,8 +28,7 @@
 }
 
 .rwstripe_customer_portal_shortcode a:focus,
-.rwstripe_customer_portal_shortcode .rwstripe-customer-portal-button:focus,
-.rwstripe-checkout-button:focus {
+.rwstripe_customer_portal_shortcode .rwstripe-customer-portal-button:focus {
 	outline: thin dotted;
 	outline: 5px auto -webkit-focus-ring-color;
 	outline-offset: -2px;
@@ -38,8 +36,7 @@
 
 .rwstripe_customer_portal_shortcode a:focus,
 .rwstripe_customer_portal_shortcode a:hover,
-.rwstripe_customer_portal_shortcode .rwstripe-customer-portal-button:hover,
-.rwstripe-checkout-button:hover {
+.rwstripe_customer_portal_shortcode .rwstripe-customer-portal-button:hover {
 	-webkit-box-shadow: none;
 	border-color: #D6D6D6;
 	box-shadow: none;
@@ -51,15 +48,13 @@
 	margin: 10px 10px 0 0;
 }
 
-.rwstripe-customer-portal-button:active,
-.rwstripe-checkout-button:active {
+.rwstripe-customer-portal-button:active {
 	background-image: none;
 	-webkit-box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
 	box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
 	outline: 0;
 }
-.rwstripe-customer-portal-button.disabled,
-.rwstripe-checkout-button.disabled {
+.rwstripe-customer-portal-button.disabled {
 	-webkit-box-shadow: none;
 	box-shadow: none;
 	cursor: not-allowed;
@@ -68,21 +63,166 @@
 	pointer-events: none;
 }
 
-.rwstripe-checkout-error-message {
-    color: #FF0000;
-    font-size: 12px;
-    font-weight: bold;
+/**
+ * Restricted content message styles.
+ */
+.rwstripe-checkout {
+	align-items: center;
+	background-color: #FAFAFA;
+	border: 1px solid #EFEFEF;
+	border-radius: 4px;
+	box-shadow: 0 6px 12px -4px rgb(50 50 93 / 20%), 0 3px 7px -5px rgb(0 0 0 / 25%);
+	color: #222;
+	display: flex;
+	flex-direction: column;
+	font-size: 16px;
+	font-weight: 400;
+	justify-content: center;
+	line-height: 22px;
+	padding: 40px;
+}
+.rwstripe-checkout > * {
+}
+.rwstripe-checkout p {
+	margin: 0 0 20px 0;
+}
+.rwstripe-checkout-heading {
+	color: #444;
+	font-size: 28px;
+	font-weight: bold;
+	line-height: 36px;
+	margin: 0 0 20px 0;
+	text-align: center;
+}
+.rwstripe-checkout-heading:before {
+	color: #444;
+	content: "\f160";
+	display: inline-block;
+	font-family: dashicons;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	font-size: 34px;
+	line-height: 1;
+	font-weight: 400;
+	font-style: normal;
+	margin-right: 5px;
+	speak: never;
+	text-align: center;
+	text-decoration: inherit;
+	text-transform: none;
+	text-rendering: auto;
+	vertical-align: text-bottom;
 }
 
-.rwstripe-restricted-content-message-register input[type="email"],
-.rwstripe-restricted-content-message-register input[type="password"],
-.rwstripe-restricted-content-message-register select {
-	padding: 1px;
+/**
+ * Restricted content formatted price styles.
+ */
+.rwstripe-price {
+	align-items: center;
+	display: flex;
+	justify-content: space-around;
+	flex-direction: row;
+	margin-bottom: 20px;
+}
+.rwstripe-price-unit {
+	font-size: 28px;
+	font-weight: 400;
+	line-height: 36px;
+}
+.rwstripe-price-per {
+	margin-left: 8px;
+}
+.rwstripe-price-interval-count {
+	margin-left: 2px;
+}
+.rwstripe-price-interval {
+	margin-left: 2px;
+}
+
+/**
+ * Register and select products form.
+ */
+.rwstripe-register {
+	align-items: center;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	width: 100%;
+}
+.rwstripe-register input[type="email"],
+.rwstripe-register input[type="password"] {
+	background-color: #FFF;
+	border: 1px solid #DFDFDF;
+	border-radius: 4px;
+	box-shadow: 1px 1px 3px rgb(50 50 93 / 10%);
+	color: #222;
+	font-size: 16px;
+	height: 40px;
+	margin-bottom: 10px;
+	max-width: 350px;
+	padding: 0 14px;
+	width: 100%;
+}
+.rwstripe-register select {
+	background-color: #FFF;
+	border: 1px solid #DFDFDF;
+	border-radius: 4px;
+	box-shadow: 1px 1px 3px rgb(50 50 93 / 10%);
+	color: #222;
+	font-size: 16px;
+	height: 40px;
+	margin-bottom: 10px;
+	max-width: 380px;
+	padding: 0 14px;
+	width: 100%;
+}
+.rwstripe-register option {
+	padding-left: 14px;
+}
+.rwstripe-register button {
+	background-color: #32325d;
 	border: none;
-	line-height: 1.15;
-	width: 90%;
+	border-radius: 4px;
+	color: #FFF;
+	cursor: pointer;
+	display: inline-block;
+	font-size: 16px;
+	font-weight: 700;
+	height: 40px;
+	max-width: 380px;
+	padding: 0 14px;
+	text-decoration: none;
+	-webkit-transition: all .15s ease;
+    transition: all .15s ease;
+	white-space: nowrap;
+	width: 100%;
+}
+.rwstripe-register button:hover {
+	background-color: #3b3c79;
+	transform: translateY(-1px);
+}
+.rwstripe-error {
+	width: 100%;
+}
+.rwstripe-error div {
+    background-color: #f2dede;
+	border: 1px solid #ebccd1;
+	color: #a94442;
+	-webkit-border-radius: 4px;
+	-moz-border-radius: 4px;
+	border-radius: 4px;
+	font-size: 16px;
+	font-weight: 400;
+	line-height: 22px;
+	margin: 20px 0;
+	padding: 10px 14px;
+	text-align: center;
+	width: auto;
 }
 
+/**
+ * Category or tag restriction message
+ */
 .rwstripe-term-restriction-message {
 	text-align: center;
 	margin: auto;

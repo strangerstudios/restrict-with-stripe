@@ -189,9 +189,9 @@ function rwstripe_add_term_purchase_option() {
 		// The user does not have access to any of the restricted products. Show the restriction message.
 		?><div class="rwstripe-term-restriction-message"><?php
 		if ( is_category() ) {
-			?><h3><?php esc_html_e( 'This category is restricted.', 'restrict-content-pro' ); ?></h3><?php
+			?><h3><?php esc_html_e( 'This category is restricted.', 'restrict-with-stripe' ); ?></h3><?php
 		} else {
-			?><h3><?php esc_html_e( 'This tag is restricted.', 'restrict-content-pro' ); ?></h3><?php
+			?><h3><?php esc_html_e( 'This tag is restricted.', 'restrict-with-stripe' ); ?></h3><?php
 		}
 		rwstripe_restricted_content_message( $restricted_products );
 		?></div><?php
