@@ -46,9 +46,9 @@ function rwstripe_enqueue_admin_scripts() {
 	wp_set_script_translations( 'rwstripe-settings', 'restrict-with-stripe' );
 
 	// Localize data for connecting to Stripe.
-	$stripe_user_id = get_option( 'rwstripe_stripe_user_id' );
+	$stripe_account_id = get_option( 'rwstripe_stripe_account_id' );
 	$connect_url_base = apply_filters( 'rwstipe_stripe_connect_url', 'https://connect.paidmembershipspro.com' );
-	if ( empty( $stripe_user_id ) ) {
+	if ( empty( $stripe_account_id ) ) {
 		// Need to connect to Stripe.
 		$stripe_connect_url = add_query_arg(
 			array(
@@ -64,20 +64,20 @@ function rwstripe_enqueue_admin_scripts() {
 			array(
 				'action' => 'disconnect',
 				'gateway_environment' => 'sandbox',
-				'stripe_user_id' => $stripe_user_id,
+				'stripe_user_id' => $stripe_account_id,
 				'return_url' => rawurlencode( admin_url( 'options-general.php?page=rwstripe' ) ),
 			),
 			$connect_url_base
 		);
 	}
 	// TODO: Update this once we are not in test always mode.
-	$stripe_dashboard_url = 'https://dashboard.stripe.com/' . $stripe_user_id . '/test';
-	$stripe_manage_products_url = 'https://dashboard.stripe.com/' . $stripe_user_id . '/test/products';
-	$stripe_create_product_url = 'https://dashboard.stripe.com/' . $stripe_user_id . '/test/products/create';
+	$stripe_dashboard_url = rwstripe_get_dashboard_link();
+	$stripe_manage_products_url = rwstripe_get_dashboard_link() . 'products';
+	$stripe_create_product_url = rwstripe_get_dashboard_link() . 'products/create';
 
 	// Localize the settings.
 	wp_localize_script( 'rwstripe-settings', 'rwstripe', array(
-		'stripe_user_id' => $stripe_user_id,
+		'stripe_account_id' => $stripe_account_id,
 		'stripe_connect_url' => $stripe_connect_url,
 		'stripe_dashboard_url' => $stripe_dashboard_url,
 		'stripe_manage_products_url' => $stripe_manage_products_url,
@@ -114,5 +114,8 @@ function rwstripe_enqueue_block_editor_assets() {
 		array( 'wp-edit-post', 'wp-element', 'wp-components', 'wp-plugins', 'wp-data' )
 	);
 	wp_set_script_translations( 'rwstripe-sidebar', 'restrict-with-stripe' );
+	wp_localize_script( 'rwstripe-sidebar', 'rwstripeSidebar', array(
+		'restricted_product_ids_meta_key' => rwstripe_get_meta_key( 'restricted_product_ids' ),
+	) );
 }
 add_action( 'enqueue_block_editor_assets', 'rwstripe_enqueue_block_editor_assets' );

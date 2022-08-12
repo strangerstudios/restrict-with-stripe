@@ -13,6 +13,13 @@ function rwstripe_edit_user_profile( $user ) {
 		return;
 	}
 
+	// Get the meta key for the customer ID.
+	$meta_key = rwstripe_get_meta_key( 'customer_id' );
+	if ( empty( $meta_key ) ) {
+		// We are not connected to a Stripe account.
+		return;
+	}
+
 	$customer_id = rwstripe_get_customer_id_for_user( $user->ID );
 	$rwstripe_stripe = RWStripe_Stripe::get_instance();
 	?>
@@ -20,14 +27,14 @@ function rwstripe_edit_user_profile( $user ) {
 	<table>
 		<tr>
 			<th><?php esc_html_e( 'Customer ID', 'restrict-with-stripe' ); ?></th>
-			<td><input type='text' name='rwstripe_customer_id' value='<?php echo esc_html( $customer_id ); ?>' disabled></td>
+			<td><input type='text' name='<?php echo esc_attr( $meta_key ) ?>' value='<?php echo esc_html( $customer_id ); ?>' disabled></td>
 		</tr>
 		<?php
 		if ( ! empty( $customer_id ) ) {
 			?>
 			<tr>
 				<th><?php esc_html_e( 'View Stripe Customer', 'restrict-with-stripe' ); ?></th>
-				<td><a href="<?php echo esc_url( 'https://dashboard.stripe.com/customers/' . $customer_id ); ?>"><?php echo esc_url( 'https://dashboard.stripe.com/customers/' . $customer_id ); ?></a></td>
+				<td><a href="<?php echo esc_url( rwstripe_get_dashboard_link() . 'customers/' . $customer_id ); ?>"><?php echo esc_url( rwstripe_get_dashboard_link() . 'customers/' . $customer_id ); ?></a></td>
 			</tr>
 			<?php
 		}
@@ -54,8 +61,9 @@ function rwstripe_user_profile_update() {
 		return;
 	}
 
-	if ( isset( $_REQUEST['rwstripe_customer_id'] ) ) {
-		update_user_meta( $user_id, 'rwstripe_customer_id', sanitize_text_field( $_REQUEST['rwstripe_customer_id'] ) );
+	$meta_key = rwstripe_get_meta_key( 'customer_id' );
+	if ( ! empty( $meta_key ) && isset( $_REQUEST[ $meta_key ] ) ) {
+		update_user_meta( $user_id, $meta_key, sanitize_text_field( $_REQUEST[ $meta_key ] ) );
 	}
 }
 add_action( 'personal_options_update', 'rwstripe_user_profile_update' );

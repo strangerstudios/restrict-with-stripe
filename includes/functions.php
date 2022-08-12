@@ -21,8 +21,14 @@ function rwstripe_get_customer_id_for_user( $user_id = null ) {
         return null;
     }
 
+	// Get the Stripe account-specific meta key for customer IDs.
+	$meta_key = rwstripe_get_meta_key( 'customer_id' );
+	if ( empty( $meta_key ) ) {
+		return null;
+	}
+
     // Get the customer ID for the user.
-    $customer_id = get_user_meta( $user_id, 'rwstripe_customer_id', true );
+    $customer_id = get_user_meta( $user_id, $meta_key, true );
 
     // If the user does not have a customer ID yet, create a new customer.
     if ( empty( $customer_id ) ) {
@@ -34,21 +40,69 @@ function rwstripe_get_customer_id_for_user( $user_id = null ) {
             return null;
         }
         $customer_id = $new_customer->id;
-        update_user_meta( $user_id, 'rwstripe_customer_id', $customer_id );
+        update_user_meta( $user_id, $meta_key, $customer_id );
     }
     return $customer_id;
 }
 
 /**
- * Register the rwstripe_stripe_product_ids post meta
+ * Get the RWStripe meta key for the current Stripe account by appending
+ * the account ID and environment to the passed base meta key.
+ *
+ * @since 1.0
+ *
+ * @param string $base_meta_key Base meta key.
+ * @return string|null Meta key or null if account ID or environment is not set.
+ */
+function rwstripe_get_meta_key( $base_meta_key ) {
+	// Get Stripe account ID and environment from options.
+	$account_id = get_option( 'rwstripe_stripe_account_id' );
+	$environment = get_option( 'rwstripe_stripe_environment' );
+	if ( empty( $account_id ) || empty( $environment ) ) {
+		return null;
+	}
+
+	return 'rwstripe_' . $base_meta_key . '_' . $account_id . '_' . $environment;
+}
+
+/**
+ * Get a link to the Stripe Dashboard for the current Stripe account.
+ *
+ * @since 1.0
+ *
+ * @return string Link to the Stripe Dashboard.
+ */
+function rwstripe_get_dashboard_link() {
+	// Get Stripe account ID and environment from options.
+	$account_id = get_option( 'rwstripe_stripe_account_id' );
+	$environment = get_option( 'rwstripe_stripe_environment' );
+
+	$dashboard_url = 'https://dashboard.stripe.com/';
+	if ( ! empty( $account_id ) ) {
+		$dashboard_url .= $account_id . '/';
+	}
+	if ( ! empty( $environment ) ) {
+		$dashboard_url .= $environment . '/';
+	}
+	return $dashboard_url;
+}
+
+/**
+ * Register the restricted_product_ids post meta
  * so that it can be updated in the block editor.
  *
  * @since 1.0
  */
 function rwstripe_register_post_meta() {
+	$meta_key = rwstripe_get_meta_key( 'restricted_product_ids' );
+	if ( empty( $meta_key ) ) {
+		// Not connected to a Stripe account.
+		return;
+	}
+
 	register_meta( 
 		'post', 
-		'rwstripe_stripe_product_ids', 
+		$meta_key, 
 		array(
  			'type'		=> 'array',
  			'single'	=> true,

@@ -15,7 +15,11 @@ function rwstripe_term_add_form_fields() {
 		// Get all products from Stripe.
 		$RWStripe_Stripe = RWStripe_Stripe::get_instance();
 		$products = $RWStripe_Stripe->get_all_products();
-		if ( is_string( $products ) ) {
+		$meta_key = rwstripe_get_meta_key( 'restricted_product_ids' );
+		if ( empty( $meta_key ) ) {
+			// Not connected to Stripe.
+			echo '<p>' . __( 'You must connect to Stripe to restrict content.', 'restrict-content-pro' ) . '</p>';
+		} elseif ( is_string( $products ) ) {
 			echo esc_html( __( 'Error getting products.', 'restrict-with-stripe' ) . ' ' . $products );
 		} else {
 			// If we have lots of products, put checkboxes in a scrollable div.
@@ -29,7 +33,7 @@ function rwstripe_term_add_form_fields() {
 			foreach ( $products as $product ) {
 				?>
 				<label>
-					<input type="checkbox" name="rwstripe_stripe_product_ids[]" value="<?php echo esc_attr( $product->id ); ?>" >
+					<input type="checkbox" name="<?php echo esc_attr( $meta_key ); ?>[]" value="<?php echo esc_attr( $product->id ); ?>" >
 					<?php 
 						echo esc_html( $product->name );
 						if ( empty( $product->default_price ) ) {
@@ -74,11 +78,15 @@ function rwstripe_term_edit_form_fields( $term ) {
 		// Get all products from Stripe.
 		$RWStripe_Stripe = RWStripe_Stripe::get_instance();
 		$products = $RWStripe_Stripe->get_all_products();
-		if ( is_string( $products ) ) {
+		$meta_key = rwstripe_get_meta_key( 'restricted_product_ids' );
+		if ( empty( $meta_key ) ) {
+			// Not connected to Stripe.
+			echo '<p>' . __( 'You must connect to Stripe to restrict content.', 'restrict-content-pro' ) . '</p>';
+		} elseif ( is_string( $products ) ) {
 			echo esc_html( __( 'Error getting products.', 'restrict-with-stripe' ) . ' ' . $products );
 		} else {
 			// Get products that are already restricted.
-			$restiction_meta = get_term_meta( $term->term_id, 'rwstripe_stripe_product_ids', true );
+			$restiction_meta = get_term_meta( $term->term_id, $meta_key, true );
 			if ( ! is_array( $restiction_meta ) ) {
 				$restiction_meta = array();
 			}
@@ -93,7 +101,7 @@ function rwstripe_term_edit_form_fields( $term ) {
 			// Render checkboxes for each product.
 			foreach ( $products as $product ) {
 				?>
-					<input type="checkbox" name="rwstripe_stripe_product_ids[]" value="<?php echo esc_attr( $product->id ); ?>" <?php checked( in_array( $product->id, $restiction_meta ) ); ?> >
+					<input type="checkbox" name="<?php echo esc_attr( $meta_key ); ?>[]" value="<?php echo esc_attr( $product->id ); ?>" <?php checked( in_array( $product->id, $restiction_meta ) ); ?> >
 					<label>
 					<?php
 						echo esc_html( $product->name );
@@ -129,15 +137,22 @@ add_action( 'post_tag_edit_form_fields', 'rwstripe_term_edit_form_fields', 10, 2
  * @param int $term_id The ID of the term being saved.
  */
 function rwstripe_term_saved( $term_id ) {
+	// Get the meta key for restricted products.
+	$meta_key = rwstripe_get_meta_key( 'restricted_product_ids' );
+	if ( empty( $meta_key ) ) {
+		// Not connected to Stripe.
+		return;
+	}
+
 	// Get products that are checked.
-	$product_ids = isset( $_POST['rwstripe_stripe_product_ids'] ) ? $_POST['rwstripe_stripe_product_ids'] : array();
+	$product_ids = isset( $_POST[ $meta_key ] ) ? $_POST[ $meta_key ] : array();
 	$product_ids = array_map( 'sanitize_text_field', $product_ids );
 	$product_ids = array_map( 'trim', $product_ids );
 	$product_ids = array_filter( $product_ids );
 	$product_ids = array_unique( $product_ids );
 
 	// Save products to term meta.
-	update_term_meta( $term_id, 'rwstripe_stripe_product_ids', $product_ids );
+	update_term_meta( $term_id, $meta_key , $product_ids );
 }
  add_action( 'saved_category', 'rwstripe_term_saved' );
  add_action( 'saved_post_tag', 'rwstripe_term_saved' );
