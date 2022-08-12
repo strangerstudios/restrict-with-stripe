@@ -50,6 +50,7 @@ function rwstripe_term_add_form_fields() {
 				</div>
 				<?php
 			}
+			?><a href="<?php echo esc_url( rwstripe_get_dashboard_link() . 'products/?active=true' ); ?>" target="_blank"><?php esc_html_e( 'Manage Products', 'restrict-with-stripe' ); ?></a><?php
 		}
 
 		// Close form field div.
@@ -120,6 +121,7 @@ function rwstripe_term_edit_form_fields( $term ) {
 				</div>
 				<?php
 			}
+			?><a href="<?php echo esc_url( rwstripe_get_dashboard_link() . 'products/?active=true' ); ?>" target="_blank"><?php esc_html_e( 'Manage Products', 'restrict-with-stripe' ); ?></a><?php
 		}
 		?>
 		</td>

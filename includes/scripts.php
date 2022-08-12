@@ -72,7 +72,7 @@ function rwstripe_enqueue_admin_scripts() {
 	}
 	// TODO: Update this once we are not in test always mode.
 	$stripe_dashboard_url = rwstripe_get_dashboard_link();
-	$stripe_manage_products_url = rwstripe_get_dashboard_link() . 'products';
+	$stripe_manage_products_url = rwstripe_get_dashboard_link() . 'products/?active=true';
 	$stripe_create_product_url = rwstripe_get_dashboard_link() . 'products/create';
 
 	// Localize the settings.
@@ -116,6 +116,7 @@ function rwstripe_enqueue_block_editor_assets() {
 	wp_set_script_translations( 'rwstripe-sidebar', 'restrict-with-stripe' );
 	wp_localize_script( 'rwstripe-sidebar', 'rwstripeSidebar', array(
 		'restricted_product_ids_meta_key' => rwstripe_get_meta_key( 'restricted_product_ids' ),
+		'stripe_products_url' => rwstripe_get_dashboard_link() . 'products?active=true',
 	) );
 }
 add_action( 'enqueue_block_editor_assets', 'rwstripe_enqueue_block_editor_assets' );
