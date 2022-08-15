@@ -47,23 +47,24 @@ function rwstripe_enqueue_admin_scripts() {
 
 	// Localize data for connecting to Stripe.
 	$stripe_account_id = get_option( 'rwstripe_stripe_account_id' );
-	$connect_url_base = apply_filters( 'rwstipe_stripe_connect_url', 'https://connect.paidmembershipspro.com' );
+	$connect_url_base = apply_filters( 'rwstipe_stripe_connect_url', 'https://connect.restrictwithstripe.com' );
 	if ( empty( $stripe_account_id ) ) {
 		// Need to connect to Stripe.
 		$stripe_connect_url = add_query_arg(
 			array(
 				'action' => 'authorize',
-				'gateway_environment' => 'sandbox',
+				'gateway_environment' => apply_filters( 'rwstripe_connect_in_test_mode', false ) ? 'sandbox' : 'live',
 				'return_url' => rawurlencode( admin_url( 'options-general.php?page=rwstripe' ) ),
 			),
 			$connect_url_base
 		);
 	} else {
 		// Already connected to Stripe.
+		$environment = get_option( 'rwstripe_stripe_environment', 'live' );
 		$stripe_connect_url = add_query_arg(
 			array(
 				'action' => 'disconnect',
-				'gateway_environment' => 'sandbox',
+				'gateway_environment' => $environment === 'live' ? 'live' : 'sandbox',
 				'stripe_user_id' => $stripe_account_id,
 				'return_url' => rawurlencode( admin_url( 'options-general.php?page=rwstripe' ) ),
 			),
