@@ -81,8 +81,8 @@ function rwstripe_get_dashboard_link() {
 	if ( ! empty( $account_id ) ) {
 		$dashboard_url .= $account_id . '/';
 	}
-	if ( ! empty( $environment ) ) {
-		$dashboard_url .= $environment . '/';
+	if ( $environment === 'test' ) {
+		$dashboard_url .= 'test/';
 	}
 	return $dashboard_url;
 }
