@@ -3,7 +3,7 @@ global $rwstripe_currency_variations;
 $rwstripe_currency_variations = array( 
 'EUR' => array(
     'symbol' => '&euro;',
-    'position' => apply_filters("pmpro_euro_position", rwstripe_euro_position_from_locale())
+    'position' => apply_filters( 'rwstripe_euro_position', rwstripe_euro_position_from_locale() )
     ),				
 'GBP' => array(
     'symbol' => '&pound;',
