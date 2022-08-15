@@ -194,19 +194,14 @@ function rwstripe_add_term_purchase_option() {
 	// Check if the current user has any of the restricted products.
 	$RWStripe_Stripe = RWStripe_Stripe::get_instance();
 	if ( empty( $current_user->ID ) || ! $RWStripe_Stripe->customer_has_product( rwstripe_get_customer_id_for_user(), $restricted_products ) ) {
-		// The user does not have access to any of the restricted products. Show the restriction message.
-		?><div class="rwstripe-term-restriction-message"><?php
-		if ( is_category() ) {
-			?><h3><?php esc_html_e( 'This category is restricted.', 'restrict-with-stripe' ); ?></h3><?php
-		} else {
-			?><h3><?php esc_html_e( 'This tag is restricted.', 'restrict-with-stripe' ); ?></h3><?php
-		}
-		rwstripe_restricted_content_message( $restricted_products );
-		?></div><?php
+		// The user does not have access to any of the restricted products. Show the restriction message. ?>
+		<div class="rwstripe-term-restricted">
+			<?php rwstripe_restricted_content_message( $restricted_products ); ?>
+		</div>
+		<?php
 	}
 }
-add_filter( 'the_post', 'rwstripe_add_term_purchase_option', 10 );
-
+add_action( 'loop_start', 'rwstripe_add_term_purchase_option' );
 
 /**
  * Get the restricted products for a given post ID.
