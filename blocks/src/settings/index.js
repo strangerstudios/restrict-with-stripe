@@ -109,19 +109,28 @@ class App extends Component {
         var step1;
         if ( ! rwstripe.stripe_account_id ) {
             // User is not connected to Stripe.
+            var buttonText = __( 'Connect to Stripe', 'restrict-with-stripe' );
+            if ( rwstripe.connect_in_test_mode ) {
+                buttonText += ' (' + __( 'Test Mode', 'restrict-with-stripe' ) + ')';
+            }
+            console.log(rwstripe);
             step1 = (
                 <PanelBody title={ __( 'Connect to Stripe', 'restrict-with-stripe' ) }>
                     <a href={rwstripe.stripe_connect_url} class="rwstripe-stripe-connect">
                     <span>
-                        {__('Connect To Stripe', 'restrict-with-stripe')}
+                        { buttonText }
                     </span>
                 </a>
                 </PanelBody>
             );
         } else if ( true === areProductsLoaded ) {
             // We can successfully communicate with Stripe.
+            var titleText = __( 'Connect to Stripe (Connected)', 'restrict-with-stripe' );
+            if ( 'live' !== rwstripe.stripe_environment ) {
+                titleText = __( 'Connect to Stripe (Connected in Test Mode)', 'restrict-with-stripe' );
+            }
             step1 = (
-                <PanelBody title={ __( 'Connect to Stripe (Connected)', 'restrict-with-stripe' ) } initialOpen={false} >
+                <PanelBody title={ titleText } initialOpen={false} >
                     <p>{ __('Connected to account: %d.', 'restrict-with-stripe').replace('%d', rwstripe.stripe_account_id) }</p>
                     <p><a href={rwstripe.stripe_dashboard_url} target="_blank">{__('Visit your Stripe account dashboard', 'restrict-with-stripe')}</a></p>
                     <a href={rwstripe.stripe_connect_url} class="rwstripe-stripe-connect">
@@ -133,8 +142,12 @@ class App extends Component {
             );
         } else {
             // User is connected to Stripe, but we can't use the API.
+            var titleText = __( 'Connect to Stripe (Error)', 'restrict-with-stripe' );
+            if ( 'live' !== rwstripe.stripe_environment ) {
+                titleText = __( 'Connect to Stripe (Error in Test Mode)', 'restrict-with-stripe' );
+            }
             step1 = (
-                <PanelBody title={ __( 'Connect to Stripe (Error)', 'restrict-with-stripe' ) } >
+                <PanelBody title={ titleText } >
                     <p>{ __('The following error is received when trying to communicate with Stripe:', 'restrict-with-stripe')}</p>
                     <p>{areProductsLoaded}</p>
                     <a href={rwstripe.stripe_connect_url} class="rwstripe-stripe-connect">
@@ -164,7 +177,7 @@ class App extends Component {
                         {
                             productList.length > 0 ?
                             <fragment>
-                                <a href={rwstripe.stripe_manage_products_url} target="_blank">
+                                <a href={rwstripe.stripe_dashboard_url + 'products/?active=true' } target="_blank">
                                     <Button isPrimary isLarge >
                                         { __('Manage %d Products', 'restrict-with-stripe').replace('%d', productList.length) }
                                     </Button>
@@ -172,7 +185,7 @@ class App extends Component {
                             </fragment>
                             :
                                 <fragment>
-                                    <a href={rwstripe.stripe_create_product_url} target="_blank">
+                                    <a href={rwstripe.stripe_dashboard_url + 'products/create' } target="_blank">
                                         <Button isPrimary isLarge >
                                             {__('Create a New Product', 'restrict-with-stripe')}
                                         </Button>
