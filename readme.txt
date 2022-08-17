@@ -33,6 +33,9 @@ Build your content with WordPress. Let Stripe handle the payments.
 4. Link to Stripe Customer Portal: Link users to their payment history and let them manage their subscriptions.
 5. Customize Advanced Settings: Customize the plugin to fit the needs of your specific site.
 
+= Building a Membership Site? =
+Restrict with Stripe is a great streamlined solution for selling access to posts and pages, but if you are trying to build a more advanced membership website and need additional features such as restricting other types of content, adding custom fields at checkout, building a member directory or integrating with other WordPress plugins, then [Paid Memberships Pro](https://www.paidmembershipspro.com/) (our sister plugin), may be a better option for your website.
+
 == Installation ==
 
 = Download, Install and Activate! =
