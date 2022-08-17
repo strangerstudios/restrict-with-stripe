@@ -8,7 +8,7 @@
 
 ### Welcome to the Restrict with Stripe GitHub Repository
 
-Restrict with Stripe integrates your website with Stripe to sell access to restricted posts, pages, categories, and more!
+Restrict with Stripe integrates your website with Stripe to sell access to restricted posts, pages, categories, and tags.
 
 ## Restrict with Stripe is Open Source Software 
 
@@ -25,9 +25,9 @@ Restrict with Stripe is distributed under the GPLv2 license. This means, among o
 Go to Settings > Restrict with Stripe in the WordPress admin to begin setup.
 
 1. Connect to Stripe: Integrate your site with Stripe.
-2. Create Products in Stripe: Create a product for each post, page, block, or other content you want to sell.
+2. Create Products in Stripe: Create a product for each post, page, category, or tag that you want to sell access to.
 3. Add Restrictions to Site Content: Restrict access to content you want to sell.
-4. Link to Stripe Customer Portal: Give customers access to their payment history and other account information.
+4. Link to Stripe Customer Portal: Link users to their payment history and let them manage their subscriptions.
 5. Customize Advanced Settings: Customize the plugin to fit the needs of your specific site.
 
 ## Bugs ##

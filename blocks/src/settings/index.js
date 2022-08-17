@@ -113,7 +113,6 @@ class App extends Component {
             if ( rwstripe.connect_in_test_mode ) {
                 buttonText += ' (' + __( 'Test Mode', 'restrict-with-stripe' ) + ')';
             }
-            console.log(rwstripe);
             step1 = (
                 <PanelBody title={ __( 'Connect to Stripe', 'restrict-with-stripe' ) }>
                     <a href={rwstripe.stripe_connect_url} class="rwstripe-stripe-connect">
