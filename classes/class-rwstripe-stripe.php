@@ -240,7 +240,7 @@ class RWStripe_Stripe {
 		if ( empty( $portal_configuration_id ) ) {
 			$portal_configuration_params = array(
 				'business_profile' => array(
-					'headline' => esc_html__( 'Manage Your Subscriptions', 'woocommerce-gateway-stripe' ),
+					'headline' => esc_html__( 'Manage Your Subscriptions', 'restrict-with-stripe' ),
 				),
 				'features' => array(
 					'customer_update' => array( 'enabled' => true, 'allowed_updates' => array( 'address', 'phone', 'tax_id' ) ),
