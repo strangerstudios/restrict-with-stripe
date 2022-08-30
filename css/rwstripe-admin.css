@@ -1,8 +1,48 @@
+.rwstripe-edit-profile {
+	background-color: #FAFAFA;
+	border: 1px solid #CCC;
+	border-radius: 4px;
+	color: #222;
+	margin: 2em 0;
+	padding: 15px 15px 1px 15px;
+}
+.rwstripe-edit-profile *:first-child {
+	margin-top: 0;
+}
+.rwstripe-edit-profile h2:before {
+	color: #444;
+	content: "\f160";
+	display: inline-block;
+	font-family: dashicons;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	font-size: 20px;
+	line-height: 1;
+	font-weight: 400;
+	font-style: normal;
+	margin-right: 5px;
+	speak: never;
+	text-align: center;
+	text-decoration: inherit;
+	text-transform: none;
+	text-rendering: auto;
+	vertical-align: text-bottom;
+}
+
 .rwstripe-scrollable-div {
-    height: 200px;
-	width: 90%;
 	background: #FFFFFF;
 	border: 1px solid #CCC;
+    height: 200px;
+    margin-bottom: calc(8px);
 	overflow: auto;
     padding: 10px;
+	width: 90%;
+}
+.rwstripe-clickable {
+	align-items: center;
+	display: flex;
+	margin: 10px 0;
+}
+.rwstripe-clickable label {
+	flex-grow: 1;
 }

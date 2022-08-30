@@ -1,6 +1,6 @@
 <?php
 /**
- * Add new block category for Restrict with Stripe blocks.
+ * Add new block category for Restrict With Stripe blocks.
  *
  * @since 1.0
  *
@@ -13,7 +13,7 @@ function rwstripe_block_categories( $categories ) {
 		array(
 			array(
 				'slug' => 'rwstripe',
-				'title' => __( 'Restrict with Stripe', 'restrict-with-stripe' ),
+				'title' => __( 'Restrict With Stripe', 'restrict-with-stripe' ),
 			),
 		)
 	);

@@ -2,6 +2,10 @@ import './style.scss';
 
 import apiFetch from '@wordpress/api-fetch';
 import rwsLogo from '../../assets/restrict-with-stripe.png';
+import rwsScreenshotPostMetabox from '../../assets/rwstripe-edit-post-page-metabox.png';
+import rwsScreenshotTermMetabox from '../../assets/rwstripe-edit-term-restrict-setting.png';
+import rwsScreenshotNavMenuItem from '../../assets/rwstripe-customer-portal-nav-menu-item.png';
+import rwsScreenshotPortalBlock from '../../assets/rwstripe-customer-portal-block.png';
 
 import {
     Button,
@@ -163,7 +167,7 @@ class App extends Component {
                 <div className="rwstripe-settings__header">
                     <div className="rwstripe-settings__container">
                         <div className="rwstripe-settings__title">
-                           <img src={rwsLogo} alt="{__('Restrict with Stripe', 'restrict-with-stripe')}" />
+                           <img src={rwsLogo} alt="{__('Restrict With Stripe', 'restrict-with-stripe')}" />
                         </div>
                     </div>
                 </div>
@@ -171,7 +175,7 @@ class App extends Component {
                 <div className="rwstripe-settings__main">
                     {step1}
                     <PanelBody title={__('Create Products in Stripe', 'restrict-with-stripe')} initialOpen={rwstripe.stripe_account_id && ! productList.length} >
-                        <p>{__('Restrict with Stripe uses Stripe Products to track user access to site content.', 'restrict-with-stripe')}</p>
+                        <p>{__('Restrict With Stripe uses Stripe Products to track user access to site content.', 'restrict-with-stripe')}</p>
                         <p>{__('Create a unique Stripe Product for each piece of content you need to restrict, whether it be a single post or page, a category of posts, or something else.', 'restrict-with-stripe')}</p>
                         {
                             productList.length > 0 ?
@@ -200,7 +204,7 @@ class App extends Component {
                                 <ol>
                                     <li>{__('Edit the post or page', 'restrict-with-stripe')}</li>
                                     <li>{__('Open the Settings panel', 'restrict-with-stripe')}</li>
-                                    <li>{__('Select Stripe Products in the "Restrict with Stripe" panel', 'restrict-with-stripe')}</li>
+                                    <li>{__('Select Stripe Products in the "Restrict With Stripe" panel', 'restrict-with-stripe')}</li>
                                     <li>{__('Save changes', 'restrict-with-stripe')}</li>
                                 </ol>
                                 <a href={rwstripe.admin_url + 'edit.php?post_type=post'}>
@@ -215,7 +219,8 @@ class App extends Component {
                                 </a>
                             </div>
                             <div className="column">
-                                gif here
+                                <img src={rwsScreenshotPostMetabox} alt="{__('Restrict With Stripe panel on the Edit Post or Edit Page screen.', 'restrict-with-stripe')}" />
+                                <p>{__('Example of the Restrict With Stripe panel on the Edit Post or Edit Page screen.', 'restrict-with-stripe')}</p>
                             </div>
                         </div>
                         <div className="columns">
@@ -238,7 +243,8 @@ class App extends Component {
                                 </a>
                             </div>
                             <div className="column">
-                                gif here
+                                <img src={rwsScreenshotTermMetabox} alt="{__('Restrict With Stripe settings on the Edit Category or Tag screen.', 'restrict-with-stripe')}" />
+                                <p>{__('Example of the Restrict With Stripe setting for Categories and Tags.', 'restrict-with-stripe')}</p>
                             </div>
                         </div>
                     </PanelBody>
@@ -249,12 +255,13 @@ class App extends Component {
                                 <h3>{__('Create a "Customer Portal" Menu Item', 'restrict-with-stripe', 'restrict-with-stripe')}</h3>
                                 <ol>
                                     <li>{__('Edit the desired menu', 'restrict-with-stripe')}</li>
-                                    <li>{__('In the "Restrict with Stripe" panel, select the "Stripe Customer Portal" menu item and click "Add to Menu"', 'restrict-with-stripe')}</li>
+                                    <li>{__('In the "Restrict With Stripe" panel, select the "Stripe Customer Portal" menu item and click "Add to Menu"', 'restrict-with-stripe')}</li>
                                     <li>{__('Click "Save Menu"', 'restrict-with-stripe')}</li>
                                 </ol>
                             </div>
                             <div className="column">
-                                gif here
+                                <img src={rwsScreenshotNavMenuItem} alt="{__('Restrict With Stripe custom nav menu item for Stripe Customer Portal.', 'restrict-with-stripe')}" />
+                                <p>{__('Example of adding the Stripe Customer Portal menu item to a nav menu location.', 'restrict-with-stripe')}</p>
                             </div>
                         </div>
                         <div className="columns">
@@ -267,7 +274,8 @@ class App extends Component {
                                 </ol>
                             </div>
                             <div className="column">
-                                gif here
+                                <img src={rwsScreenshotPortalBlock} alt="{__('Stripe Customer Portal block on the Edit Page screen.', 'restrict-with-stripe')}" />
+                                <p>{__('Example of the Stripe Customer Portal block on the Edit Page screen.', 'restrict-with-stripe')}</p>
                             </div>
                         </div>
                     </PanelBody>

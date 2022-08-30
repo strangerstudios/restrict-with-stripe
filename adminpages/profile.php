@@ -23,23 +23,27 @@ function rwstripe_edit_user_profile( $user ) {
 	$customer_id = rwstripe_get_customer_id_for_user( $user->ID );
 	$rwstripe_stripe = RWStripe_Stripe::get_instance();
 	?>
-	<h2><?php esc_html_e( 'Restrict with Stripe', 'restrict-with-stripe' ); ?></h2>
-	<table>
-		<tr>
-			<th><?php esc_html_e( 'Customer ID', 'restrict-with-stripe' ); ?></th>
-			<td><input type='text' name='<?php echo esc_attr( $meta_key ) ?>' value='<?php echo esc_html( $customer_id ); ?>' disabled></td>
-		</tr>
-		<?php
-		if ( ! empty( $customer_id ) ) {
-			?>
-			<tr>
-				<th><?php esc_html_e( 'View Stripe Customer', 'restrict-with-stripe' ); ?></th>
-				<td><a href="<?php echo esc_url( rwstripe_get_dashboard_link() . 'customers/' . $customer_id ); ?>"><?php echo esc_url( rwstripe_get_dashboard_link() . 'customers/' . $customer_id ); ?></a></td>
-			</tr>
-			<?php
-		}
-		?>
-	</table>
+	<div class="rwstripe-edit-profile">
+		<h2><?php esc_html_e( 'Restrict With Stripe', 'restrict-with-stripe' ); ?></h2>
+		<table class="form-table">
+			<tbody>
+				<tr>
+					<th><?php esc_html_e( 'Customer ID', 'restrict-with-stripe' ); ?></th>
+					<td><code><?php echo esc_html( $customer_id ); ?></code></td>
+				</tr>
+				<?php
+					if ( ! empty( $customer_id ) ) {
+						?>
+						<tr>
+							<th><?php esc_html_e( 'View Stripe Customer', 'restrict-with-stripe' ); ?></th>
+							<td><a target="_blank" href="<?php echo esc_url( rwstripe_get_dashboard_link() . 'customers/' . $customer_id ); ?>"><?php echo esc_url( rwstripe_get_dashboard_link() . 'customers/' . $customer_id ); ?></a></td>
+						</tr>
+						<?php
+					}
+				?>
+			</tbody>
+		</table>
+	</div>
 	<?php
 }
 add_action( 'show_user_profile', 'rwstripe_edit_user_profile' );

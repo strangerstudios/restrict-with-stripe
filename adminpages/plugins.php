@@ -37,8 +37,8 @@ function rwstripe_admin_notice() {
     if ( get_transient( 'rwstripe-admin-notice' ) ) {
         ?>
         <div class="notice notice-success is-dismissible">
-            <p><?php esc_html_e( 'Thank you for activating Restrict with Stripe!', 'restrict-with-stripe' ); ?></p>
-            <p><a href="<?php echo admin_url( 'options-general.php?page=rwstripe' ); ?>"><?php esc_html_e( 'Click here to begin restricting content.', 'restrict-with-stripe' ); ?></a></p>
+            <p><strong><?php esc_html_e( 'Thank you for activating Restrict With Stripe', 'restrict-with-stripe' ); ?></strong></p>
+            <p><a href="<?php echo admin_url( 'options-general.php?page=rwstripe' ); ?>"><?php esc_html_e( 'Click here to begin restricting content &raquo;', 'restrict-with-stripe' ); ?></a></p>
         </div>
         <?php
         delete_transient( 'rwstripe-admin-notice' );

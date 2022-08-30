@@ -1,12 +1,12 @@
 <?php
 
 /*
- * Add settings page for Restrict with Stripe.
+ * Add settings page for Restrict With Stripe.
  *
  * @since 1.0
  */
 function rwstripe_admin_menu() {
-	add_options_page( esc_html__( 'Restrict with Stripe', 'restrict-with-stripe' ),  esc_html__( 'Restrict with Stripe', 'restrict-with-stripe' ), 'manage_options', 'rwstripe', 'rwstripe_render_settings_page');	
+	add_options_page( esc_html__( 'Restrict With Stripe', 'restrict-with-stripe' ),  esc_html__( 'Restrict With Stripe', 'restrict-with-stripe' ), 'manage_options', 'rwstripe', 'rwstripe_render_settings_page');	
 }
 add_action('admin_menu', 'rwstripe_admin_menu');
 

@@ -51,7 +51,7 @@
 		);
 		return (
 			<fragment>
-				<h4>{ __('Select products to restrict by:', 'restrict-with-stripe') }</h4>
+				<h3>{ __('Select products to restrict by', 'restrict-with-stripe') }</h3>
 				{
 					product_checkboxes.length > 6 ? (
 						<div className="rwstripe-scrollable-div">
@@ -98,11 +98,11 @@
 			var sidebar_content = <Spinner />;
 			if ( ! this.state.loadingProducts ) {
 				if ( ! Array.isArray( this.state.productList ) || 'undefined' === typeof rwstripeSidebar.restricted_product_ids_meta_key ) {
-					sidebar_content = <p>{ __('Could not connect to Stripe. Please check your Stripe connection on the Restrict with Stripe settings page.', 'restrict-with-stripe') }</p>;
+					sidebar_content = <p>{ __('Could not connect to Stripe. Please check your Stripe connection on the Restrict With Stripe settings page.', 'restrict-with-stripe') }</p>;
 				} else if ( this.state.productList.length === 0 ) {
 					sidebar_content = <div>
 						<p>{ __('No products found. Please create a product in Stripe.', 'restrict-with-stripe') }</p>
-						<a href={rwstripeSidebar.stripe_products_url} target="_blank">{ __('Manage Products', 'restrict-with-stripe') }</a>
+						<p><a href={rwstripeSidebar.stripe_products_url} target="_blank">{ __('Manage Products in Stripe', 'restrict-with-stripe') }</a></p>
 					</div>;
 				} else {
 					sidebar_content = <div>
@@ -111,13 +111,13 @@
 							metaKey={ rwstripeSidebar.restricted_product_ids_meta_key }
 							products={ this.state.productList }
 						/>
-						<a href={rwstripeSidebar.stripe_products_url} target="_blank">{ __('Manage Products', 'restrict-with-stripe') }</a>
+						<p><a href={rwstripeSidebar.stripe_products_url} target="_blank">{ __('Manage Products in Stripe', 'restrict-with-stripe') }</a></p>
 					</div>;
 				}
 			}
 
 			return (
-				<PluginDocumentSettingPanel name="rwstripe-sidebar-panel" title={ __( 'Restrict with Stripe', 'restrict-with-stripe' ) } >
+				<PluginDocumentSettingPanel name="rwstripe-sidebar-panel" title={ __( 'Restrict With Stripe', 'restrict-with-stripe' ) } >
 					{sidebar_content}
 				</PluginDocumentSettingPanel>
 			);

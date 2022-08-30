@@ -191,7 +191,7 @@ if ( class_exists( 'WP_REST_Controller' ) ) {
 	} // End of class
 
 	/**
-	 * Initialize the Restrict with Stripe API.
+	 * Initialize the Restrict With Stripe API.
 	 * @since 1.0
 	 */
 	function rwstripe_rest_api_register_custom_routes() {
