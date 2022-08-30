@@ -9,7 +9,7 @@ function rwstripe_term_add_form_fields() {
 	// Render form field div.
 	?>
 	<div class="form-field">
-		<label><?php _e( 'Restrict with Stripe', 'restrict-with-stripe' ); ?></label>
+		<label><?php _e( 'Restrict With Stripe', 'restrict-with-stripe' ); ?></label>
 		<?php
 
 		// Get all products from Stripe.
@@ -32,15 +32,17 @@ function rwstripe_term_add_form_fields() {
 			// Render checkboxes for each product.
 			foreach ( $products as $product ) {
 				?>
-				<label>
-					<input type="checkbox" name="<?php echo esc_attr( $meta_key ); ?>[]" value="<?php echo esc_attr( $product->id ); ?>" >
-					<?php 
-						echo esc_html( $product->name );
-						if ( empty( $product->default_price ) ) {
-							echo ' (' . esc_html__( 'no default price set', 'restrict-with-stripe' ) . ')';
-						}
-					?>
-				</label>
+				<div class="rwstripe-clickable">
+					<label for="<?php echo esc_attr( $product->id ); ?>">
+						<input type="checkbox" id="<?php echo esc_attr( $product->id ); ?>" name="<?php echo esc_attr( $meta_key ); ?>[]" value="<?php echo esc_attr( $product->id ); ?>" >
+						<?php 
+							echo esc_html( $product->name );
+							if ( empty( $product->default_price ) ) {
+								echo ' (' . esc_html__( 'no default price set', 'restrict-with-stripe' ) . ')';
+							}
+						?>
+					</label>
+				</div>
 				<?php
 			}
 
@@ -50,7 +52,8 @@ function rwstripe_term_add_form_fields() {
 				</div>
 				<?php
 			}
-			?><a href="<?php echo esc_url( rwstripe_get_dashboard_link() . 'products/?active=true' ); ?>" target="_blank"><?php esc_html_e( 'Manage Products', 'restrict-with-stripe' ); ?></a><?php
+			?>
+			<p><a href="<?php echo esc_url( rwstripe_get_dashboard_link() . 'products/?active=true' ); ?>" target="_blank"><?php esc_html_e( 'Manage Products in Stripe', 'restrict-with-stripe' ); ?></a></p><?php
 		}
 
 		// Close form field div.
@@ -72,7 +75,7 @@ function rwstripe_term_edit_form_fields( $term ) {
 	// Render table row.
 	?>
 	<tr class="form-field">
-		<th scope="row"><label><?php _e( 'Restrict with Stripe', 'restrict-with-stripe' ); ?></label></th>
+		<th scope="row"><label><?php _e( 'Restrict With Stripe', 'restrict-with-stripe' ); ?></label></th>
 		<td>
 		<?php
 
@@ -102,16 +105,17 @@ function rwstripe_term_edit_form_fields( $term ) {
 			// Render checkboxes for each product.
 			foreach ( $products as $product ) {
 				?>
-					<input type="checkbox" name="<?php echo esc_attr( $meta_key ); ?>[]" value="<?php echo esc_attr( $product->id ); ?>" <?php checked( in_array( $product->id, $restiction_meta ) ); ?> >
-					<label>
-					<?php
-						echo esc_html( $product->name );
-						if ( empty( $product->default_price ) ) {
-							echo ' (' . esc_html__( 'no default price set', 'restrict-with-stripe' ) . ')';
-						}
-					?>
-					</label>
-					<br/>
+					<div class="rwstripe-clickable">
+						<label for="<?php echo esc_attr( $product->id ); ?>">
+							<input type="checkbox" id="<?php echo esc_attr( $product->id ); ?>" name="<?php echo esc_attr( $meta_key ); ?>[]" value="<?php echo esc_attr( $product->id ); ?>" <?php checked( in_array( $product->id, $restiction_meta ) ); ?> />
+							<?php
+								echo esc_html( $product->name );
+								if ( empty( $product->default_price ) ) {
+									echo ' (' . esc_html__( 'no default price set', 'restrict-with-stripe' ) . ')';
+								}
+							?>
+						</label>
+					</div>
 				<?php
 			}
 
@@ -121,7 +125,7 @@ function rwstripe_term_edit_form_fields( $term ) {
 				</div>
 				<?php
 			}
-			?><a href="<?php echo esc_url( rwstripe_get_dashboard_link() . 'products/?active=true' ); ?>" target="_blank"><?php esc_html_e( 'Manage Products', 'restrict-with-stripe' ); ?></a><?php
+			?><p><a href="<?php echo esc_url( rwstripe_get_dashboard_link() . 'products/?active=true' ); ?>" target="_blank"><?php esc_html_e( 'Manage Products in Stripe', 'restrict-with-stripe' ); ?></a></p><?php
 		}
 		?>
 		</td>

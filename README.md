@@ -1,28 +1,28 @@
 ![](restrict-with-stripe-banner.png)
 
-# [Restrict with Stripe](https://wordpress.org/plugin/restrict-with-stripe/) #
+# [Restrict With Stripe](https://wordpress.org/plugin/restrict-with-stripe/) #
 [comment]: # (Generate badges from shields.io, only works for .org plugins to get other stats etc. We'd have to create our own endpoints for Premium plugins)
 
 ![WordPress Plugin Downloads](https://img.shields.io/wordpress/plugin/dy/restrict-with-stripe?style=flat-square) ![Travis (.org)](https://img.shields.io/travis/strangerstudios/paid-memberships-pro?style=flat-square) ![License](https://img.shields.io/badge/license-GPL--2.0%2B-red.svg?style=flat-square)
 
 
-### Welcome to the Restrict with Stripe GitHub Repository
+### Welcome to the Restrict With Stripe GitHub Repository
 
-Restrict with Stripe integrates your website with Stripe to sell access to restricted posts, pages, categories, and tags.
+Restrict With Stripe integrates your website with Stripe to sell access to restricted posts, pages, categories, and tags.
 
-## Restrict with Stripe is Open Source Software 
+## Restrict With Stripe is Open Source Software 
 
-Restrict with Stripe is distributed under the GPLv2 license. This means, among other things, that you may use the software on any site free of charge.
+Restrict With Stripe is distributed under the GPLv2 license. This means, among other things, that you may use the software on any site free of charge.
 
 ## Installation ##
 
 ### Download, Install and Activate! ###
-1. Go to Plugins > Add New to find and install Restrict with Stripe.
+1. Go to Plugins > Add New to find and install Restrict With Stripe.
 2. Or, download the latest version of the plugin, then go to Plugins > Add New and click the "Upload Plugin" button to upload your .zip file.
 3. Activate the plugin.
 
 ### Complete the Initial Plugin Setup ###
-Go to Settings > Restrict with Stripe in the WordPress admin to begin setup.
+Go to Settings > Restrict With Stripe in the WordPress admin to begin setup.
 
 1. Connect to Stripe: Integrate your site with Stripe.
 2. Create Products in Stripe: Create a product for each post, page, category, or tag that you want to sell access to.

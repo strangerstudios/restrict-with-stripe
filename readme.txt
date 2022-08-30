@@ -1,4 +1,4 @@
-=== Restrict with Stripe - Sell Access to Posts and Pages with Stripe ===
+=== Restrict With Stripe - Sell Access to Posts and Pages with Stripe ===
 Contributors: strangerstudios, dlparker1005
 Tags: subscriptions, ecommerce, e-commerce, stripe, restrict access, restrict content
 Requires at least: 5.2
@@ -16,7 +16,7 @@ WordPress has all the tools that you need to build content that is worth buying,
 
 Traditional e-commerce plugins typically integrate with payment gateways to process payments, but often try to recreate existing payment features such as order management directly on your WordPress website. Although handling some payment processes on-site is necessary for some e-commerce websites, it adds complexity that is not necessary for most websites.
 
-Instead of recreating payment features within WordPress, Restrict with Stripe harnesses the full power of Stripe to handle the entire e-commerce workflow including:
+Instead of recreating payment features within WordPress, Restrict With Stripe harnesses the full power of Stripe to handle the entire e-commerce workflow including:
 * Hosted checkout page built to maximize conversions powered by Stripe Checkout
 * Hosted customer portal where users can view their payment history and manage their subscriptions
 * Streamlined dashboard for site administrators to manage products, customers, subscriptions, and more
@@ -34,17 +34,17 @@ Build your content with WordPress. Let Stripe handle the payments.
 5. Customize Advanced Settings: Customize the plugin to fit the needs of your specific site.
 
 = Building a Membership Site? =
-Restrict with Stripe is a great streamlined solution for selling access to posts and pages, but if you are trying to build a more advanced membership website and need additional features such as restricting other types of content, adding custom fields at checkout, building a member directory or integrating with other WordPress plugins, then [Paid Memberships Pro](https://www.paidmembershipspro.com/) (our sister plugin), may be a better option for your website.
+Restrict With Stripe is a great streamlined solution for selling access to posts and pages, but if you are trying to build a more advanced membership website and need additional features such as restricting other types of content, adding custom fields at checkout, building a member directory or integrating with other WordPress plugins, then [Paid Memberships Pro](https://www.paidmembershipspro.com/) (our sister plugin), may be a better option for your website.
 
 == Installation ==
 
 = Download, Install and Activate! =
-1. Go to Plugins > Add New to find and install Restrict with Stripe.
+1. Go to Plugins > Add New to find and install Restrict With Stripe.
 2. Or, download the latest version of the plugin, then go to Plugins > Add New and click the "Upload Plugin" button to upload your .zip file.
 3. Activate the plugin.
 
 = Complete the Initial Plugin Setup =
-Go to Settings > Restrict with Stripe in the WordPress admin to begin setup.
+Go to Settings > Restrict With Stripe in the WordPress admin to begin setup.
 
 == Frequently Asked Questions ==
 
