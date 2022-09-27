@@ -1,7 +1,11 @@
 #rwstripe-settings {
 
     .components-placeholder {
-        background: #f1f1f1;
+        background: #F1F1F1;
+        box-shadow: none;
+        .components-placeholder__fieldset {
+            justify-content: center;
+        }
     }
 
     .rwstripe-settings__header {
