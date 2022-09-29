@@ -14,7 +14,7 @@ import {
     SnackbarList,
     Spinner,
     ToggleControl,
-    Icon,
+    Notice,
 } from '@wordpress/components';
 
 import {
@@ -119,11 +119,16 @@ class App extends Component {
             }
             step1 = (
                 <PanelBody title={ __( 'Connect to Stripe', 'restrict-with-stripe' ) }>
+                    {rwstripe.connection_error && (
+                        <Notice status="error">
+                            <p>{ rwstripe.connection_error }</p>
+                        </Notice>
+                    )}
                     <a href={rwstripe.stripe_connect_url} class="rwstripe-stripe-connect">
-                    <span>
-                        { buttonText }
-                    </span>
-                </a>
+                        <span>
+                            { buttonText }
+                        </span>
+                    </a>
                 </PanelBody>
             );
         } else if ( true === areProductsLoaded ) {

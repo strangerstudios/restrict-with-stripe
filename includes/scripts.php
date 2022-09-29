@@ -37,6 +37,8 @@ add_action( 'wp_enqueue_scripts', 'rwstripe_enqueue_scripts' );
  * @since 1.0
  */
 function rwstripe_enqueue_admin_scripts() {
+	global $rwstripe_connection_error;
+
 	// Enqueue script for settings page.
 	wp_enqueue_script(
 		'rwstripe-settings',
@@ -82,6 +84,7 @@ function rwstripe_enqueue_admin_scripts() {
 		'stripe_dashboard_url' => rwstripe_get_dashboard_link(),
 		'connect_in_test_mode' => $connect_in_test_mode,
 		'admin_url' => admin_url(),
+		'connection_error' => $rwstripe_connection_error ?: '',
 	) );
 
 	// Enqueue style for settings page.

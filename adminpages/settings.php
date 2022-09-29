@@ -122,6 +122,10 @@ function rwstripe_handle_connect_to_stripe_response() {
 		}
 	}
 
-	// TODO: Show error messages from failed connection.
+	// Show error messages from failed connection.
+	if ( ! empty( $error ) ) {
+		global $rwstripe_connection_error;
+		$rwstripe_connection_error = $error;
+	}
 }
 add_action( 'admin_init', 'rwstripe_handle_connect_to_stripe_response' );
