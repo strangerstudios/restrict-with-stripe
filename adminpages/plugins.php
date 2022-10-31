@@ -64,8 +64,8 @@ add_filter( 'plugin_action_links_' . plugin_basename( RWSTRIPE_BASE_FILE ), 'rws
 function rwstripe_plugin_row_meta( $links, $file ) {
 	if ( strpos( $file, 'restrict-with-stripe.php' ) !== false ) {
 		$new_links = array(
-			'<a href="' . esc_url( 'https://www.strangerstudios.com/wordpress-plugins/restrict-with-stripe/' ) . '" title="' . esc_attr__( 'View Documentation', 'restrict-with-stripe' ) . '">' . esc_html__( 'Docs', 'restrict-with-stripe' ) . '</a>',
-			'<a href="' . esc_url( 'https://www.strangerstudios.com/wordpress-plugins/restrict-with-stripe/' ) . '" title="' . esc_attr__( 'Visit Customer Support Forum', 'restrict-with-stripe' ) . '">' . esc_html__( 'Support', 'restrict-with-stripe' ) . '</a>',
+			'<a href="' . esc_url( 'https://www.restrictwithstripe.com/docs/' ) . '" title="' . esc_attr__( 'View Documentation', 'restrict-with-stripe' ) . '">' . esc_html__( 'Docs', 'restrict-with-stripe' ) . '</a>',
+			'<a href="' . esc_url( 'https://www.restrictwithstripe.com/support/' ) . '" title="' . esc_attr__( 'Visit Customer Support Forum', 'restrict-with-stripe' ) . '">' . esc_html__( 'Support', 'restrict-with-stripe' ) . '</a>',
 		);
 		$links = array_merge( $links, $new_links );
 	}
