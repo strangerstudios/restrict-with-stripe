@@ -24,7 +24,7 @@ function rwstripe_admin_notice() {
 		<div class="updated notice is-dismissible">
 			<p>
 			<?php 
-				esc_html_e( 'Thank you for activating.', 'restrict-with-stripe' );
+				esc_html_e( 'Thank you for activating Restrict with Stripe.', 'restrict-with-stripe' );
 				echo ' <a href="' . esc_url( get_admin_url( null, 'admin.php?page=rwstripe' ) ) . '">';
 				esc_html_e( 'Click here to manage settings.', 'restrict-with-stripe' );
 				echo '</a>';
