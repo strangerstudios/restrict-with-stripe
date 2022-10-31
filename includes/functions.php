@@ -150,7 +150,7 @@ function rwstripe_restricted_content_message( $product_ids ) {
 	// If the user is an admin and there are errors, show them.
 	if ( current_user_can( 'manage_options' ) && ! empty( $errors ) ) {
 		echo '<div>';
-		echo '<h3>' . __( 'Admins Only', 'restrict-with-stripe' ) . '</h3>';
+		echo '<h3>' . esc_html__( 'Admins Only', 'restrict-with-stripe' ) . '</h3>';
 		echo '<p>' . esc_html__( 'The following errors occured while building the restricted content message:', 'restrict-with-stripe' ) . '</p>';
 		echo '<ul>';
 		foreach ( $errors as $error ) {
@@ -175,7 +175,7 @@ function rwstripe_restricted_content_message( $product_ids ) {
 			<?php
 				// Show a message if on a term archive.
 				if ( is_category() || is_tag() ) { ?>
-					<p><?php echo sprintf( __( 'Complete checkout now to access everything in <em>%s</em>.', 'restrict-with-stripe' ), get_the_archive_title() ); ?></p>
+					<p><?php echo sprintf( esc_html__( 'Complete checkout now to access everything in %s.', 'restrict-with-stripe' ), '<em>' . get_the_archive_title() . '</em>' ); ?></p>
 					<?php
 				}
 
@@ -186,15 +186,26 @@ function rwstripe_restricted_content_message( $product_ids ) {
 				}
 
 			?>
-			<p><?php echo strip_tags( sprintf( __( 'Create a new account or <a href="%s">log in</a> to purchase access.', 'restrict-with-stripe' ), wp_login_url( get_permalink() ) ), '<a>' ); ?></p>
+			<p><?php
+                $allowed_html = array(
+                    'a' => array (
+                        'class' => array(),
+                        'href' => array(),
+                        'id' => array(),
+                        'target' => array(),
+                        'title' => array(),
+                    ),
+                );
+                echo wp_kses( sprintf( __( 'Create a new account or <a href="%s">log in</a> to purchase access.', 'restrict-with-stripe' ), wp_login_url( get_permalink() ) ), $allowed_html );
+            ?></p>
 			<div class="rwstripe-error"></div>
 			<form class="rwstripe-register">
-				<input type="email" name="rwstripe-email" placeholder="<?php echo esc_attr( __( 'Email Address', 'restrict_with_stripe' ) ); ?>" />
+				<input type="email" name="rwstripe-email" placeholder="<?php echo esc_attr( esc_html__( 'Email Address', 'restrict_with_stripe' ) ); ?>" />
 				<?php
 				// Maybe collect a password.
 				if ( get_option( 'rwstripe_collect_password', true ) ) {
 					?>
-					<input type="password" name="rwstripe-password" placeholder="<?php echo esc_attr( __( 'Password', 'restrict_with_stripe' ) ); ?>" autocomplete="on" />
+					<input type="password" name="rwstripe-password" placeholder="<?php esc_attr_e( 'Password', 'restrict_with_stripe' ); ?>" autocomplete="on" />
 					<?php
 				}
 
@@ -214,7 +225,7 @@ function rwstripe_restricted_content_message( $product_ids ) {
 			<?php
 				// Show a message if on a term archive.
 				if ( is_category() || is_tag() ) { ?>
-					<p><?php echo sprintf( __( 'Complete checkout now to access everything in <em>%s</em>.', 'restrict-with-stripe' ), get_the_archive_title() ); ?></p>
+					<p><?php echo sprintf( esc_html__( 'Complete checkout now to access everything in %s.', 'restrict-with-stripe' ), '<em>' . get_the_archive_title() . '</em>' ); ?></p>
 					<?php
 				}
 
@@ -255,7 +266,7 @@ function rwstripe_restricted_content_message_render_product_dropdown( $purchasab
 		$RWStripe_Stripe = RWStripe_Stripe::get_instance();
 		?>
 		<select name="rwstripe-product-id">
-			<option value="">-- <?php echo esc_html( __( 'Choose one', 'restrict_with_stripe' ) ); ?> --</option>
+			<option value="">-- <?php esc_html_e( 'Choose one', 'restrict_with_stripe' ); ?> --</option>
 			<?php
 			foreach ( $purchasable_products as $product ) {
 				$price = $RWStripe_Stripe->get_price( $product->default_price );
