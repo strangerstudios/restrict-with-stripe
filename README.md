@@ -34,4 +34,4 @@ Go to Settings > Restrict With Stripe in the WordPress admin to begin setup.
 If you find an issue/bug, let us know by [creating a detailed GitHub issue](https://github.com/strangerstudios/restrict-with-stripe/issues/new).
 
 ## Support ##
-This is a developer's portal for Paid Memberships Pro. We do not offer support on this channel. **Any support related questions should be directed to the[WordPress support forum](https://wordpress.org/support/plugin/restrict-with-stripe/).**
+This is a developer's portal for Paid Memberships Pro. We do not offer support on this channel. **Any support related questions should be directed to the [WordPress support forum](https://wordpress.org/support/plugin/restrict-with-stripe/).**

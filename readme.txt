@@ -2,9 +2,9 @@
 Contributors: strangerstudios, dlparker1005
 Tags: subscriptions, ecommerce, e-commerce, stripe, restrict access, restrict content
 Requires at least: 5.2
-Tested up to: 6.0.1
+Tested up to: 6.1
 Requires PHP: 5.6
-Stable tag: 0.1
+Stable tag: 1.0
 
 Integrate with Stripe to sell access to restricted posts, pages, categories, and tags.
 
@@ -59,3 +59,5 @@ You can connect to a Stripe account in test mode by adding the following line of
 `add_action( 'rwstripe_connect_in_test_mode', '__return_true' );`
 
 == Changelog ==
+= 1.0 - 2022-10-31 =
+* NOTE: Initial Release. Enjoy!
