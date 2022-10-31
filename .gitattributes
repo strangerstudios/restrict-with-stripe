@@ -2,6 +2,7 @@
 .gitattributes export-ignore
 .github export-ignore
 .gitignore export-ignore
+.wordpress-org export-ignore
 README.md export-ignore
 package.json export-ignore
 restrict-with-stripe-banner.jpg export-ignore

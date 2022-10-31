@@ -5,7 +5,7 @@
  * Version: 1.0
  * Author: Stranger Studios
  * Text Domain: restrict-with-stripe
- * License: GPLv2
+ * License: GPLv3
  */
 define( 'RWSTRIPE_VERSION', '1.0' );
 define( 'RWSTRIPE_DIR', dirname( __FILE__ ) );

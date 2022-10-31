@@ -5,7 +5,7 @@ Requires at least: 5.2
 Tested up to: 6.1
 Requires PHP: 5.6
 Stable tag: 1.0
-License: GPLv2
+License: GPLv3
 
 Integrate with Stripe to sell access to restricted posts, pages, categories, and tags.
 
