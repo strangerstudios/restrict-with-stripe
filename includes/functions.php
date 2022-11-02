@@ -143,7 +143,7 @@ function rwstripe_restricted_content_message( $product_ids ) {
 		} elseif ( is_string( $product ) ) {
 			$errors[] = $product;
 		} else {
-			$errors[] = sprintf( __( 'Product %s does not have a default price.', 'restrict-with-stripe' ), $product_id );
+			$errors[] = sprintf( esc_html__( 'Product %s does not have a default price.', 'restrict-with-stripe' ), $product_id );
 		}
 	}
 
@@ -196,7 +196,7 @@ function rwstripe_restricted_content_message( $product_ids ) {
                         'title' => array(),
                     ),
                 );
-                echo wp_kses( sprintf( __( 'Create a new account or <a href="%s">log in</a> to purchase access.', 'restrict-with-stripe' ), wp_login_url( get_permalink() ) ), $allowed_html );
+                echo wp_kses( sprintf( esc_html__( 'Create a new account or <a href="%s">log in</a> to purchase access.', 'restrict-with-stripe' ), wp_login_url( get_permalink() ) ), $allowed_html );
             ?></p>
 			<div class="rwstripe-error"></div>
 			<form class="rwstripe-register">
@@ -213,7 +213,7 @@ function rwstripe_restricted_content_message( $product_ids ) {
 				rwstripe_restricted_content_message_render_product_dropdown( $purchasable_products );
 
 				// Build text for submit button.
-				$submit_text = __('Create Account &amp; Checkout', 'restrict-with-stripe' );
+				$submit_text = esc_html__('Create Account &amp; Checkout', 'restrict-with-stripe' );
 				?>
 				<button type="submit" class="rwstripe-checkout-button"><?php echo esc_html( $submit_text ); ?></button>
 			</form>
@@ -242,7 +242,7 @@ function rwstripe_restricted_content_message( $product_ids ) {
 				rwstripe_restricted_content_message_render_product_dropdown( $purchasable_products );
 
 				// Build text for submit button.
-				$submit_text = __('Checkout Now', 'restrict-with-stripe' );
+				$submit_text = esc_html__('Checkout Now', 'restrict-with-stripe' );
 				?>
 				<button type="submit" class="rwstripe-checkout-button"><?php echo esc_html( $submit_text ); ?></button>
 			</form>
