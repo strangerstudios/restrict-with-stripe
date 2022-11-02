@@ -148,11 +148,11 @@ function rwstripe_format_price( $price, $no_html = false ) {
             $interval_count_string = $price->recurring->interval_count . ' ';
         }
         if ( empty( $no_html ) ) {
-            $formatted .= '<span class="rwstripe-price-per">' . __( 'per', 'restrict-with-stripe' ) . '</span>';
+            $formatted .= '<span class="rwstripe-price-per">' . esc_html__( 'per', 'restrict-with-stripe' ) . '</span>';
             $formatted .= '<span class="rwstripe-price-interval-count">' . $interval_count_string  . '</span>';
             $formatted .= '<span class="rwstripe-price-interval">' . $price->recurring->interval . '</span>';
         } else {
-            $formatted .= ' ' . __( 'per', 'restrict-with-stripe' );
+            $formatted .= ' ' . esc_html__( 'per', 'restrict-with-stripe' );
             $formatted .= ' ' . $interval_count_string;
             $formatted .= ' ' . $price->recurring->interval;
         }

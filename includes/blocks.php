@@ -13,7 +13,7 @@ function rwstripe_block_categories( $categories ) {
 		array(
 			array(
 				'slug' => 'rwstripe',
-				'title' => __( 'Restrict With Stripe', 'restrict-with-stripe' ),
+				'title' => esc_html__( 'Restrict With Stripe', 'restrict-with-stripe' ),
 			),
 		)
 	);

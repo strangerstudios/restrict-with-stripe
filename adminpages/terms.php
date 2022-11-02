@@ -18,9 +18,9 @@ function rwstripe_term_add_form_fields() {
 		$meta_key = rwstripe_get_meta_key( 'restricted_product_ids' );
 		if ( empty( $meta_key ) ) {
 			// Not connected to Stripe.
-			echo '<p>' . __( 'You must connect to Stripe to restrict content.', 'restrict-content-pro' ) . '</p>';
+			echo '<p>' . esc_html__( 'You must connect to Stripe to restrict content.', 'restrict-content-pro' ) . '</p>';
 		} elseif ( is_string( $products ) ) {
-			echo esc_html( __( 'Error getting products.', 'restrict-with-stripe' ) . ' ' . $products );
+			echo '<p>' . esc_html__( 'Error getting products.', 'restrict-with-stripe' ) . ' ' . esc_html( $products ) . '</p>';
 		} else {
 			// If we have lots of products, put checkboxes in a scrollable div.
 			if ( count( $products ) > 10 ) {
@@ -75,7 +75,7 @@ function rwstripe_term_edit_form_fields( $term ) {
 	// Render table row.
 	?>
 	<tr class="form-field">
-		<th scope="row"><label><?php _e( 'Restrict With Stripe', 'restrict-with-stripe' ); ?></label></th>
+		<th scope="row"><label><?php esc_html_e( 'Restrict With Stripe', 'restrict-with-stripe' ); ?></label></th>
 		<td>
 		<?php
 
@@ -85,9 +85,9 @@ function rwstripe_term_edit_form_fields( $term ) {
 		$meta_key = rwstripe_get_meta_key( 'restricted_product_ids' );
 		if ( empty( $meta_key ) ) {
 			// Not connected to Stripe.
-			echo '<p>' . __( 'You must connect to Stripe to restrict content.', 'restrict-content-pro' ) . '</p>';
+			echo '<p>' . esc_html__( 'You must connect to Stripe to restrict content.', 'restrict-content-pro' ) . '</p>';
 		} elseif ( is_string( $products ) ) {
-			echo esc_html( __( 'Error getting products.', 'restrict-with-stripe' ) . ' ' . $products );
+			echo '<p>' . esc_html__( 'Error getting products.', 'restrict-with-stripe' ) . ' ' . esc_html( $products ) . '</p>';
 		} else {
 			// Get products that are already restricted.
 			$restiction_meta = get_term_meta( $term->term_id, $meta_key, true );
@@ -151,7 +151,7 @@ function rwstripe_term_saved( $term_id ) {
 	}
 
 	// Get products that are checked.
-	$product_ids = isset( $_POST[ $meta_key ] ) ? $_POST[ $meta_key ] : array();
+	$product_ids = isset( $_POST[ $meta_key ] ) ? $_POST[ $meta_key ] : array(); // NOTE: IDs are sanitized next line.
 	$product_ids = array_map( 'sanitize_text_field', $product_ids );
 	$product_ids = array_map( 'trim', $product_ids );
 	$product_ids = array_filter( $product_ids );

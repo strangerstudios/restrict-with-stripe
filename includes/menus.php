@@ -8,7 +8,7 @@
 function rwstripe_add_nav_menu_meta_box() {
     add_meta_box(
         'rwstripe_nav_menu_meta_box',
-        __( 'Restrict With Stripe', 'restrict-with-stripe' ),
+        esc_html__( 'Restrict With Stripe', 'restrict-with-stripe' ),
         'rwstripe_nav_menu_meta_box_callback',
         'nav-menus',
         'side',
@@ -30,7 +30,7 @@ function rwstripe_nav_menu_meta_box_callback() {
 			<ul class="categorychecklist form-no-clear">
 				<li>
 					<label class="menu-item-title">
-						<input type="checkbox" class="menu-item-checkbox" name="menu-item[-1][menu-item-object-id]" value="-1"> <?php _e( 'Stripe Customer Portal', 'restrict-with-stripe'); ?>
+						<input type="checkbox" class="menu-item-checkbox" name="menu-item[-1][menu-item-object-id]" value="-1"> <?php esc_html_e( 'Stripe Customer Portal', 'restrict-with-stripe'); ?>
 					</label>
 					<input type="hidden" class="menu-item-type" name="menu-item[-1][menu-item-type]" value="custom">
 					<input type="hidden" class="menu-item-type-name" name="menu-item[-1][menu-item-type]" value="custom">

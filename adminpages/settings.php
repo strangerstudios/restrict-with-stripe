@@ -61,7 +61,7 @@ function rwstripe_handle_connect_to_stripe_response() {
 
 	if ( isset( $_REQUEST['pmpro_stripe_connected'] )  ) {
 		if ( 'false' === $_REQUEST['pmpro_stripe_connected'] && isset( $_REQUEST['error_message'] ) ) {
-			$error = $_REQUEST['error_message'];
+			$error = sanitize_text_field( $_REQUEST['error_message'] );
 		} elseif (
 			'false' === $_REQUEST['pmpro_stripe_connected']
 			|| ! isset( $_REQUEST['pmpro_stripe_publishable_key'] )
@@ -102,7 +102,7 @@ function rwstripe_handle_connect_to_stripe_response() {
 				// If we didn't find the account, add it.
 				if ( ! $updated ) {
 					$disconnected_accounts[] = array(
-						'id' => $_REQUEST['stripe_user_id'],
+						'id' => sanitize_text_field( $_REQUEST['stripe_user_id'] ),
 						'environment' => $_REQUEST['pmpro_stripe_disconnected_environment'] === 'live' ? 'live' : 'test',
 						'timestamp' => time(),
 					);
