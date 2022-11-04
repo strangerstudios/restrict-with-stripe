@@ -7,9 +7,6 @@
 function rwstripe_admin_notice_activation_hook() {
 	// Create transient data.
 	set_transient( 'rwstripe-admin-notice', true, 5 );
-	
-	// Trigger a rewrite rule flush in case the default module is on.
-	set_transient( 'rwstripe_flush_rewrite_rules', 1 );
 }
 register_activation_hook( plugin_basename( RWSTRIPE_BASE_FILE ), 'rwstripe_admin_notice_activation_hook' );
 
