@@ -151,8 +151,7 @@ function rwstripe_term_saved( $term_id ) {
 	}
 
 	// Get products that are checked.
-	$product_ids = isset( $_POST[ $meta_key ] ) ? $_POST[ $meta_key ] : array(); // NOTE: IDs are sanitized next line.
-	$product_ids = array_map( 'sanitize_text_field', $product_ids );
+	$product_ids = isset( $_POST[ $meta_key ] ) ? array_map( 'sanitize_text_field', (array) $_POST[ $meta_key ] ) : array();
 	$product_ids = array_map( 'trim', $product_ids );
 	$product_ids = array_filter( $product_ids );
 	$product_ids = array_unique( $product_ids );
