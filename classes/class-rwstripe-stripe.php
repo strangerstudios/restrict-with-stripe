@@ -315,72 +315,59 @@ class RWStripe_Stripe {
 			$product_ids = array( $product_ids );
 		}
 
-		// Get all subscriptions for the customer.
+		// Set up a variable to track errors if we get any.
+		$error = '';
+
+		// Check subscriptions for access.
 		$subscriptions = $this->get_subscriptions_for_customer( $customer_id );
 		if ( is_string( $subscriptions ) ) {
-			return __( 'Error getting subscriptions.', 'restrict-with-stripe' ) . ' ' . $subscriptions;
-		}
+			$error .= __( 'Error getting subscriptions.', 'restrict-with-stripe' ) . ' ' . $subscriptions;
+		} else {
+			// Check if the customer has an active subscription for any of the products.
+			foreach( $subscriptions as $subscription ) {
+				// Make sure that the subscription is active or trialing.
+				if ( $subscription->status !== 'active' && $subscription->status !== 'trialing' ) {
+					continue;
+				}
 
-		// Check if the customer has an active subscription for any of the products.
-		foreach( $subscriptions as $subscription ) {
-			// Make sure that the subscription is active or trialing.
-			if ( $subscription->status !== 'active' && $subscription->status !== 'trialing' ) {
-				continue;
-			}
-
-			// Check if the subscription has any of the product IDs.
-			foreach ( $subscription->items as $item ) {
-				if ( in_array( $item->price->product, $product_ids ) ) {
-					return true;
+				// Check if the subscription has any of the product IDs.
+				foreach ( $subscription->items as $item ) {
+					if ( in_array( $item->price->product, $product_ids ) ) {
+						return true;
+					}
 				}
 			}
 		}
 
-		return false;
-	}
-
-	/**
-	 * Get a $0 reccurring price for the given product.
-	 * If one does not exist, create it.
-	 *
-	 * @since 1.0
-	 *
-	 * @param string $product_id Product to get free recurring price for.
-	 * @param string $currency   Currency to get price in.
-	 * @return Stripe\Price|string Stripe\Price object or error message.
-	 */
-	private function get_free_recurring_price_for_product( $product_id, $currency ) {
-		// Look for an existing price for the product.
-		$prices = $this->get_all_prices();
-		if ( is_string( $prices ) ) {
-			return 'Could not get prices. ' . $prices;
-		}
-		foreach ( $prices as $price ) {
-			if ( $price->product === $product_id &&
-				$price->unit_amount === 0 &&
-				$price->currency === $currency &&
-				$price->type === 'recurring' &&
-				$price->active
-			) {
-				return $price;
-			}
-		}
-
-		// No exising price found, create a new one.
+		// Check one-time payment invoices for access.
 		try {
-			$price = Stripe\Price::create( array(
-				'product' => $product_id,
-				'unit_amount' => 0,
-				'currency' => $currency,
-				'recurring' => array(
-					'interval' => 'year',
-					'interval_count' => 1,
-				),
-			) );
+			$invoices = Stripe\Invoice::all( array( 'customer' => $customer_id, 'status' => 'paid' ) );
+			foreach ( $invoices as $invoice ) {
+				// If the invoice is part of a subscription, ignore it.
+				if ( ! empty( $invoice->subscription ) ) {
+					continue;
+				}
+
+				// Check if we are ignoring this invoice.
+				if ( ! empty( $invoice->metadata ) && ! empty( $invoice->metadata['rwstripe-ignore'] ) ) {
+					continue;
+				}
+
+				// Check if the invoice has any of the product IDs.
+				foreach ( $invoice->lines as $line ) {
+					if ( in_array( $line->price->product, $product_ids ) ) {
+						return true;
+					}
+				}
+			}
 		} catch ( Exception $e ) {
-			return $e->getMessage();
+			if ( ! empty( $error ) ) {
+				$error .= ' ';
+			}
+			$error .= __( 'Error getting invoices.', 'restrict-with-stripe' ) . ' ' . $e->getMessage();
 		}
-		return $price;
+
+		return empty( $error ) ? false : $error;
 	}
 
 	/**
@@ -407,30 +394,29 @@ class RWStripe_Stripe {
 			),
 		);
 
-		// If price is a one-time payment, we also want to set up a free subscription to track access.
-		if ( $price['type'] !== 'recurring' ) {
-			$free_price = $this->get_free_recurring_price_for_product( $price['product'], $price['currency'] );
-			if ( is_string( $free_price ) ) {
-				// Can't send user to checkout, access would not be given after payment.
-				return 'Could not create free recurring price. ' . $free_price;
-			}
-			$line_items[] = array(
-				'price' => $free_price['id'],
-				'quantity' => 1,
-			);
-		}
-		
+		// Set up checkout session params.
 		$checkout_session_params = array(
 			'customer' => $customer_id,
 			'line_items' => $line_items,
-			'mode' => 'subscription',
 			'success_url' => $redirect_url,
 			'cancel_url' => $redirect_url,
-			'subscription_data' => array(
-				'application_fee_percent' => 2,
-			),
-			'payment_method_collection' => 'if_required',
 		);
+
+		if ( $price['type'] === 'recurring' ) {
+			// If price is recurring, set up subscription params.
+			$checkout_session_params['mode'] = 'subscription';
+			$checkout_session_parmas['subscription_data'] = array(
+				'application_fee_percent' => 2,
+			);
+			$checkout_session_params['payment_method_collection']['enabled'] = true;
+		} else {
+			// If price is one-time, set up payment params.
+			$checkout_session_params['mode'] = 'payment';
+			$checkout_session_params['payment_intent_data'] = array(
+				'application_fee_amount' => floor( $price['amount'] * 0.02 ),
+			);
+			$checkout_session_params['invoice_creation']['enabled'] = true;
+		}
 
 		try {
 			return \Stripe\Checkout\Session::create( $checkout_session_params );
