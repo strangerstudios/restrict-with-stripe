@@ -196,7 +196,7 @@ function rwstripe_restricted_content_message( $product_ids ) {
                         'title' => array(),
                     ),
                 );
-                echo wp_kses( sprintf( esc_html__( 'Create a new account or <a href="%s">log in</a> to purchase access.', 'restrict-with-stripe' ), wp_login_url( get_permalink() ) ), $allowed_html );
+                echo wp_kses( sprintf( __( 'Create a new account or <a href="%s">log in</a> to purchase access.', 'restrict-with-stripe' ), wp_login_url( get_permalink() ) ), $allowed_html );
             ?></p>
 			<div class="rwstripe-error"></div>
 			<form class="rwstripe-register">
