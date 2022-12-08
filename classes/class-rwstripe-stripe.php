@@ -1,6 +1,6 @@
 <?php
 
-define( "RWSTRIPE_STRIPE_API_VERSION", "2020-03-02" );
+define( "RWSTRIPE_STRIPE_API_VERSION", "2022-11-15" );
 
 class RWStripe_Stripe {
 
