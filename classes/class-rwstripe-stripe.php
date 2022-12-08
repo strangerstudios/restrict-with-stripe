@@ -408,7 +408,7 @@ class RWStripe_Stripe {
 			$checkout_session_parmas['subscription_data'] = array(
 				'application_fee_percent' => 2,
 			);
-			$checkout_session_params['payment_method_collection']['enabled'] = true;
+			$checkout_session_params['payment_method_collection'] = 'if_required';
 		} else {
 			// If price is one-time, set up payment params.
 			$checkout_session_params['mode'] = 'payment';
