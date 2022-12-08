@@ -111,56 +111,49 @@ function rwstripe_format_price( $price, $no_html = false ) {
         $currency_format = array_merge( $currency_format, $rwstripe_currency_variations[ strtoupper( $price->currency ) ] );
     }
 
-    // The return string.
-    $formatted = '';
+    // The return string. Wrapped in a div for styling.
+    $formatted = '<div class="rwstripe-price">';
 
-    // Wrap in a div for styling.
-    if ( empty( $no_html ) ) {
-        $formatted .= '<div class="rwstripe-price">';
-    }
-
-    // Format the numerical value.
-    $format_number = number_format(
-        (float) $price->unit_amount / (float) pow( 10, $currency_format['decimals'] ),
-        $currency_format['decimals'],
-        $currency_format['decimal_separator'],
-        $currency_format['thousands_separator']
-    );
-
-    // which side is the symbol on?
-    if ( $currency_format['position'] == 'left' ) {
-        $format_number = $currency_format['symbol'] . $format_number;
+    if ( ! empty( $price->custom_unit_amount ) ) {
+        // User gets to choose price.
+        $formatted .= '<span class="rwstripe-price-unit">' . esc_html__( 'Pay what you want', 'restrict-with-stripe' ) . '</span>';
     } else {
-        $format_number = $format_number . $currency_format['symbol'];
-    }
+        // Price is fixed. Format the numerical value.
 
-    // Trim empty decimals off the end.
-    if ( ! empty( $no_html ) ) {
-        $formatted .= preg_replace( '/' . preg_quote( $currency_format['decimal_separator'], '/' ) . '0+$/', '', $format_number );
-    } else {
-        $formatted .= '<span class="rwstripe-price-unit">' . preg_replace( '/' . preg_quote( $currency_format['decimal_separator'], '/' ) . '0+$/', '', $format_number ) . '</span>';
-    }
+        $format_number = number_format(
+            (float) $price->unit_amount / (float) pow( 10, $currency_format['decimals'] ),
+            $currency_format['decimals'],
+            $currency_format['decimal_separator'],
+            $currency_format['thousands_separator']
+        );
 
-    // If this is a recurring price, append that information.
-    if ( $price->recurring ) {
-        $interval_count_string = '';
-        if ( intval( $price->recurring->interval_count ) > 1 ) {
-            $interval_count_string = $price->recurring->interval_count . ' ';
+        // which side is the symbol on?
+        if ( $currency_format['position'] == 'left' ) {
+            $format_number = $currency_format['symbol'] . $format_number;
+        } else {
+            $format_number = $format_number . $currency_format['symbol'];
         }
-        if ( empty( $no_html ) ) {
+
+        // Trim empty decimals off the end.
+        $formatted .= '<span class="rwstripe-price-unit">' . preg_replace( '/' . preg_quote( $currency_format['decimal_separator'], '/' ) . '0+$/', '', $format_number ) . '</span>';
+
+        // If this is a recurring price, append that information.
+        if ( $price->recurring ) {
+            $interval_count_string = '';
+            if ( intval( $price->recurring->interval_count ) > 1 ) {
+                $interval_count_string = $price->recurring->interval_count . ' ';
+            }
             $formatted .= '<span class="rwstripe-price-per">' . esc_html__( 'per', 'restrict-with-stripe' ) . '</span>';
             $formatted .= '<span class="rwstripe-price-interval-count">' . $interval_count_string  . '</span>';
             $formatted .= '<span class="rwstripe-price-interval">' . $price->recurring->interval . '</span>';
-        } else {
-            $formatted .= ' ' . esc_html__( 'per', 'restrict-with-stripe' );
-            $formatted .= ' ' . $interval_count_string;
-            $formatted .= ' ' . $price->recurring->interval;
         }
     }
 
-    if ( empty( $no_html ) ) {
-        // Close the wrapping div.
-        $formatted .= '</div>';
+    $formatted .= '</div>';
+
+    // Strip HTML if requested.
+    if ( ! empty( $no_html ) ) {
+        $formatted = strip_tags( $formatted );
     }
 
     return $formatted;
