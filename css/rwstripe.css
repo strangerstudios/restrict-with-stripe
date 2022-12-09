@@ -29,6 +29,7 @@
 	font-weight: 400;
 	justify-content: center;
 	line-height: 22px;
+	margin: 40px 0;
 	padding: 40px;
 }
 .rwstripe-checkout > * {
@@ -62,6 +63,28 @@
 	text-transform: none;
 	text-rendering: auto;
 	vertical-align: text-bottom;
+}
+.rwstripe-checkout button.rwstripe-checkout-button {
+	background-color: #32325d;
+	border: none;
+	border-radius: 4px;
+	color: #FFF;
+	cursor: pointer;
+	display: inline-block;
+	font-size: 16px;
+	font-weight: 700;
+	height: 40px;
+	max-width: 380px;
+	padding: 0 14px;
+	text-decoration: none;
+	-webkit-transition: all .15s ease;
+	transition: all .15s ease;
+	white-space: nowrap;
+	width: 100%;
+}
+.rwstripe-checkout button.rwstripe-checkout-button:hover {
+	background-color: #3b3c79;
+	transform: translateY(-1px);
 }
 
 /**
@@ -113,7 +136,7 @@
 	padding: 0 14px;
 	width: 100%;
 }
-.rwstripe-register select {
+.rwstripe-register select.rwstripe-select-product {
 	background-color: #FFF;
 	border: 1px solid #DFDFDF;
 	border-radius: 4px;
@@ -128,28 +151,6 @@
 }
 .rwstripe-register option {
 	padding-left: 14px;
-}
-.rwstripe-register button {
-	background-color: #32325d;
-	border: none;
-	border-radius: 4px;
-	color: #FFF;
-	cursor: pointer;
-	display: inline-block;
-	font-size: 16px;
-	font-weight: 700;
-	height: 40px;
-	max-width: 380px;
-	padding: 0 14px;
-	text-decoration: none;
-	-webkit-transition: all .15s ease;
-    transition: all .15s ease;
-	white-space: nowrap;
-	width: 100%;
-}
-.rwstripe-register button:hover {
-	background-color: #3b3c79;
-	transform: translateY(-1px);
 }
 .rwstripe-error {
 	width: 100%;
@@ -173,8 +174,6 @@
 /**
  * Category or tag restriction message
  */
-.rwstripe-term-restriction-message {
-	text-align: center;
-	margin: auto;
-	width: 610px;
+.rwstripe-term-restricted .rwstripe-checkout {
+	margin-top: 0;
 }

@@ -265,7 +265,7 @@ function rwstripe_restricted_content_message_render_product_dropdown( $purchasab
 	if ( count( $purchasable_products ) > 1 ) {
 		$RWStripe_Stripe = RWStripe_Stripe::get_instance();
 		?>
-		<select name="rwstripe-product-id">
+		<select class="rwstripe-select-product" name="rwstripe-product-id">
 			<option value="">-- <?php esc_html_e( 'Choose one', 'restrict_with_stripe' ); ?> --</option>
 			<?php
 			foreach ( $purchasable_products as $product ) {
