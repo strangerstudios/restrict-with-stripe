@@ -139,13 +139,11 @@ function rwstripe_format_price( $price, $no_html = false ) {
 
         // If this is a recurring price, append that information.
         if ( $price->recurring ) {
-            $interval_count_string = '';
+            $formatted .= ' <span class="rwstripe-price-per">' . esc_html__( 'per', 'restrict-with-stripe' ) . '</span>';
             if ( intval( $price->recurring->interval_count ) > 1 ) {
-                $interval_count_string = $price->recurring->interval_count . ' ';
+                $formatted .= ' <span class="rwstripe-price-interval-count">' . $price->recurring->interval_count  . '</span>';
             }
-            $formatted .= '<span class="rwstripe-price-per">' . esc_html__( 'per', 'restrict-with-stripe' ) . '</span>';
-            $formatted .= '<span class="rwstripe-price-interval-count">' . $interval_count_string  . '</span>';
-            $formatted .= '<span class="rwstripe-price-interval">' . $price->recurring->interval . '</span>';
+            $formatted .= ' <span class="rwstripe-price-interval">' . $price->recurring->interval . '</span>';
         }
     }
 
