@@ -405,7 +405,7 @@ class RWStripe_Stripe {
 		if ( $price['type'] === 'recurring' ) {
 			// If price is recurring, set up subscription params.
 			$checkout_session_params['mode'] = 'subscription';
-			$checkout_session_parmas['subscription_data'] = array(
+			$checkout_session_params['subscription_data'] = array(
 				'application_fee_percent' => 2,
 			);
 			$checkout_session_params['payment_method_collection'] = 'if_required';
@@ -413,7 +413,7 @@ class RWStripe_Stripe {
 			// If price is one-time, set up payment params.
 			$checkout_session_params['mode'] = 'payment';
 			$checkout_session_params['payment_intent_data'] = array(
-				'application_fee_amount' => floor( $price['amount'] * 0.02 ),
+				'application_fee_amount' => floor( $price['unit_amount'] * 0.02 ),
 			);
 			$checkout_session_params['invoice_creation']['enabled'] = true;
 		}
