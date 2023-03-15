@@ -67,7 +67,6 @@ class App extends Component {
     componentDidMount() {
         // Load site settings.
         apiFetch({ path: '/wp/v2/settings' }).then((settings) => {
-            console.log(settings);
             if ( settings.hasOwnProperty( 'rwstripe_show_excerpts' ) ) {
                 this.setState({
                     rwstripe_show_excerpts: settings.rwstripe_show_excerpts,
@@ -309,8 +308,8 @@ class App extends Component {
                                     path: '/wp/v2/settings',
                                     method: 'POST',
                                     data: {
-                                        rwstripe_show_excerpts: rwstripe_show_excerpts,
-                                        rwstripe_collect_password: rwstripe_collect_password,
+                                        rwstripe_show_excerpts: Boolean(rwstripe_show_excerpts),
+                                        rwstripe_collect_password: Boolean(rwstripe_collect_password),
                                     },
                                 }).then((res) => {
                                     dispatch('core/notices').createNotice(
