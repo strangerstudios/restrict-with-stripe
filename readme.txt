@@ -4,7 +4,7 @@ Tags: subscriptions, ecommerce, e-commerce, stripe, restrict access, restrict co
 Requires at least: 5.2
 Tested up to: 6.1
 Requires PHP: 5.6
-Stable tag: 1.0.4
+Stable tag: 1.0.5
 License: GPLv3
 
 Integrate with Stripe to sell access to restricted posts, pages, categories, and tags.
@@ -60,6 +60,10 @@ You can connect to a Stripe account in test mode by adding the following line of
 `add_action( 'rwstripe_connect_in_test_mode', '__return_true' );`
 
 == Changelog ==
+= 1.0.5 - 2023-03-21 =
+* ENHANCEMENT: Stripe Customer ID can now be added when creating a user.
+* ENHANCEMENT: Stripe Customer ID can now be edited when editing a user.
+
 = 1.0.4 - 2023-03-15 =
 * BUG FIX: Fixed issue where advanced settings may not be saved correctly.
 * BUG FIX: Fixed issue where application fee may not be calculated correctly.
