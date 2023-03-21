@@ -2,14 +2,14 @@
 # This file is distributed under the GPLv3.
 msgid ""
 msgstr ""
-"Project-Id-Version: Restrict With Stripe 1.0.4\n"
+"Project-Id-Version: Restrict With Stripe 1.0.5\n"
 "Report-Msgid-Bugs-To: info@paidmembershipspro.com\n"
 "Last-Translator: Paid Memberships Pro <info@paidmembershipspro.com>\n"
 "Language-Team: Paid Memberships Pro <info@paidmembershipspro.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2023-03-15T13:31:10+00:00\n"
+"POT-Creation-Date: 2023-03-21T16:21:46+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.7.1\n"
 "X-Domain: restrict-with-stripe\n"
@@ -25,6 +25,7 @@ msgstr ""
 #: adminpages/terms.php:78
 #: includes/menus.php:11
 #: blocks/src/sidebar/index.js:120
+#: adminpages/profile.php:120
 msgid "Restrict With Stripe"
 msgstr ""
 
@@ -43,6 +44,7 @@ msgstr ""
 
 #: adminpages/profile.php:29
 #: adminpages/profile.php:38
+#: adminpages/profile.php:41
 msgid "View Stripe Customer"
 msgstr ""
 
@@ -807,4 +809,12 @@ msgstr ""
 
 #: includes/currencies.php:119
 msgid "Pay what you want"
+msgstr ""
+
+#: adminpages/profile.php:121
+msgid "If you would like to link this new user to an existing Stripe Customer, you can enter the Stripe Customer ID here."
+msgstr ""
+
+#: adminpages/profile.php:125
+msgid "Stripe Customer ID"
 msgstr ""
