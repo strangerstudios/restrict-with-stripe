@@ -29,7 +29,10 @@ function rwstripe_edit_user_profile( $user ) {
 			<tbody>
 				<tr>
 					<th><?php esc_html_e( 'Customer ID', 'restrict-with-stripe' ); ?></th>
-					<td><code><?php echo esc_html( $customer_id ); ?></code></td>
+					<td>
+						<code><?php echo esc_html( $customer_id ); ?></code>
+						<input type="input" style="display: none;" name="<?php echo esc_attr( $meta_key ); ?>" value="<?php echo esc_attr( $customer_id ); ?>" />
+						<a href="javascript:void(0);" id="rwstripe_edit_customer_id"><?php esc_html_e( 'edit', 'restrict-with_stripe' ); ?></a></td>
 				</tr>
 				<?php
 					if ( ! empty( $customer_id ) ) {
@@ -96,3 +99,55 @@ function rwstripe_user_email_change( $user_id, $old_user ) {
 	}
 }
 add_action( 'profile_update', 'rwstripe_user_email_change', 10, 2 );
+
+/**
+ * When creating a new user, give the option to set the Stripe Customer ID.
+ *
+ * @since 1.0.5
+ */
+function rwstripe_user_new_form() {
+	if ( ! current_user_can( 'manage_options' ) ) {
+		return;
+	}
+
+	$meta_key = rwstripe_get_meta_key( 'customer_id' );
+	if ( empty( $meta_key ) ) {
+		// We are not connected to a Stripe account.
+		return;
+	}
+
+	?>
+	<h2><?php esc_html_e( 'Restrict With Stripe', 'restrict-with-stripe' ); ?></h2>
+	<p><?php esc_html_e( 'If you would like to link this new user to an existing Stripe Customer, you can enter the Stripe Customer ID here.', 'restrict-with-stripe' ); ?></p>
+	<table class="form-table">
+		<tbody>
+			<tr>
+				<th><?php esc_html_e( 'Stripe Customer ID', 'restrict-with-stripe' ); ?></th>
+				<td>
+					<input type="input" name="<?php echo esc_attr( $meta_key ); ?>" value="" />
+				</td>
+			</tr>
+		</tbody>
+	</table>
+	<?php
+}
+add_action( 'user_new_form', 'rwstripe_user_new_form' );
+
+/**
+ * When creating a new user, save the Stripe Customer ID.
+ *
+ * @since 1.0.5
+ *
+ * @param int $user_id ID of user being created.
+ */
+function rwstripe_user_new_form_save( $user_id ) {
+	if ( ! current_user_can( 'manage_options' ) ) {
+		return;
+	}
+
+	$meta_key = rwstripe_get_meta_key( 'customer_id' );
+	if ( ! empty( $meta_key ) && isset( $_REQUEST[ $meta_key ] ) ) {
+		update_user_meta( $user_id, $meta_key, sanitize_text_field( $_REQUEST[ $meta_key ] ) );
+	}
+}
+add_action( 'user_register', 'rwstripe_user_new_form_save' );

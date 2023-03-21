@@ -38,6 +38,13 @@ add_action( 'wp_enqueue_scripts', 'rwstripe_enqueue_scripts' );
  */
 function rwstripe_enqueue_admin_scripts() {
 	global $rwstripe_connection_error;
+	// Enqueue general admin script.
+	wp_enqueue_script(
+		'rwstripe-admin',
+		plugins_url( 'js/rwstripe-admin.js', RWSTRIPE_BASE_FILE ),
+		array( 'jquery' ),
+		RWSTRIPE_VERSION
+	);
 
 	// Enqueue script for settings page.
 	wp_enqueue_script(
