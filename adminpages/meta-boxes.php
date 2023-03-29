@@ -4,7 +4,7 @@
  * Display Restrict With Stripe meta box.
  * Will show in classic editor.
  *
- * @since TBD
+ * @since 1.0.6
  */
 function rwstripe_meta_box() {
     global $post;
@@ -64,7 +64,7 @@ function rwstripe_meta_box() {
 /**
  * Save Restrict With Stripe meta box.
  *
- * @since TBD
+ * @since 1.0.6
  */
 function rwstripe_save_meta_box() {
     global $post;
@@ -94,7 +94,7 @@ function rwstripe_save_meta_box() {
 /**
  * Wrapper to add meta boxes.
  *
- * @since TBD
+ * @since 1.0.6
  */
 function rwstripe_meta_box_wrapper() {
 	add_meta_box( 'rwstripe_meta_box', __( 'Restrict With Stripe', 'restrict-with-stripe' ), 'rwstripe_meta_box', 'page', 'side', 'high' );
