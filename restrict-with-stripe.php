@@ -21,6 +21,7 @@ require_once( RWSTRIPE_DIR . '/adminpages/settings.php' ); // Set up settings pa
 require_once( RWSTRIPE_DIR . '/adminpages/profile.php' );  // Add settings for admin profile page.
 require_once( RWSTRIPE_DIR . '/adminpages/terms.php' ); // Allow restricting terms.
 require_once( RWSTRIPE_DIR . '/adminpages/plugins.php' ); // Add links to settings on plugins page.
+require_once( RWSTRIPE_DIR . '/adminpages/meta-boxes.php' ); // Add meta boxes to posts and pages.
 
 require_once( RWSTRIPE_DIR . '/includes/functions.php' ); // Declare common functions.
 require_once( RWSTRIPE_DIR . '/includes/content.php' );   // Filter content to be shown in frontend
