@@ -92,15 +92,18 @@ function rwstripe_save_meta_box() {
 }
 
 /**
- * Wrapper to add meta boxes.
+ * Wrapper to add meta boxes for classic editor.
  *
  * @since 1.0.6
  */
 function rwstripe_meta_box_wrapper() {
+    // If the block editor is being used, skip adding the meta boxes.
+	$current_screen = get_current_screen();
+	if ( method_exists( $current_screen, 'is_block_editor' ) && $current_screen->is_block_editor() ) {
+		return;
+	}
+	add_action( 'save_post', 'rwstripe_save_meta_box' );
 	add_meta_box( 'rwstripe_meta_box', __( 'Restrict With Stripe', 'restrict-with-stripe' ), 'rwstripe_meta_box', 'page', 'side', 'high' );
 	add_meta_box( 'rwstripe_meta_box', __( 'Restrict With Stripe', 'restrict-with-stripe' ), 'rwstripe_meta_box', 'post', 'side', 'high' );
 }
-if ( is_admin() ) {
-	add_action( 'admin_menu', 'rwstripe_meta_box_wrapper' );
-	add_action( 'save_post', 'rwstripe_save_meta_box' );
-}
+add_action( 'current_screen', 'rwstripe_meta_box_wrapper' );
