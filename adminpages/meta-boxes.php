@@ -25,6 +25,11 @@ function rwstripe_meta_box() {
             $restriction_meta = array();
         }
 
+        // If we don't have any products, show a message.
+        if ( empty( $products ) ) {
+            echo '<p>' . esc_html__( 'No products found. Please create a product in Stripe.', 'restrict-with-stripe' ) . '</p>';
+        }
+
         // If we have lots of products, put checkboxes in a scrollable div.
         if ( count( $products ) > 10 ) {
             ?>
@@ -55,6 +60,8 @@ function rwstripe_meta_box() {
             </div>
             <?php
         }
+
+        ?><p><a href="<?php echo esc_url( rwstripe_get_dashboard_link() . 'products/?active=true' ); ?>" target="_blank"><?php esc_html_e( 'Manage Products in Stripe', 'restrict-with-stripe' ); ?></a></p><?php
 
         // Add a nonce field so we can check for it later.
         wp_nonce_field( 'rwstripe_save_meta_box', 'rwstripe_meta_box_nonce' );

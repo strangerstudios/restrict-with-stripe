@@ -22,6 +22,11 @@ function rwstripe_term_add_form_fields() {
 		} elseif ( is_string( $products ) ) {
 			echo '<p>' . esc_html__( 'Error getting products.', 'restrict-with-stripe' ) . ' ' . esc_html( $products ) . '</p>';
 		} else {
+			// If we don't have any products, show a message.
+			if ( empty( $products ) ) {
+				echo '<p>' . esc_html__( 'No products found. Please create a product in Stripe.', 'restrict-with-stripe' ) . '</p>';
+			}
+
 			// If we have lots of products, put checkboxes in a scrollable div.
 			if ( count( $products ) > 10 ) {
 				?>
@@ -93,6 +98,11 @@ function rwstripe_term_edit_form_fields( $term ) {
 			$restiction_meta = get_term_meta( $term->term_id, $meta_key, true );
 			if ( ! is_array( $restiction_meta ) ) {
 				$restiction_meta = array();
+			}
+
+			// If we don't have any products, show a message.
+			if ( empty( $products ) ) {
+				echo '<p>' . esc_html__( 'No products found. Please create a product in Stripe.', 'restrict-with-stripe' ) . '</p>';
 			}
 
 			// If we have lots of products, put checkboxes in a scrollable div.
