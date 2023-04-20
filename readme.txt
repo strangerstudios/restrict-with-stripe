@@ -2,9 +2,9 @@
 Contributors: strangerstudios, dlparker1005
 Tags: subscriptions, ecommerce, e-commerce, stripe, restrict access, restrict content
 Requires at least: 5.2
-Tested up to: 6.1
+Tested up to: 6.2
 Requires PHP: 5.6
-Stable tag: 1.0.6
+Stable tag: 1.0.7
 License: GPLv3
 
 Integrate with Stripe to sell access to restricted posts, pages, categories, and tags.
@@ -60,6 +60,11 @@ You can connect to a Stripe account in test mode by adding the following line of
 `add_action( 'rwstripe_connect_in_test_mode', '__return_true' );`
 
 == Changelog ==
+= 1.0.7 - 2023-04-20 =
+* BUG FIX/ENHANCEMENT: Now showing link to manage Stripe products in classic editor.
+* BUG FIX/ENHANCEMENT: Now showing "No products found" message when applicable in classic editor and terms pages.
+* BUG FIX: Fixed duplicated settings in block editor.
+
 = 1.0.6 - 2023-03-29 =
 * ENHANCEMENT: Post restrictions can now be set in classic editor.
 
