@@ -2,24 +2,26 @@
 # This file is distributed under the GPLv3.
 msgid ""
 msgstr ""
-"Project-Id-Version: Restrict With Stripe 1.0.6\n"
+"Project-Id-Version: Restrict With Stripe 1.0.7\n"
 "Report-Msgid-Bugs-To: info@paidmembershipspro.com\n"
 "Last-Translator: Paid Memberships Pro <info@paidmembershipspro.com>\n"
 "Language-Team: Paid Memberships Pro <info@paidmembershipspro.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2023-03-21T16:21:46+00:00\n"
+"POT-Creation-Date: 2023-04-20T13:56:00+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.7.1\n"
 "X-Domain: restrict-with-stripe\n"
 
 #. Plugin Name of the plugin
+#: adminpages/meta-boxes.php:113
+#: adminpages/meta-boxes.php:114
 #: adminpages/profile.php:27
 #: adminpages/profile.php:120
 #: adminpages/settings.php:9
 #: adminpages/terms.php:12
-#: adminpages/terms.php:78
+#: adminpages/terms.php:83
 #: includes/blocks.php:16
 #: includes/menus.php:11
 #: blocks/build/sidebar/index.js:1
@@ -33,6 +35,37 @@ msgstr ""
 
 #. Author of the plugin
 msgid "Stranger Studios"
+msgstr ""
+
+#: adminpages/meta-boxes.php:20
+#: adminpages/terms.php:23
+#: adminpages/terms.php:95
+msgid "Error getting products."
+msgstr ""
+
+#: adminpages/meta-boxes.php:30
+#: adminpages/terms.php:27
+#: adminpages/terms.php:105
+#: blocks/build/sidebar/index.js:1
+#: blocks/src/sidebar/index.js:104
+msgid "No products found. Please create a product in Stripe."
+msgstr ""
+
+#: adminpages/meta-boxes.php:49
+#: adminpages/terms.php:46
+#: adminpages/terms.php:124
+#: blocks/build/sidebar/index.js:1
+#: blocks/src/sidebar/index.js:35
+msgid "no default price set"
+msgstr ""
+
+#: adminpages/meta-boxes.php:64
+#: adminpages/terms.php:61
+#: adminpages/terms.php:138
+#: blocks/build/sidebar/index.js:1
+#: blocks/src/sidebar/index.js:105
+#: blocks/src/sidebar/index.js:114
+msgid "Manage Products in Stripe"
 msgstr ""
 
 #: adminpages/plugins.php:24
@@ -82,26 +115,6 @@ msgstr ""
 #: adminpages/settings.php:72
 #: adminpages/settings.php:85
 msgid "Invalid response from the Stripe Connect server."
-msgstr ""
-
-#: adminpages/terms.php:23
-#: adminpages/terms.php:90
-msgid "Error getting products."
-msgstr ""
-
-#: adminpages/terms.php:41
-#: adminpages/terms.php:114
-#: blocks/build/sidebar/index.js:1
-#: blocks/src/sidebar/index.js:35
-msgid "no default price set"
-msgstr ""
-
-#: adminpages/terms.php:56
-#: adminpages/terms.php:128
-#: blocks/build/sidebar/index.js:1
-#: blocks/src/sidebar/index.js:105
-#: blocks/src/sidebar/index.js:114
-msgid "Manage Products in Stripe"
 msgstr ""
 
 #: classes/class-rwstripe-stripe.php:243
@@ -433,11 +446,6 @@ msgstr ""
 #: blocks/build/sidebar/index.js:1
 #: blocks/src/sidebar/index.js:54
 msgid "Select products to restrict by"
-msgstr ""
-
-#: blocks/build/sidebar/index.js:1
-#: blocks/src/sidebar/index.js:104
-msgid "No products found. Please create a product in Stripe."
 msgstr ""
 
 #: blocks/build/sidebar/index.js:1
