@@ -4,7 +4,7 @@ Tags: subscriptions, ecommerce, e-commerce, stripe, restrict access, restrict co
 Requires at least: 5.2
 Tested up to: 6.2
 Requires PHP: 5.6
-Stable tag: 1.0.7
+Stable tag: 1.0.8
 License: GPLv3
 
 Integrate with Stripe to sell access to restricted posts, pages, categories, and tags.
@@ -60,6 +60,9 @@ You can connect to a Stripe account in test mode by adding the following line of
 `add_action( 'rwstripe_connect_in_test_mode', '__return_true' );`
 
 == Changelog ==
+= 1.0.8 - 2023-06-08 =
+* ENHANCEMENT: Changing `the_content` filter priority to 15 to allow other plugins to run before the content is restricted. Adds compatibility with plugins like Elementor.
+
 = 1.0.7 - 2023-04-20 =
 * BUG FIX/ENHANCEMENT: Now showing link to manage Stripe products in classic editor.
 * BUG FIX/ENHANCEMENT: Now showing "No products found" message when applicable in classic editor and terms pages.

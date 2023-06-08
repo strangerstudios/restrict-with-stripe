@@ -1,6 +1,6 @@
 {
 	"name": "restrict-with-stripe",
-	"version": "1.0.7",
+	"version": "1.0.8",
 	"description": "Restrict WordPress content with Stripe",
 	"author": "Stranger Studios",
 	"license": "GPL-2.0-or-later",
