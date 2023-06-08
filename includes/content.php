@@ -80,9 +80,9 @@ function rwstripe_the_content( $content ) {
 	}
 	return $content;
 }
-add_filter( 'the_content', 'rwstripe_the_content', 5 );
-add_filter( 'the_content_rss', 'rwstripe_the_content', 5 );
-add_filter( 'comment_text_rss', 'rwstripe_the_content', 5 );
+add_filter( 'the_content', 'rwstripe_the_content', 15 );
+add_filter( 'the_content_rss', 'rwstripe_the_content', 15 );
+add_filter( 'comment_text_rss', 'rwstripe_the_content', 15 );
 
 /**
  * Do not restrict the excerpt.
@@ -93,7 +93,7 @@ add_filter( 'comment_text_rss', 'rwstripe_the_content', 5 );
  * @return string $content The new content to show.
  */
 function rwstripe_get_the_excerpt_start( $content ) {	
-	remove_filter('the_content', 'rwstripe_the_content', 5);		
+	remove_filter('the_content', 'rwstripe_the_content', 15);		
 	return $content;
 }
 add_filter('get_the_excerpt', 'rwstripe_get_the_excerpt_start', 1);
@@ -107,7 +107,7 @@ add_filter('get_the_excerpt', 'rwstripe_get_the_excerpt_start', 1);
  * @return string $content The new content to show.
  */
 function rwstripe_get_the_excerpt_end($content, $skipcheck = false) {	
-	add_filter('the_content', 'rwstripe_the_content', 5);		
+	add_filter('the_content', 'rwstripe_the_content', 15);		
 	return $content;
 }
 add_filter('get_the_excerpt', 'rwstripe_get_the_excerpt_end', 100);
