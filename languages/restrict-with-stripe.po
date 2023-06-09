@@ -2,14 +2,14 @@
 # This file is distributed under the GPLv3.
 msgid ""
 msgstr ""
-"Project-Id-Version: Restrict With Stripe 1.0.8\n"
+"Project-Id-Version: Restrict With Stripe 1.0.9\n"
 "Report-Msgid-Bugs-To: info@paidmembershipspro.com\n"
 "Last-Translator: Paid Memberships Pro <info@paidmembershipspro.com>\n"
 "Language-Team: Paid Memberships Pro <info@paidmembershipspro.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2023-06-08T18:32:45+00:00\n"
+"POT-Creation-Date: 2023-06-09T16:21:45+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.8.1\n"
 "X-Domain: restrict-with-stripe\n"
@@ -85,11 +85,14 @@ msgstr ""
 #: includes/functions.php:79
 #: includes/functions.php:173
 #: includes/functions.php:224
+#: includes/functions.php:174
+#: includes/functions.php:225
 msgid "Purchase Access"
 msgstr ""
 
 #: includes/functions.php:80
 #: includes/functions.php:169
+#: includes/functions.php:170
 msgid "This product is not purchasable."
 msgstr ""
 
@@ -525,18 +528,23 @@ msgstr ""
 
 #: includes/functions.php:178
 #: includes/functions.php:228
+#: includes/functions.php:179
+#: includes/functions.php:229
 msgid "Complete checkout now to access everything in %s."
 msgstr ""
 
 #: includes/functions.php:199
+#: includes/functions.php:200
 msgid "Create a new account or <a href=\"%s\">log in</a> to purchase access."
 msgstr ""
 
 #: includes/functions.php:216
+#: includes/functions.php:217
 msgid "Create Account &amp; Checkout"
 msgstr ""
 
 #: includes/functions.php:245
+#: includes/functions.php:246
 msgid "Checkout Now"
 msgstr ""
 
