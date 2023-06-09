@@ -149,6 +149,17 @@ function rwstripe_format_price( $price, $no_html = false ) {
 
     $formatted .= '</div>';
 
+    /**
+     * Filter the formatted price.
+     *
+     * @since TBD
+     *
+     * @param string $formatted The formatted price.
+     * @param Stripe/Price $price The price to format.
+     * @return string The formatted price.
+     */
+    $formatted = apply_filters( 'rwstripe_format_price', $formatted, $price );
+
     // Strip HTML if requested.
     if ( ! empty( $no_html ) ) {
         $formatted = strip_tags( $formatted );

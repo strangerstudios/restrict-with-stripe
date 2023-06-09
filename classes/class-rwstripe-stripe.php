@@ -418,6 +418,19 @@ class RWStripe_Stripe {
 			$checkout_session_params['invoice_creation']['enabled'] = true;
 		}
 
+		/**
+		 * Filters the checkout session params.
+		 *
+		 * @since TBD
+		 *
+		 * @param array $checkout_session_params Checkout session params.
+		 * @param Stripe\Price $price Price object.
+		 * @param string $customer_id Customer ID.
+		 * @param string $redirect_url Redirect URL.
+		 * @return array
+		 */
+		$checkout_session_params = apply_filters( 'rwstripe_checkout_session_params', $checkout_session_params, $price, $customer_id, $redirect_url );
+
 		try {
 			return \Stripe\Checkout\Session::create( $checkout_session_params );
 		} catch ( Exception $e ) {

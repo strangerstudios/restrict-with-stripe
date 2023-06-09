@@ -161,6 +161,7 @@ function rwstripe_restricted_content_message( $product_ids ) {
 	}
 
 	// Build restricted content message.
+	ob_start();
 	?>
 	<div class="rwstripe-checkout">
 		<?php
@@ -251,6 +252,20 @@ function rwstripe_restricted_content_message( $product_ids ) {
 		?>
 	</div>
 	<?php
+	$restricted_content_message = ob_get_clean();
+
+	/**
+	 * Filter the restricted content message.
+	 *
+	 * @since TBD
+	 *
+	 * @param string $restricted_content_message The restricted content message.
+	 * @param array  $purchasable_products       The purchasable products.
+	 * @return string
+	 */
+	$restricted_content_message = apply_filters( 'rwstripe_restricted_content_message', $restricted_content_message, $purchasable_products );
+
+	echo $restricted_content_message;
 }
 
 /**
