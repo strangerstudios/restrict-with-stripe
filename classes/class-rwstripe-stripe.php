@@ -394,12 +394,16 @@ class RWStripe_Stripe {
 			),
 		);
 
+		// Remove anchors and query strings from the redirect URL.
+		$cleaned_redirect_url = strtok( $redirect_url, '?' );
+		$cleaned_redirect_url = strtok( $cleaned_redirect_url, '#' );
+
 		// Set up checkout session params.
 		$checkout_session_params = array(
 			'customer' => $customer_id,
 			'line_items' => $line_items,
-			'success_url' => $redirect_url,
-			'cancel_url' => $redirect_url,
+			'success_url' => $cleaned_redirect_url,
+			'cancel_url' => $cleaned_redirect_url,
 		);
 
 		if ( $price['type'] === 'recurring' ) {
