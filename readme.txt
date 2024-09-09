@@ -2,9 +2,9 @@
 Contributors: strangerstudios, dlparker1005
 Tags: subscriptions, ecommerce, e-commerce, stripe, restrict access, restrict content
 Requires at least: 5.2
-Tested up to: 6.5
+Tested up to: 6.6
 Requires PHP: 5.6
-Stable tag: 1.0.9
+Stable tag: 1.0.10
 License: GPLv3
 
 Integrate with Stripe to sell access to restricted posts, pages, categories, and tags.
@@ -63,6 +63,10 @@ Please visit the [WordPress support forum](https://wordpress.org/support/plugin/
 If you find an issue/bug, let us know by [creating a detailed GitHub issue](https://github.com/strangerstudios/restrict-with-stripe/issues/new).
 
 == Changelog ==
+= 1.0.10- 2024-09-09 =
+* ENHANCEMENT: Added a disclosure to the settings page to inform users about the 2% Stripe application fee.
+* BUG FIX: Fixed an issue where URLs with query strings or anchors may cause creating Stripe Checkout sessions to fail.
+
 = 1.0.9 - 2023-06-09 =
 * ENHANCEMENT: Added a new filter `rwstripe_checkout_session_params` to allow developers to modify the parameters sent to Stripe Checkout.
 * ENHANCEMENT: Added a new filter `rwstripe_format_price` to allow developers to modify how product prices are displayed.
