@@ -49,15 +49,18 @@ Go to Settings > Restrict With Stripe in the WordPress admin to begin setup.
 
 == Frequently Asked Questions ==
 
+= How can I test this plugin without processing real payments? =
+You can connect to a Stripe account in test mode by adding the following line of code to a code snippet before connecting to Stripe:
+`add_action( 'rwstripe_connect_in_test_mode', '__return_true' );`
+
+= What additional fees apply when using this plugin? =
+A 2% fee, in addition to the standard Stripe processing fee, is applied to all payments. This fee goes to Stranger Studios, the developers of Restrict With Stripe, to help support ongoing development. [Learn More](https://restrictwithstripe.com/docs/#fees)
+
 = I need help installing, configuring, or customizing the plugin. =
 Please visit the [WordPress support forum](https://wordpress.org/support/plugin/restrict-with-stripe/) for more documentation and our support forums.
 
 = I found a bug in the plugin. =
 If you find an issue/bug, let us know by [creating a detailed GitHub issue](https://github.com/strangerstudios/restrict-with-stripe/issues/new).
-
-= How can I test this plugin without processing real payments? =
-You can connect to a Stripe account in test mode by adding the following line of code to a code snippet before connecting to Stripe:
-`add_action( 'rwstripe_connect_in_test_mode', '__return_true' );`
 
 == Changelog ==
 = 1.0.9 - 2023-06-09 =

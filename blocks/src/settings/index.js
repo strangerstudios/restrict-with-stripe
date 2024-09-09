@@ -128,6 +128,7 @@ class App extends Component {
                             { buttonText }
                         </span>
                     </a>
+                    <p><small class="description">{ __( 'A 2% fee in addition to the standard Stripe processing fee is applied to all payments. This fee goes to Stranger Studios, the developers of Restrict With Stripe, to help support ongoing development.', 'restrict-with-stripe' ) } <a href="https://restrictwithstripe.com/docs/#fees" target="_blank" rel="noopener noreferrer">{ __( 'Learn More', 'restrict-with-stripe' ) }</a></small></p>
                 </PanelBody>
             );
         } else if ( true === areProductsLoaded ) {
@@ -145,6 +146,7 @@ class App extends Component {
                             {__('Disconnect From Stripe', 'restrict-with-stripe')}
                         </span>
                     </a>
+                    <p><small class="description">{ __( 'A 2% fee in addition to the standard Stripe processing fee is applied to all payments. This fee goes to Stranger Studios, the developers of Restrict With Stripe, to help support ongoing development.', 'restrict-with-stripe' ) } <a href="https://restrictwithstripe.com/docs/#fees" target="_blank" rel="noopener noreferrer">{ __( 'Learn More', 'restrict-with-stripe' ) }</a></small></p>
                 </PanelBody>
             );
         } else {
@@ -162,6 +164,7 @@ class App extends Component {
                             {__('Disconnect From Stripe', 'restrict-with-stripe')}
                         </span>
                     </a>
+                    <p><small class="description">{ __( 'A 2% fee in addition to the standard Stripe processing fee is applied to all payments. This fee goes to Stranger Studios, the developers of Restrict With Stripe, to help support ongoing development.', 'restrict-with-stripe' ) } <a href="https://restrictwithstripe.com/docs/#fees" target="_blank" rel="noopener noreferrer">{ __( 'Learn More', 'restrict-with-stripe' ) }</a></small></p>
                 </PanelBody>
             );
         }
