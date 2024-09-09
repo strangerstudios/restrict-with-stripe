@@ -63,7 +63,7 @@ Please visit the [WordPress support forum](https://wordpress.org/support/plugin/
 If you find an issue/bug, let us know by [creating a detailed GitHub issue](https://github.com/strangerstudios/restrict-with-stripe/issues/new).
 
 == Changelog ==
-= 1.0.10- 2024-09-09 =
+= 1.0.10 - 2024-09-09 =
 * ENHANCEMENT: Added a disclosure to the settings page to inform users about the 2% Stripe application fee.
 * BUG FIX: Fixed an issue where URLs with query strings or anchors may cause creating Stripe Checkout sessions to fail.
 
