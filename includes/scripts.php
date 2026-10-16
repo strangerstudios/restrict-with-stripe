@@ -83,8 +83,31 @@ function rwstripe_enqueue_admin_scripts() {
 		);
 	}
 
+	// Describe the site's own restricted key without exposing it.
+	$restricted_key = array();
+	if ( RWStripe_Stripe::is_using_restricted_key() ) {
+		$restricted_key_error = get_option( 'rwstripe_restricted_key_error' );
+		$restricted_key = array(
+			'masked_key' => RWStripe_Stripe::mask_key( RWStripe_Stripe::get_secret_key() ),
+			'key_type' => 0 === strpos( RWStripe_Stripe::get_secret_key(), 'sk_' ) ? 'secret' : 'restricted',
+			'environment' => RWStripe_Stripe::get_environment(),
+			'account_id' => RWStripe_Stripe::get_account_id(),
+			'permissions' => get_option( 'rwstripe_restricted_key_permissions', null ),
+			'error' => is_array( $restricted_key_error ) ? $restricted_key_error : null,
+		);
+	}
+
 	// Localize the settings.
 	wp_localize_script( 'rwstripe-settings', 'rwstripe', array(
+		'credential_type' => RWStripe_Stripe::get_credential_type(),
+		'required_permissions' => array_map(
+			function ( $permission ) {
+				unset( $permission['probe'] );
+				return $permission;
+			},
+			RWStripe_Stripe::get_required_permissions()
+		),
+		'restricted_key' => $restricted_key,
 		'stripe_account_id' => $stripe_account_id,
 		'stripe_environment' => $stripe_connected_environment,
 		'stripe_connect_url' => $stripe_connect_url,

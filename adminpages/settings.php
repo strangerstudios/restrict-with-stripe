@@ -70,6 +70,8 @@ function rwstripe_handle_connect_to_stripe_response() {
 			|| ! isset( $_REQUEST['pmpro_stripe_connected_environment'] )
 		) {
 			$error = esc_html__( 'Invalid response from the Stripe Connect server.', 'restrict-with-stripe' );
+		} elseif ( RWStripe_Stripe::is_using_restricted_key() ) {
+			$error = esc_html__( 'This site is using your own restricted key. Remove the key before connecting with Stripe.', 'restrict-with-stripe' );
 		} else {
 			// Update keys.
 			update_option( 'rwstripe_stripe_account_id', sanitize_text_field( $_REQUEST['pmpro_stripe_user_id'] ) );
@@ -129,3 +131,46 @@ function rwstripe_handle_connect_to_stripe_response() {
 	}
 }
 add_action( 'admin_init', 'rwstripe_handle_connect_to_stripe_response' );
+
+/**
+ * Show a notice when Stripe rejects the site's own restricted key or reports a missing permission.
+ *
+ * @since TBD
+ */
+function rwstripe_restricted_key_admin_notice() {
+	if ( ! current_user_can( 'manage_options' ) || ! RWStripe_Stripe::is_using_restricted_key() ) {
+		return;
+	}
+
+	$error = get_option( 'rwstripe_restricted_key_error' );
+	if ( ! is_array( $error ) || empty( $error['type'] ) ) {
+		return;
+	}
+
+	$settings_url = admin_url( 'options-general.php?page=rwstripe' );
+	if ( 'invalid' === $error['type'] ) {
+		$class   = 'notice-error';
+		$summary = __( 'Stripe rejected the restricted key saved for this site, so content cannot be sold or unlocked.', 'restrict-with-stripe' );
+		$action  = __( 'Enter a new restricted key', 'restrict-with-stripe' );
+	} else {
+		$class   = 'notice-warning';
+		$summary = __( 'Your restricted key is missing a permission that Restrict With Stripe needs.', 'restrict-with-stripe' );
+		$action  = __( 'Check key permissions', 'restrict-with-stripe' );
+	}
+	?>
+	<div class="notice <?php echo esc_attr( $class ); ?>">
+		<p>
+			<strong><?php esc_html_e( 'Restrict With Stripe: Check your restricted key.', 'restrict-with-stripe' ); ?></strong>
+			<?php echo esc_html( $summary ); ?>
+			<?php if ( ! empty( $error['message'] ) ) { ?>
+				<?php
+				/* translators: %s: Error message from Stripe. */
+				echo esc_html( sprintf( __( 'Stripe said: %s', 'restrict-with-stripe' ), $error['message'] ) );
+				?>
+			<?php } ?>
+			<a href="<?php echo esc_url( $settings_url ); ?>"><?php echo esc_html( $action ); ?></a>
+		</p>
+	</div>
+	<?php
+}
+add_action( 'admin_notices', 'rwstripe_restricted_key_admin_notice' );
