@@ -69,6 +69,47 @@ if ( class_exists( 'WP_REST_Controller' ) ) {
 					)
 				)
 			);
+
+			/**
+			 * Save or remove the site's own restricted key.
+			 * @since TBD
+			 * Example: https://example.com/wp-json/rwstripe/v1/restricted_key
+			 */
+			register_rest_route( $rwstripe_namespace, '/restricted_key',
+				array(
+					array(
+						'methods'  => WP_REST_Server::CREATABLE,
+						'callback' => array( $this, 'save_restricted_key' ),
+						'args' => array(
+							'restricted_key' => array(
+								'required' => true,
+								'type' => 'string',
+							),
+						),
+						'permission_callback' => array( $this, 'permissions_check_admin' ),
+					),
+					array(
+						'methods'  => WP_REST_Server::DELETABLE,
+						'callback' => array( $this, 'delete_restricted_key' ),
+						'permission_callback' => array( $this, 'permissions_check_admin' ),
+					),
+				)
+			);
+
+			/**
+			 * Check the permissions of the saved restricted key.
+			 * @since TBD
+			 * Example: https://example.com/wp-json/rwstripe/v1/restricted_key/check
+			 */
+			register_rest_route( $rwstripe_namespace, '/restricted_key/check',
+				array(
+					array(
+						'methods'  => WP_REST_Server::CREATABLE,
+						'callback' => array( $this, 'check_restricted_key' ),
+						'permission_callback' => array( $this, 'permissions_check_admin' ),
+					)
+				)
+			);
 		}
 
 		/**
@@ -171,6 +212,43 @@ if ( class_exists( 'WP_REST_Controller' ) ) {
 				return new WP_Error( 'rwstripe_error', __( 'Could not get customer portal link.', 'rwstripe' ) . ' ' . $get_customer_portal_session, array( 'status' => 500 ) );
 			}
 			return new WP_REST_Response( $get_customer_portal_session->url, 200 );
+		}
+
+		/**
+		 * Save the site's own restricted key and check its permissions.
+		 * @since TBD
+		 * Example: https://example.com/wp-json/rwstripe/v1/restricted_key
+		 */
+		public function save_restricted_key( $request ) {
+			$key = sanitize_text_field( (string) $request->get_param( 'restricted_key' ) );
+			$report = RWStripe_Stripe::save_restricted_key( $key );
+			if ( is_wp_error( $report ) ) {
+				return $report;
+			}
+			return new WP_REST_Response( $report, 200 );
+		}
+
+		/**
+		 * Remove the site's own restricted key.
+		 * @since TBD
+		 * Example: https://example.com/wp-json/rwstripe/v1/restricted_key
+		 */
+		public function delete_restricted_key( $request ) {
+			RWStripe_Stripe::clear_restricted_key();
+			return new WP_REST_Response( true, 200 );
+		}
+
+		/**
+		 * Check the permissions of the saved restricted key.
+		 * @since TBD
+		 * Example: https://example.com/wp-json/rwstripe/v1/restricted_key/check
+		 */
+		public function check_restricted_key( $request ) {
+			$report = RWStripe_Stripe::check_key_permissions();
+			if ( is_wp_error( $report ) ) {
+				return $report;
+			}
+			return new WP_REST_Response( $report, 200 );
 		}
 
 		/**

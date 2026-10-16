@@ -55,9 +55,9 @@ function rwstripe_get_customer_id_for_user( $user_id = null ) {
  * @return string|null Meta key or null if account ID or environment is not set.
  */
 function rwstripe_get_meta_key( $base_meta_key ) {
-	// Get Stripe account ID and environment from options.
-	$account_id = get_option( 'rwstripe_stripe_account_id' );
-	$environment = get_option( 'rwstripe_stripe_environment' );
+	// Get Stripe account ID and environment for the active credential.
+	$account_id = RWStripe_Stripe::get_account_id();
+	$environment = RWStripe_Stripe::get_environment();
 	if ( empty( $account_id ) || empty( $environment ) ) {
 		return null;
 	}
@@ -73,9 +73,9 @@ function rwstripe_get_meta_key( $base_meta_key ) {
  * @return string Link to the Stripe Dashboard.
  */
 function rwstripe_get_dashboard_link() {
-	// Get Stripe account ID and environment from options.
-	$account_id = get_option( 'rwstripe_stripe_account_id' );
-	$environment = get_option( 'rwstripe_stripe_environment' );
+	// Get Stripe account ID and environment for the active credential.
+	$account_id = RWStripe_Stripe::get_account_id();
+	$environment = RWStripe_Stripe::get_environment();
 
 	$dashboard_url = 'https://dashboard.stripe.com/';
 	if ( ! empty( $account_id ) ) {

@@ -33,6 +33,8 @@ import { __ } from '@wordpress/i18n';
 
 import { store as noticesStore } from '@wordpress/notices';
 
+import { RestrictedKeyForm, RestrictedKeyDetails } from './restricted-key';
+
 const Notices = () => {
     const notices = useSelect(
         (select) =>
@@ -110,7 +112,25 @@ class App extends Component {
 
         // Build step 1:
         var step1;
-        if ( ! rwstripe.stripe_account_id ) {
+        if ( 'restricted_key' === rwstripe.credential_type ) {
+            // User is using their own restricted key.
+            var titleText = __( 'Connect to Stripe (Using Your Restricted Key)', 'restrict-with-stripe' );
+            if ( 'live' !== rwstripe.restricted_key.environment ) {
+                titleText = __( 'Connect to Stripe (Using Your Restricted Key in Test Mode)', 'restrict-with-stripe' );
+            }
+            step1 = (
+                <PanelBody title={ titleText } initialOpen={ true !== areProductsLoaded || ! rwstripe.restricted_key.permissions || ! rwstripe.restricted_key.permissions.ok } >
+                    { true !== areProductsLoaded && ! ( rwstripe.restricted_key.permissions && rwstripe.restricted_key.permissions.invalid_key ) && (
+                        <Notice status="error" isDismissible={ false }>
+                            <p>{ __('The following error is received when trying to communicate with Stripe:', 'restrict-with-stripe') }</p>
+                            <p>{ areProductsLoaded }</p>
+                        </Notice>
+                    ) }
+                    <p><a href={rwstripe.stripe_dashboard_url} target="_blank">{__('Visit your Stripe account dashboard', 'restrict-with-stripe')}</a></p>
+                    <RestrictedKeyDetails details={ rwstripe.restricted_key } />
+                </PanelBody>
+            );
+        } else if ( ! rwstripe.credential_type ) {
             // User is not connected to Stripe.
             var buttonText = __( 'Connect to Stripe', 'restrict-with-stripe' );
             if ( rwstripe.connect_in_test_mode ) {
@@ -129,6 +149,7 @@ class App extends Component {
                         </span>
                     </a>
                     <p><small class="description">{ __( 'A 2% fee in addition to the standard Stripe processing fee is applied to all payments. This fee goes to Stranger Studios, the developers of Restrict With Stripe, to help support ongoing development.', 'restrict-with-stripe' ) } <a href="https://restrictwithstripe.com/docs/#fees" target="_blank" rel="noopener noreferrer">{ __( 'Learn More', 'restrict-with-stripe' ) }</a></small></p>
+                    <RestrictedKeyForm />
                 </PanelBody>
             );
         } else if ( true === areProductsLoaded ) {
@@ -147,6 +168,7 @@ class App extends Component {
                         </span>
                     </a>
                     <p><small class="description">{ __( 'A 2% fee in addition to the standard Stripe processing fee is applied to all payments. This fee goes to Stranger Studios, the developers of Restrict With Stripe, to help support ongoing development.', 'restrict-with-stripe' ) } <a href="https://restrictwithstripe.com/docs/#fees" target="_blank" rel="noopener noreferrer">{ __( 'Learn More', 'restrict-with-stripe' ) }</a></small></p>
+                    <p><small class="description">{ __( 'Active credential: Stripe Connect. To use your own restricted key instead, disconnect from Stripe first.', 'restrict-with-stripe' ) }</small></p>
                 </PanelBody>
             );
         } else {
@@ -165,6 +187,7 @@ class App extends Component {
                         </span>
                     </a>
                     <p><small class="description">{ __( 'A 2% fee in addition to the standard Stripe processing fee is applied to all payments. This fee goes to Stranger Studios, the developers of Restrict With Stripe, to help support ongoing development.', 'restrict-with-stripe' ) } <a href="https://restrictwithstripe.com/docs/#fees" target="_blank" rel="noopener noreferrer">{ __( 'Learn More', 'restrict-with-stripe' ) }</a></small></p>
+                    <p><small class="description">{ __( 'Active credential: Stripe Connect. To use your own restricted key instead, disconnect from Stripe first.', 'restrict-with-stripe' ) }</small></p>
                 </PanelBody>
             );
         }
@@ -181,7 +204,7 @@ class App extends Component {
 
                 <div className="rwstripe-settings__main">
                     {step1}
-                    <PanelBody title={__('Create Products in Stripe', 'restrict-with-stripe')} initialOpen={rwstripe.stripe_account_id && ! productList.length} >
+                    <PanelBody title={__('Create Products in Stripe', 'restrict-with-stripe')} initialOpen={!! rwstripe.credential_type && ! productList.length} >
                         <p>{__('Restrict With Stripe uses Stripe Products to track user access to site content.', 'restrict-with-stripe')}</p>
                         <p>{__('Create a unique Stripe Product for each piece of content you need to restrict, whether it be a single post or page, a category of posts, or something else.', 'restrict-with-stripe')}</p>
                         {
@@ -203,7 +226,7 @@ class App extends Component {
                                 </fragment>
                         }
                     </PanelBody>
-                    <PanelBody title={__('Restrict Site Content', 'restrict-with-stripe')} initialOpen={rwstripe.stripe_account_id}>
+                    <PanelBody title={__('Restrict Site Content', 'restrict-with-stripe')} initialOpen={!! rwstripe.credential_type}>
                         <p>{__('Restrict a single piece of content or protect a group of posts by category or tag.', 'restrict-with-stripe')}</p>
                         <div className="columns">
                             <div className="column">
@@ -255,7 +278,7 @@ class App extends Component {
                             </div>
                         </div>
                     </PanelBody>
-                    <PanelBody title={__('Link to Stripe Customer Portal', 'restrict-with-stripe')} initialOpen={rwstripe.stripe_account_id}>
+                    <PanelBody title={__('Link to Stripe Customer Portal', 'restrict-with-stripe')} initialOpen={!! rwstripe.credential_type}>
                         <p>{__('The Customer Portal is a Stripe tool that allows customers to view previous payments and manage active subscriptions. Give customers a link to the portal using one of the methods below:', 'restrict-with-stripe')}</p>
                         <div className="columns">
                             <div className="column">
@@ -286,7 +309,7 @@ class App extends Component {
                             </div>
                         </div>
                     </PanelBody>
-                    <PanelBody title={__('Customize Advanced Settings', 'restrict-with-stripe')} initialOpen={rwstripe.stripe_account_id} >
+                    <PanelBody title={__('Customize Advanced Settings', 'restrict-with-stripe')} initialOpen={!! rwstripe.credential_type} >
                         <p>{__('Confirm advanced settings for default behavior (optional).', 'restrict-with-stripe')}</p>
                         <ToggleControl
                             label={__('Show a content excerpt on restricted posts or pages', 'restrict-with-stripe')}
