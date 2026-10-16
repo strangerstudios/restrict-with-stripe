@@ -247,7 +247,6 @@ class RWStripe_Stripe {
 					'invoice_history' => array( 'enabled' => true ),
 					'payment_method_update' => array( 'enabled' => true ),
 					'subscription_cancel' => array( 'enabled' => true ),
-					'subscription_pause' => array( 'enabled' => true ),
 				),
 			);
 			try {
