@@ -1,0 +1,32 @@
+name: Attach plugin zip to release
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: Existing release tag to build and attach (e.g. 1.0.10)
+        required: true
+
+permissions:
+  contents: write
+
+jobs:
+  zip:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Build restrict-with-stripe.zip
+        env:
+          TAG: ${{ github.event.release.tag_name || inputs.tag }}
+        run: |
+          # export-ignore rules in .gitattributes keep dev files out; the prefix gives WordPress the folder name it expects.
+          git archive --format=zip --prefix=restrict-with-stripe/ -o restrict-with-stripe.zip "refs/tags/$TAG"
+          unzip -l restrict-with-stripe.zip | grep -q ' restrict-with-stripe/restrict-with-stripe.php$'
+      - name: Upload to release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ github.event.release.tag_name || inputs.tag }}
+        run: gh release upload "$TAG" restrict-with-stripe.zip --clobber
