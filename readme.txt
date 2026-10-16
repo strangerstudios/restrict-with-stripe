@@ -54,7 +54,25 @@ You can connect to a Stripe account in test mode by adding the following line of
 `add_action( 'rwstripe_connect_in_test_mode', '__return_true' );`
 
 = What additional fees apply when using this plugin? =
-A 2% fee, in addition to the standard Stripe processing fee, is applied to all payments. This fee goes to Stranger Studios, the developers of Restrict With Stripe, to help support ongoing development. [Learn More](https://restrictwithstripe.com/docs/#fees)
+When you connect with Stripe Connect, a 2% fee, in addition to the standard Stripe processing fee, is applied to all payments. This fee goes to Stranger Studios, the developers of Restrict With Stripe, to help support ongoing development. [Learn More](https://restrictwithstripe.com/docs/#fees)
+
+No application fee is added when you use your own restricted key instead of Stripe Connect.
+
+= Can I use my own Stripe restricted key instead of Stripe Connect? =
+Yes. Go to Settings > Restrict With Stripe and, under "Or use your own restricted key", paste a restricted key (`rk_live_...` or `rk_test_...`). The environment (live or test) is set by the key. A secret key (`sk_...`) also works, but Stripe recommends a restricted key with only the permissions the plugin needs. You do not need a publishable key: the plugin only calls Stripe from your server. The key is never shown again after saving; the settings page shows only its last four characters. Stripe Connect and your own key are mutually exclusive: disconnect from Stripe before saving a key, and remove the key before connecting.
+
+Create the key in the Stripe Dashboard under Developers > API keys > Create restricted key ([Stripe docs](https://docs.stripe.com/keys/restricted-api-keys)) with these permissions:
+
+* Products: Read - list products to restrict content and build the paywall.
+* Prices: Read - show prices and look up the price being bought.
+* Customers: Write - create a Stripe customer for each user and keep their email in sync.
+* Subscriptions: Read - check active or trialing subscriptions.
+* Invoices: Read - check paid one-time purchases.
+* Checkout Sessions: Write - create Stripe Checkout sessions.
+* Customer portal: Write - create the portal configuration and customer portal sessions.
+* Accounts: Read (optional) - read your account ID when the key is saved, so restrictions and customers stay tied to your Stripe account and carry over from a previous Stripe Connect connection. Without it, restrictions are stored for "your restricted key" in that environment.
+
+After you save the key, the plugin checks its permissions with read-only requests and lists each one as granted or missing, with Stripe's error message. Write permissions can only be confirmed by a real request, so they are listed as "verified on first use". Use the "Check Key Permissions" button to check again after editing the key in Stripe. If Stripe rejects the key or reports a missing permission, a "Check your restricted key" notice appears in the WordPress admin.
 
 = I need help installing, configuring, or customizing the plugin. =
 Please visit the [WordPress support forum](https://wordpress.org/support/plugin/restrict-with-stripe/) for more documentation and our support forums.
@@ -63,6 +81,9 @@ Please visit the [WordPress support forum](https://wordpress.org/support/plugin/
 If you find an issue/bug, let us know by [creating a detailed GitHub issue](https://github.com/strangerstudios/restrict-with-stripe/issues/new).
 
 == Changelog ==
+= TBD =
+* FEATURE: Added the option to use your own Stripe restricted key instead of Stripe Connect, with a permission check and a "Check your restricted key" admin notice. No application fee is added to payments made with your own key.
+
 = 1.0.10 - 2024-09-09 =
 * ENHANCEMENT: Added a disclosure to the settings page to inform users about the 2% Stripe application fee.
 * BUG FIX: Fixed an issue where URLs with query strings or anchors may cause creating Stripe Checkout sessions to fail.

@@ -243,3 +243,30 @@
         }
     }
 }
+
+#rwstripe-settings .rwstripe-restricted-key {
+    border-top: 1px solid #e2e4e7;
+    margin-top: 20px;
+    padding-top: 10px;
+
+    .components-text-control__input {
+        max-width: 420px;
+    }
+
+    .rwstripe-required-permissions {
+        list-style: disc;
+        margin-left: 20px;
+    }
+
+    .rwstripe-permissions {
+        margin: 10px 0;
+
+        .rwstripe-permission-missing td:nth-child(2) {
+            color: #b32d2e;
+            font-weight: 600;
+        }
+        .rwstripe-permission-ok td:nth-child(2) {
+            color: #00a32a;
+        }
+    }
+}
