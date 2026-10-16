@@ -111,8 +111,6 @@ class RWStripe_Stripe {
 	/**
 	 * Get the Stripe account ID for the active credential.
 	 *
-	 * Empty when using a restricted key that cannot read the account.
-	 *
 	 * @since TBD
 	 *
 	 * @return string
@@ -179,14 +177,18 @@ class RWStripe_Stripe {
 		}
 
 		// Look up the account ID once so customer and restriction data stay tied to the Stripe account.
-		$account_id = '';
-		if ( self::load_library() ) {
-			try {
-				$account    = Stripe\Account::retrieve( null, array( 'api_key' => $key ) );
-				$account_id = sanitize_text_field( $account->id );
-			} catch ( Exception $e ) {
-				$account_id = '';
-			}
+		if ( ! self::load_library() ) {
+			return new WP_Error( 'rwstripe_no_library', __( 'The Stripe library could not be loaded. Make sure the curl, mbstring, and json PHP extensions are enabled.', 'restrict-with-stripe' ), array( 'status' => 500 ) );
+		}
+		try {
+			$account    = Stripe\Account::retrieve( null, array( 'api_key' => $key ) );
+			$account_id = sanitize_text_field( $account->id );
+		} catch ( Exception $e ) {
+			/* translators: %s: Error message from Stripe. */
+			return new WP_Error( 'rwstripe_account_unreadable', sprintf( __( 'The key was not saved because it could not read your Stripe account. Make sure it is a valid key with the Accounts: Read permission. Stripe said: %s', 'restrict-with-stripe' ), $e->getMessage() ), array( 'status' => 400 ) );
+		}
+		if ( empty( $account_id ) ) {
+			return new WP_Error( 'rwstripe_account_unreadable', __( 'The key was not saved because Stripe did not return an account ID.', 'restrict-with-stripe' ), array( 'status' => 400 ) );
 		}
 
 		update_option( 'rwstripe_restricted_key', $key, false );
@@ -278,8 +280,7 @@ class RWStripe_Stripe {
 				'resource' => 'connected_account',
 				'label'    => __( 'Accounts', 'restrict-with-stripe' ),
 				'access'   => 'read',
-				'optional' => true,
-				'used_for' => __( 'Optional: read the account ID when the key is saved, so restrictions and customers stay tied to your Stripe account (and carry over from Stripe Connect).', 'restrict-with-stripe' ),
+				'used_for' => __( 'Read the account ID when the key is saved, so restrictions and customers stay tied to your Stripe account (and carry over from Stripe Connect).', 'restrict-with-stripe' ),
 				'probe'    => 'Stripe\Account',
 			),
 		);
@@ -323,7 +324,6 @@ class RWStripe_Stripe {
 				'resource' => $permission['resource'],
 				'label'    => $permission['label'],
 				'access'   => $permission['access'],
-				'optional' => ! empty( $permission['optional'] ),
 				'used_for' => $permission['used_for'],
 			);
 			try {
@@ -362,7 +362,7 @@ class RWStripe_Stripe {
 
 		$missing = array();
 		foreach ( $results as $result ) {
-			if ( empty( $result['optional'] ) && 'missing' === $result['status'] ) {
+			if ( 'missing' === $result['status'] ) {
 				$missing[] = $result;
 			}
 		}

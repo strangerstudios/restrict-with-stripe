@@ -70,7 +70,7 @@ Create the key in the Stripe Dashboard under Developers > API keys > Create rest
 * Invoices: Read - check paid one-time purchases.
 * Checkout Sessions: Write - create Stripe Checkout sessions.
 * Customer portal: Write - create the portal configuration and customer portal sessions.
-* Accounts: Read (optional) - read your account ID when the key is saved, so restrictions and customers stay tied to your Stripe account and carry over from a previous Stripe Connect connection. Without it, restrictions are stored for "your restricted key" in that environment.
+* Accounts: Read - read your account ID when the key is saved, so restrictions and customers stay tied to your Stripe account and carry over from a previous Stripe Connect connection. A key without this permission is not saved.
 
 After you save the key, the plugin checks its permissions with read-only requests and lists each one as granted or missing, with Stripe's error message. Write permissions can only be confirmed by a real request, so they are listed as "verified on first use". Use the "Check Key Permissions" button to check again after editing the key in Stripe. If Stripe rejects the key or reports a missing permission, a "Check your restricted key" notice appears in the WordPress admin.
 

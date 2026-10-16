@@ -53,7 +53,6 @@ const PermissionReport = ( { report } ) => {
                         <tr key={ result.resource } className={ 'rwstripe-permission-' + result.status }>
                             <td>
                                 <strong>{ result.label }: { accessLabel( result.access ) }</strong>
-                                { result.optional && <em> { __( '(optional)', 'restrict-with-stripe' ) }</em> }
                                 <br /><small>{ result.used_for }</small>
                             </td>
                             <td>{ statusLabels[ result.status ] || result.status }</td>
@@ -101,7 +100,6 @@ export const RestrictedKeyForm = () => {
                 { ( rwstripe.required_permissions || [] ).map( ( permission ) => (
                     <li key={ permission.resource }>
                         <strong>{ permission.label }: { accessLabel( permission.access ) }</strong>
-                        { permission.optional && <em> { __( '(optional)', 'restrict-with-stripe' ) }</em> }
                         { ' ' }&mdash; { permission.used_for }
                     </li>
                 ) ) }

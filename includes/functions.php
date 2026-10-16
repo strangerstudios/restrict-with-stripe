@@ -58,12 +58,6 @@ function rwstripe_get_meta_key( $base_meta_key ) {
 	// Get Stripe account ID and environment for the active credential.
 	$account_id = RWStripe_Stripe::get_account_id();
 	$environment = RWStripe_Stripe::get_environment();
-
-	// A restricted key without account read access shares one namespace per environment.
-	if ( empty( $account_id ) && RWStripe_Stripe::is_using_restricted_key() ) {
-		$account_id = 'restricted_key';
-	}
-
 	if ( empty( $account_id ) || empty( $environment ) ) {
 		return null;
 	}
