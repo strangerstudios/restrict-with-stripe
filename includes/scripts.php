@@ -60,13 +60,22 @@ function rwstripe_enqueue_admin_scripts() {
 	$connect_url_base = apply_filters( 'rwstipe_stripe_connect_url', 'https://connect.restrictwithstripe.com' );
 	$connect_in_test_mode = apply_filters( 'rwstripe_connect_in_test_mode', false );
 
+	// The Connect server sends the admin back to this URL. The nonce is checked in rwstripe_handle_connect_to_stripe_response().
+	$connect_return_url = add_query_arg(
+		array(
+			'page'                   => 'rwstripe',
+			'rwstripe_connect_nonce' => wp_create_nonce( 'rwstripe_connect' ),
+		),
+		admin_url( 'options-general.php' )
+	);
+
 	if ( empty( $stripe_account_id ) ) {
 		// Need to connect to Stripe.
 		$stripe_connect_url = add_query_arg(
 			array(
 				'action' => 'authorize',
 				'gateway_environment' => $connect_in_test_mode ? 'sandbox' : 'live',
-				'return_url' => rawurlencode( admin_url( 'options-general.php?page=rwstripe' ) ),
+				'return_url' => rawurlencode( $connect_return_url ),
 			),
 			$connect_url_base
 		);
@@ -77,7 +86,7 @@ function rwstripe_enqueue_admin_scripts() {
 				'action' => 'disconnect',
 				'gateway_environment' => $stripe_connected_environment === 'live' ? 'live' : 'sandbox',
 				'stripe_user_id' => $stripe_account_id,
-				'return_url' => rawurlencode( admin_url( 'options-general.php?page=rwstripe' ) ),
+				'return_url' => rawurlencode( $connect_return_url ),
 			),
 			$connect_url_base
 		);
