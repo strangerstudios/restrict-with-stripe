@@ -140,7 +140,7 @@ add_action( 'admin_init', 'rwstripe_handle_connect_to_stripe_response' );
 /**
  * Show a notice when Stripe rejects the site's own restricted key or reports a missing permission.
  *
- * @since TBD
+ * @since 1.1
  */
 function rwstripe_restricted_key_admin_notice() {
 	if ( ! current_user_can( 'manage_options' ) || ! RWStripe_Stripe::is_using_restricted_key() ) {

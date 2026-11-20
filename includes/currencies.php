@@ -152,7 +152,7 @@ function rwstripe_format_price( $price, $no_html = false ) {
     /**
      * Filter the formatted price.
      *
-     * @since TBD
+     * @since 1.0.9
      *
      * @param string $formatted The formatted price.
      * @param Stripe/Price $price The price to format.

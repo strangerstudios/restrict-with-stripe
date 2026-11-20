@@ -2,9 +2,9 @@
 Contributors: strangerstudios, dlparker1005
 Tags: subscriptions, ecommerce, e-commerce, stripe, restrict access, restrict content
 Requires at least: 5.2
-Tested up to: 6.6
+Tested up to: 7.1
 Requires PHP: 5.6
-Stable tag: 1.0.10
+Stable tag: 1.1
 License: GPLv3
 
 Integrate with Stripe to sell access to restricted posts, pages, categories, and tags.
@@ -81,8 +81,10 @@ Please visit the [WordPress support forum](https://wordpress.org/support/plugin/
 If you find an issue/bug, let us know by [creating a detailed GitHub issue](https://github.com/strangerstudios/restrict-with-stripe/issues/new).
 
 == Changelog ==
-= TBD =
-* FEATURE: Added the option to use your own Stripe restricted key instead of Stripe Connect, with a permission check and a "Check your restricted key" admin notice. No application fee is added to payments made with your own key.
+= 1.1 - 2026-11-20 =
+* SECURITY: Now checking a nonce when saving or removing Stripe Connect credentials. #30 (@dparker1005, @kta1kri)
+* FEATURE: Added the option to connect with your own Stripe restricted key instead of Stripe Connect. Payments made with your own key do not include the Stripe Connect application fee. #26 (@flintfromthebasement)
+* BUG FIX: Fixed the customer portal failing to load for Stripe accounts that do not have a default portal configuration yet. #27 (@flintfromthebasement)
 
 = 1.0.10 - 2024-09-09 =
 * ENHANCEMENT: Added a disclosure to the settings page to inform users about the 2% Stripe application fee.

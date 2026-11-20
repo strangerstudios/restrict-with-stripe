@@ -49,7 +49,7 @@ class RWStripe_Stripe {
 	 *
 	 * Stripe Connect and the site's own restricted key are mutually exclusive.
 	 *
-	 * @since TBD
+	 * @since 1.1
 	 *
 	 * @return string 'connect', 'restricted_key', or an empty string if no credential is saved.
 	 */
@@ -66,7 +66,7 @@ class RWStripe_Stripe {
 	/**
 	 * Check whether the site is using its own restricted (or secret) key instead of Stripe Connect.
 	 *
-	 * @since TBD
+	 * @since 1.1
 	 *
 	 * @return bool
 	 */
@@ -77,7 +77,7 @@ class RWStripe_Stripe {
 	/**
 	 * Get the secret credential used for all Stripe API requests.
 	 *
-	 * @since TBD
+	 * @since 1.1
 	 *
 	 * @return string The Stripe Connect access token or the site's own key.
 	 */
@@ -94,7 +94,7 @@ class RWStripe_Stripe {
 	/**
 	 * Get the Stripe environment for the active credential.
 	 *
-	 * @since TBD
+	 * @since 1.1
 	 *
 	 * @return string 'live', 'test', or an empty string if no credential is saved.
 	 */
@@ -111,7 +111,7 @@ class RWStripe_Stripe {
 	/**
 	 * Get the Stripe account ID for the active credential.
 	 *
-	 * @since TBD
+	 * @since 1.1
 	 *
 	 * @return string
 	 */
@@ -128,7 +128,7 @@ class RWStripe_Stripe {
 	/**
 	 * Infer the environment from a Stripe key prefix.
 	 *
-	 * @since TBD
+	 * @since 1.1
 	 *
 	 * @param string $key Stripe key.
 	 * @return string 'live' or 'test'.
@@ -140,7 +140,7 @@ class RWStripe_Stripe {
 	/**
 	 * Describe a Stripe key without revealing it.
 	 *
-	 * @since TBD
+	 * @since 1.1
 	 *
 	 * @param string $key Stripe key.
 	 * @return string For example "rk_test_…abcd".
@@ -158,7 +158,7 @@ class RWStripe_Stripe {
 	 *
 	 * Runs the permission check right after saving.
 	 *
-	 * @since TBD
+	 * @since 1.1
 	 *
 	 * @param string $key Restricted key (rk_live_/rk_test_) or secret key (sk_live_/sk_test_).
 	 * @return array|WP_Error The permission report, or an error if the key was not saved.
@@ -207,7 +207,7 @@ class RWStripe_Stripe {
 	/**
 	 * Remove the site's own Stripe key and its saved status.
 	 *
-	 * @since TBD
+	 * @since 1.1
 	 */
 	public static function clear_restricted_key() {
 		delete_option( 'rwstripe_restricted_key' );
@@ -221,7 +221,7 @@ class RWStripe_Stripe {
 	 *
 	 * Resource IDs match Stripe's permission names; labels match the Dashboard's restricted key editor.
 	 *
-	 * @since TBD
+	 * @since 1.1
 	 *
 	 * @return array[]
 	 */
@@ -293,7 +293,7 @@ class RWStripe_Stripe {
 	 * by the first real request, so they are reported as unverified once read access passes.
 	 * The report is saved so the settings page can show it.
 	 *
-	 * @since TBD
+	 * @since 1.1
 	 *
 	 * @return array|WP_Error The permission report, or an error if no key is saved.
 	 */
@@ -392,7 +392,7 @@ class RWStripe_Stripe {
 	/**
 	 * Remember an authentication or permission error from the site's own key for the admin notice.
 	 *
-	 * @since TBD
+	 * @since 1.1
 	 *
 	 * @param Exception $e Exception thrown by the Stripe library.
 	 */
@@ -411,7 +411,7 @@ class RWStripe_Stripe {
 	/**
 	 * Save the key health error, writing only when it changes.
 	 *
-	 * @since TBD
+	 * @since 1.1
 	 *
 	 * @param string $type    'invalid' or 'permission'.
 	 * @param string $message Stripe's error message.
@@ -431,7 +431,7 @@ class RWStripe_Stripe {
 	/**
 	 * Get the HTTP status from a Stripe exception, even if another plugin loaded an older Stripe library.
 	 *
-	 * @since TBD
+	 * @since 1.1
 	 *
 	 * @param Exception $e Exception thrown by the Stripe library.
 	 * @return int HTTP status, or 0 if there was no response.
@@ -443,7 +443,7 @@ class RWStripe_Stripe {
 	/**
 	 * Load the Stripe library and set the active credential.
 	 *
-	 * @since TBD
+	 * @since 1.1
 	 *
 	 * @return bool Whether the Stripe library is available.
 	 */
@@ -849,7 +849,7 @@ class RWStripe_Stripe {
 		/**
 		 * Filters the checkout session params.
 		 *
-		 * @since TBD
+		 * @since 1.0.9
 		 *
 		 * @param array $checkout_session_params Checkout session params.
 		 * @param Stripe\Price $price Price object.

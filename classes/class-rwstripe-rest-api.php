@@ -72,7 +72,7 @@ if ( class_exists( 'WP_REST_Controller' ) ) {
 
 			/**
 			 * Save or remove the site's own restricted key.
-			 * @since TBD
+			 * @since 1.1
 			 * Example: https://example.com/wp-json/rwstripe/v1/restricted_key
 			 */
 			register_rest_route( $rwstripe_namespace, '/restricted_key',
@@ -98,7 +98,7 @@ if ( class_exists( 'WP_REST_Controller' ) ) {
 
 			/**
 			 * Check the permissions of the saved restricted key.
-			 * @since TBD
+			 * @since 1.1
 			 * Example: https://example.com/wp-json/rwstripe/v1/restricted_key/check
 			 */
 			register_rest_route( $rwstripe_namespace, '/restricted_key/check',
@@ -216,7 +216,7 @@ if ( class_exists( 'WP_REST_Controller' ) ) {
 
 		/**
 		 * Save the site's own restricted key and check its permissions.
-		 * @since TBD
+		 * @since 1.1
 		 * Example: https://example.com/wp-json/rwstripe/v1/restricted_key
 		 */
 		public function save_restricted_key( $request ) {
@@ -230,7 +230,7 @@ if ( class_exists( 'WP_REST_Controller' ) ) {
 
 		/**
 		 * Remove the site's own restricted key.
-		 * @since TBD
+		 * @since 1.1
 		 * Example: https://example.com/wp-json/rwstripe/v1/restricted_key
 		 */
 		public function delete_restricted_key( $request ) {
@@ -240,7 +240,7 @@ if ( class_exists( 'WP_REST_Controller' ) ) {
 
 		/**
 		 * Check the permissions of the saved restricted key.
-		 * @since TBD
+		 * @since 1.1
 		 * Example: https://example.com/wp-json/rwstripe/v1/restricted_key/check
 		 */
 		public function check_restricted_key( $request ) {

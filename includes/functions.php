@@ -257,7 +257,7 @@ function rwstripe_restricted_content_message( $product_ids ) {
 	/**
 	 * Filter the restricted content message.
 	 *
-	 * @since TBD
+	 * @since 1.0.9
 	 *
 	 * @param string $restricted_content_message The restricted content message.
 	 * @param array  $purchasable_products       The purchasable products.
