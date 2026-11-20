@@ -1,17 +1,17 @@
-# Copyright (C) 2024 Stranger Studios
+# Copyright (C) 2026 Stranger Studios
 # This file is distributed under the GPLv3.
 msgid ""
 msgstr ""
-"Project-Id-Version: Restrict With Stripe 1.0.10\n"
+"Project-Id-Version: Restrict With Stripe 1.1\n"
 "Report-Msgid-Bugs-To: info@paidmembershipspro.com\n"
 "Last-Translator: Paid Memberships Pro <info@paidmembershipspro.com>\n"
 "Language-Team: Paid Memberships Pro <info@paidmembershipspro.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2024-09-09T17:26:23+00:00\n"
+"POT-Creation-Date: 2026-11-20T16:05:31+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"X-Generator: WP-CLI 2.11.0\n"
+"X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: restrict-with-stripe\n"
 
 #. Plugin Name of the plugin
@@ -115,20 +115,157 @@ msgstr ""
 msgid "Stripe Customer ID"
 msgstr ""
 
-#: adminpages/settings.php:72
-#: adminpages/settings.php:85
+#: adminpages/settings.php:77
+#: adminpages/settings.php:92
 msgid "Invalid response from the Stripe Connect server."
 msgstr ""
 
-#: classes/class-rwstripe-stripe.php:243
+#: adminpages/settings.php:79
+msgid "This site is using your own restricted key. Remove the key before connecting with Stripe."
+msgstr ""
+
+#: adminpages/settings.php:158
+msgid "Stripe rejected the restricted key saved for this site, so content cannot be sold or unlocked."
+msgstr ""
+
+#: adminpages/settings.php:159
+msgid "Enter a new restricted key"
+msgstr ""
+
+#: adminpages/settings.php:162
+msgid "Your restricted key is missing a permission that Restrict With Stripe needs."
+msgstr ""
+
+#: adminpages/settings.php:163
+msgid "Check key permissions"
+msgstr ""
+
+#: adminpages/settings.php:168
+msgid "Restrict With Stripe: Check your restricted key."
+msgstr ""
+
+#. translators: %s: Error message from Stripe.
+#: adminpages/settings.php:173
+#, php-format
+msgid "Stripe said: %s"
+msgstr ""
+
+#: classes/class-rwstripe-stripe.php:170
+msgid "This site is connected through Stripe Connect. Disconnect from Stripe before saving your own restricted key."
+msgstr ""
+
+#: classes/class-rwstripe-stripe.php:173
+msgid "That is a publishable key. Enter a restricted key that starts with rk_live_ or rk_test_."
+msgstr ""
+
+#: classes/class-rwstripe-stripe.php:176
+msgid "Enter a restricted key that starts with rk_live_ or rk_test_."
+msgstr ""
+
+#: classes/class-rwstripe-stripe.php:181
+#: classes/class-rwstripe-stripe.php:305
+msgid "The Stripe library could not be loaded. Make sure the curl, mbstring, and json PHP extensions are enabled."
+msgstr ""
+
+#. translators: %s: Error message from Stripe.
+#: classes/class-rwstripe-stripe.php:188
+#, php-format
+msgid "The key was not saved because it could not read your Stripe account. Make sure it is a valid key with the Accounts: Read permission. Stripe said: %s"
+msgstr ""
+
+#: classes/class-rwstripe-stripe.php:191
+msgid "The key was not saved because Stripe did not return an account ID."
+msgstr ""
+
+#: classes/class-rwstripe-stripe.php:232
+msgid "Products"
+msgstr ""
+
+#: classes/class-rwstripe-stripe.php:234
+msgid "List products to restrict content and build the paywall."
+msgstr ""
+
+#: classes/class-rwstripe-stripe.php:239
+msgid "Prices"
+msgstr ""
+
+#: classes/class-rwstripe-stripe.php:241
+msgid "Show prices and look up the price being bought."
+msgstr ""
+
+#: classes/class-rwstripe-stripe.php:246
+msgid "Customers"
+msgstr ""
+
+#: classes/class-rwstripe-stripe.php:248
+msgid "Create a Stripe customer for each user and keep their email in sync."
+msgstr ""
+
+#: classes/class-rwstripe-stripe.php:253
+msgid "Subscriptions"
+msgstr ""
+
+#: classes/class-rwstripe-stripe.php:255
+msgid "Check active or trialing subscriptions."
+msgstr ""
+
+#: classes/class-rwstripe-stripe.php:260
+msgid "Invoices"
+msgstr ""
+
+#: classes/class-rwstripe-stripe.php:262
+msgid "Check paid one-time purchases."
+msgstr ""
+
+#: classes/class-rwstripe-stripe.php:267
+msgid "Checkout Sessions"
+msgstr ""
+
+#: classes/class-rwstripe-stripe.php:269
+msgid "Create Stripe Checkout sessions."
+msgstr ""
+
+#: classes/class-rwstripe-stripe.php:274
+msgid "Customer portal"
+msgstr ""
+
+#: classes/class-rwstripe-stripe.php:276
+msgid "Create the portal configuration and customer portal sessions."
+msgstr ""
+
+#: classes/class-rwstripe-stripe.php:281
+msgid "Accounts"
+msgstr ""
+
+#: classes/class-rwstripe-stripe.php:283
+msgid "Read the account ID when the key is saved, so restrictions and customers stay tied to your Stripe account (and carry over from Stripe Connect)."
+msgstr ""
+
+#: classes/class-rwstripe-stripe.php:302
+msgid "No restricted key is saved."
+msgstr ""
+
+#: classes/class-rwstripe-stripe.php:337
+msgid "Read access confirmed. Write access is verified on first use."
+msgstr ""
+
+#: classes/class-rwstripe-stripe.php:340
+msgid "Granted."
+msgstr ""
+
+#: classes/class-rwstripe-stripe.php:352
+msgid "Stripe could not be reached to check this permission."
+msgstr ""
+
+#: classes/class-rwstripe-stripe.php:657
 msgid "Manage Your Subscriptions"
 msgstr ""
 
-#: classes/class-rwstripe-stripe.php:324
+#: classes/class-rwstripe-stripe.php:740
 msgid "Error getting subscriptions."
 msgstr ""
 
-#: classes/class-rwstripe-stripe.php:367
+#: classes/class-rwstripe-stripe.php:784
 msgid "Error getting invoices."
 msgstr ""
 
@@ -152,6 +289,7 @@ msgid "per"
 msgstr ""
 
 #: includes/functions.php:146
+#, php-format
 msgid "Product %s does not have a default price."
 msgstr ""
 
@@ -174,10 +312,12 @@ msgstr ""
 
 #: includes/functions.php:179
 #: includes/functions.php:229
+#, php-format
 msgid "Complete checkout now to access everything in %s."
 msgstr ""
 
 #: includes/functions.php:200
+#, php-format
 msgid "Create a new account or <a href=\"%s\">log in</a> to purchase access."
 msgstr ""
 
@@ -198,265 +338,451 @@ msgid "Processing..."
 msgstr ""
 
 #: blocks/build/settings/admin.js:1
-#: blocks/src/settings/index.js:136
-msgid "Connect to Stripe (Connected)"
+#: blocks/src/settings/restricted-key.js:15
+msgid "Granted"
 msgstr ""
 
 #: blocks/build/settings/admin.js:1
-#: blocks/src/settings/index.js:138
-msgid "Connect to Stripe (Connected in Test Mode)"
+#: blocks/src/settings/restricted-key.js:16
+msgid "Verified on first use"
 msgstr ""
 
 #: blocks/build/settings/admin.js:1
-#: blocks/src/settings/index.js:142
-msgid "Connected to account: %d."
+#: blocks/src/settings/restricted-key.js:17
+msgid "Missing"
 msgstr ""
 
 #: blocks/build/settings/admin.js:1
-#: blocks/src/settings/index.js:143
-msgid "Visit your Stripe account dashboard"
+#: blocks/src/settings/restricted-key.js:18
+msgid "Could not check"
 msgstr ""
 
 #: blocks/build/settings/admin.js:1
-#: blocks/src/settings/index.js:146
-#: blocks/src/settings/index.js:164
-msgid "Disconnect From Stripe"
+#: blocks/src/settings/restricted-key.js:21
+msgid "Write"
 msgstr ""
 
 #: blocks/build/settings/admin.js:1
-#: blocks/src/settings/index.js:131
-#: blocks/src/settings/index.js:149
-#: blocks/src/settings/index.js:167
-msgid "A 2% fee in addition to the standard Stripe processing fee is applied to all payments. This fee goes to Stranger Studios, the developers of Restrict With Stripe, to help support ongoing development."
+#: blocks/src/settings/restricted-key.js:21
+msgid "Read"
 msgstr ""
 
 #: blocks/build/settings/admin.js:1
-#: blocks/src/settings/index.js:131
-#: blocks/src/settings/index.js:149
-#: blocks/src/settings/index.js:167
-msgid "Learn More"
+#: blocks/src/settings/restricted-key.js:33
+msgid "Check your restricted key."
 msgstr ""
 
 #: blocks/build/settings/admin.js:1
-#: blocks/src/settings/index.js:154
-msgid "Connect to Stripe (Error)"
+#: blocks/src/settings/restricted-key.js:33
+msgid "Stripe rejected this key. Create a new restricted key in Stripe and save it here."
 msgstr ""
 
 #: blocks/build/settings/admin.js:1
-#: blocks/src/settings/index.js:156
-msgid "Connect to Stripe (Error in Test Mode)"
+#: blocks/src/settings/restricted-key.js:41
+msgid "Your restricted key has every permission Restrict With Stripe can check."
 msgstr ""
 
 #: blocks/build/settings/admin.js:1
-#: blocks/src/settings/index.js:160
-msgid "The following error is received when trying to communicate with Stripe:"
+#: blocks/src/settings/restricted-key.js:41
+msgid "Your restricted key is missing permissions. Edit the key in Stripe, then check again."
 msgstr ""
 
 #: blocks/build/settings/admin.js:1
-#: blocks/src/settings/index.js:115
-#: blocks/src/settings/index.js:120
-msgid "Connect to Stripe"
+#: blocks/src/settings/restricted-key.js:46
+msgid "Permission"
 msgstr ""
 
 #: blocks/build/settings/admin.js:1
-#: blocks/src/settings/index.js:117
+#: blocks/src/settings/restricted-key.js:47
+msgid "Status"
+msgstr ""
+
+#: blocks/build/settings/admin.js:1
+#: blocks/src/settings/restricted-key.js:48
+msgid "Details"
+msgstr ""
+
+#: blocks/build/settings/admin.js:1
+#: blocks/src/settings/restricted-key.js:65
+msgid "Last checked:"
+msgstr ""
+
+#: blocks/build/settings/admin.js:1
+#: blocks/src/settings/restricted-key.js:97
+msgid "Or use your own restricted key"
+msgstr ""
+
+#: blocks/build/settings/admin.js:1
+#: blocks/src/settings/restricted-key.js:98
+msgid "Create a restricted key in your Stripe Dashboard with these permissions, then paste it here. No Restrict With Stripe application fee is added to payments made with your own key."
+msgstr ""
+
+#: blocks/build/settings/admin.js:1
+#: blocks/src/settings/restricted-key.js:113
+msgid "Restricted key"
+msgstr ""
+
+#: blocks/build/settings/admin.js:1
+#: blocks/src/settings/restricted-key.js:114
+msgid "Starts with rk_live_ or rk_test_. A secret key (sk_) also works, but Stripe recommends a restricted key. The environment is set by the key."
+msgstr ""
+
+#: blocks/build/settings/admin.js:1
+#: blocks/src/settings/restricted-key.js:91
+msgid "The key could not be saved."
+msgstr ""
+
+#: blocks/build/settings/admin.js:1
+#: blocks/src/settings/restricted-key.js:121
+msgid "Saving and checking permissions…"
+msgstr ""
+
+#: blocks/build/settings/admin.js:1
+#: blocks/src/settings/restricted-key.js:121
+msgid "Save Restricted Key"
+msgstr ""
+
+#: blocks/build/settings/admin.js:1
+#: blocks/src/settings/restricted-key.js:170
+msgid "Active credential:"
+msgstr ""
+
+#: blocks/build/settings/admin.js:1
+#: blocks/src/settings/restricted-key.js:171
+msgid "Your secret key"
+msgstr ""
+
+#: blocks/build/settings/admin.js:1
+#: blocks/src/settings/restricted-key.js:171
+msgid "Your restricted key"
+msgstr ""
+
+#: blocks/build/settings/admin.js:1
+#: blocks/src/settings/restricted-key.js:173
+msgid "Live Mode"
+msgstr ""
+
+#: blocks/build/settings/admin.js:1
+#: blocks/src/settings/index.js:137
+#: blocks/src/settings/restricted-key.js:173
 msgid "Test Mode"
 msgstr ""
 
 #: blocks/build/settings/admin.js:1
-#: blocks/src/settings/index.js:184
-msgid "Create Products in Stripe"
+#: blocks/src/settings/restricted-key.js:176
+msgid "Stripe account:"
 msgstr ""
 
 #: blocks/build/settings/admin.js:1
-#: blocks/src/settings/index.js:185
-msgid "Restrict With Stripe uses Stripe Products to track user access to site content."
+#: blocks/src/settings/restricted-key.js:178
+msgid "Stripe Connect is not in use. No Restrict With Stripe application fee is added to payments made with your own key."
 msgstr ""
 
 #: blocks/build/settings/admin.js:1
+#: blocks/src/settings/restricted-key.js:181
+msgid "You saved a secret key, which has full access to your Stripe account. Stripe recommends a restricted key with only the permissions this plugin needs."
+msgstr ""
+
+#: blocks/build/settings/admin.js:1
+#: blocks/src/settings/restricted-key.js:146
+msgid "The key could not be checked."
+msgstr ""
+
+#: blocks/build/settings/admin.js:1
+#: blocks/src/settings/restricted-key.js:192
+msgid "Check Key Permissions"
+msgstr ""
+
+#: blocks/build/settings/admin.js:1
+#: blocks/src/settings/restricted-key.js:152
+msgid "Remove your restricted key? Restrict With Stripe will stop working until you save a new key or connect with Stripe."
+msgstr ""
+
+#: blocks/build/settings/admin.js:1
+#: blocks/src/settings/restricted-key.js:162
+msgid "The key could not be removed."
+msgstr ""
+
+#: blocks/build/settings/admin.js:1
+#: blocks/src/settings/restricted-key.js:195
+msgid "Remove Key"
+msgstr ""
+
+#: blocks/build/settings/admin.js:1
+#: blocks/src/settings/index.js:117
+msgid "Connect to Stripe (Using Your Restricted Key)"
+msgstr ""
+
+#: blocks/build/settings/admin.js:1
+#: blocks/src/settings/index.js:119
+msgid "Connect to Stripe (Using Your Restricted Key in Test Mode)"
+msgstr ""
+
+#: blocks/build/settings/admin.js:1
+#: blocks/src/settings/index.js:125
+#: blocks/src/settings/index.js:182
+msgid "The following error is received when trying to communicate with Stripe:"
+msgstr ""
+
+#: blocks/build/settings/admin.js:1
+#: blocks/src/settings/index.js:129
+#: blocks/src/settings/index.js:164
+msgid "Visit your Stripe account dashboard"
+msgstr ""
+
+#: blocks/build/settings/admin.js:1
+#: blocks/src/settings/index.js:157
+msgid "Connect to Stripe (Connected)"
+msgstr ""
+
+#: blocks/build/settings/admin.js:1
+#: blocks/src/settings/index.js:159
+msgid "Connect to Stripe (Connected in Test Mode)"
+msgstr ""
+
+#: blocks/build/settings/admin.js:1
+#: blocks/src/settings/index.js:163
+#, js-format
+msgid "Connected to account: %d."
+msgstr ""
+
+#: blocks/build/settings/admin.js:1
+#: blocks/src/settings/index.js:167
 #: blocks/src/settings/index.js:186
-msgid "Create a unique Stripe Product for each piece of content you need to restrict, whether it be a single post or page, a category of posts, or something else."
+msgid "Disconnect From Stripe"
 msgstr ""
 
 #: blocks/build/settings/admin.js:1
-#: blocks/src/settings/index.js:192
-msgid "Manage %d Products"
+#: blocks/src/settings/index.js:151
+#: blocks/src/settings/index.js:170
+#: blocks/src/settings/index.js:189
+msgid "A 2% fee in addition to the standard Stripe processing fee is applied to all payments. This fee goes to Stranger Studios, the developers of Restrict With Stripe, to help support ongoing development."
 msgstr ""
 
 #: blocks/build/settings/admin.js:1
-#: blocks/src/settings/index.js:200
-msgid "Create a New Product"
+#: blocks/src/settings/index.js:151
+#: blocks/src/settings/index.js:170
+#: blocks/src/settings/index.js:189
+msgid "Learn More"
 msgstr ""
 
 #: blocks/build/settings/admin.js:1
-#: blocks/src/settings/index.js:206
-msgid "Restrict Site Content"
+#: blocks/src/settings/index.js:171
+#: blocks/src/settings/index.js:190
+msgid "Active credential: Stripe Connect. To use your own restricted key instead, disconnect from Stripe first."
+msgstr ""
+
+#: blocks/build/settings/admin.js:1
+#: blocks/src/settings/index.js:176
+msgid "Connect to Stripe (Error)"
+msgstr ""
+
+#: blocks/build/settings/admin.js:1
+#: blocks/src/settings/index.js:178
+msgid "Connect to Stripe (Error in Test Mode)"
+msgstr ""
+
+#: blocks/build/settings/admin.js:1
+#: blocks/src/settings/index.js:135
+#: blocks/src/settings/index.js:140
+msgid "Connect to Stripe"
 msgstr ""
 
 #: blocks/build/settings/admin.js:1
 #: blocks/src/settings/index.js:207
-msgid "Restrict a single piece of content or protect a group of posts by category or tag."
+msgid "Create Products in Stripe"
 msgstr ""
 
 #: blocks/build/settings/admin.js:1
-#: blocks/src/settings/index.js:210
-msgid "For Posts and Pages"
+#: blocks/src/settings/index.js:208
+msgid "Restrict With Stripe uses Stripe Products to track user access to site content."
 msgstr ""
 
 #: blocks/build/settings/admin.js:1
-#: blocks/src/settings/index.js:212
-msgid "Edit the post or page"
-msgstr ""
-
-#: blocks/build/settings/admin.js:1
-#: blocks/src/settings/index.js:213
-msgid "Open the Settings panel"
-msgstr ""
-
-#: blocks/build/settings/admin.js:1
-#: blocks/src/settings/index.js:214
-msgid "Select Stripe Products in the \"Restrict With Stripe\" panel"
+#: blocks/src/settings/index.js:209
+msgid "Create a unique Stripe Product for each piece of content you need to restrict, whether it be a single post or page, a category of posts, or something else."
 msgstr ""
 
 #: blocks/build/settings/admin.js:1
 #: blocks/src/settings/index.js:215
-#: blocks/src/settings/index.js:239
-#: blocks/src/settings/index.js:280
-msgid "Save changes"
+#, js-format
+msgid "Manage %d Products"
 msgstr ""
 
 #: blocks/build/settings/admin.js:1
-#: blocks/src/settings/index.js:219
-msgid "View Posts"
+#: blocks/src/settings/index.js:223
+msgid "Create a New Product"
 msgstr ""
 
 #: blocks/build/settings/admin.js:1
-#: blocks/src/settings/index.js:224
-msgid "View Pages"
+#: blocks/src/settings/index.js:229
+msgid "Restrict Site Content"
 msgstr ""
 
 #: blocks/build/settings/admin.js:1
 #: blocks/src/settings/index.js:230
-msgid "Example of the Restrict With Stripe panel on the Edit Post or Edit Page screen."
+msgid "Restrict a single piece of content or protect a group of posts by category or tag."
+msgstr ""
+
+#: blocks/build/settings/admin.js:1
+#: blocks/src/settings/index.js:233
+msgid "For Posts and Pages"
 msgstr ""
 
 #: blocks/build/settings/admin.js:1
 #: blocks/src/settings/index.js:235
-msgid "For Categories and Tags"
+msgid "Edit the post or page"
+msgstr ""
+
+#: blocks/build/settings/admin.js:1
+#: blocks/src/settings/index.js:236
+msgid "Open the Settings panel"
 msgstr ""
 
 #: blocks/build/settings/admin.js:1
 #: blocks/src/settings/index.js:237
-msgid "Edit the category or tag"
+msgid "Select Stripe Products in the \"Restrict With Stripe\" panel"
 msgstr ""
 
 #: blocks/build/settings/admin.js:1
 #: blocks/src/settings/index.js:238
-msgid "Select Stripe Products"
+#: blocks/src/settings/index.js:262
+#: blocks/src/settings/index.js:303
+msgid "Save changes"
 msgstr ""
 
 #: blocks/build/settings/admin.js:1
-#: blocks/src/settings/index.js:243
-msgid "View Categories"
+#: blocks/src/settings/index.js:242
+msgid "View Posts"
 msgstr ""
 
 #: blocks/build/settings/admin.js:1
-#: blocks/src/settings/index.js:248
-msgid "View Tags"
+#: blocks/src/settings/index.js:247
+msgid "View Pages"
 msgstr ""
 
 #: blocks/build/settings/admin.js:1
-#: blocks/src/settings/index.js:254
-msgid "Example of the Restrict With Stripe setting for Categories and Tags."
+#: blocks/src/settings/index.js:253
+msgid "Example of the Restrict With Stripe panel on the Edit Post or Edit Page screen."
 msgstr ""
 
 #: blocks/build/settings/admin.js:1
 #: blocks/src/settings/index.js:258
-msgid "Link to Stripe Customer Portal"
+msgid "For Categories and Tags"
 msgstr ""
 
 #: blocks/build/settings/admin.js:1
-#: blocks/src/settings/index.js:259
-msgid "The Customer Portal is a Stripe tool that allows customers to view previous payments and manage active subscriptions. Give customers a link to the portal using one of the methods below:"
+#: blocks/src/settings/index.js:260
+msgid "Edit the category or tag"
 msgstr ""
 
 #: blocks/build/settings/admin.js:1
-#: blocks/src/settings/index.js:262
-msgid "Create a \"Customer Portal\" Menu Item"
-msgstr ""
-
-#: blocks/build/settings/admin.js:1
-#: blocks/src/settings/index.js:264
-msgid "Edit the desired menu"
-msgstr ""
-
-#: blocks/build/settings/admin.js:1
-#: blocks/src/settings/index.js:265
-msgid "In the \"Restrict With Stripe\" panel, select the \"Stripe Customer Portal\" menu item and click \"Add to Menu\""
+#: blocks/src/settings/index.js:261
+msgid "Select Stripe Products"
 msgstr ""
 
 #: blocks/build/settings/admin.js:1
 #: blocks/src/settings/index.js:266
-msgid "Click \"Save Menu\""
+msgid "View Categories"
 msgstr ""
 
 #: blocks/build/settings/admin.js:1
 #: blocks/src/settings/index.js:271
-msgid "Example of adding the Stripe Customer Portal menu item to a nav menu location."
+msgid "View Tags"
 msgstr ""
 
 #: blocks/build/settings/admin.js:1
-#: blocks/src/settings/index.js:276
-msgid "Use the \"Stripe Customer Portal\" Block"
+#: blocks/src/settings/index.js:277
+msgid "Example of the Restrict With Stripe setting for Categories and Tags."
 msgstr ""
 
 #: blocks/build/settings/admin.js:1
-#: blocks/src/settings/index.js:278
-msgid "Edit the desired page"
+#: blocks/src/settings/index.js:281
+msgid "Link to Stripe Customer Portal"
 msgstr ""
 
 #: blocks/build/settings/admin.js:1
-#: blocks/src/settings/index.js:279
-msgid "Insert the \"Stripe Customer Portal\" block"
+#: blocks/src/settings/index.js:282
+msgid "The Customer Portal is a Stripe tool that allows customers to view previous payments and manage active subscriptions. Give customers a link to the portal using one of the methods below:"
 msgstr ""
 
 #: blocks/build/settings/admin.js:1
 #: blocks/src/settings/index.js:285
-msgid "Example of the Stripe Customer Portal block on the Edit Page screen."
+msgid "Create a \"Customer Portal\" Menu Item"
+msgstr ""
+
+#: blocks/build/settings/admin.js:1
+#: blocks/src/settings/index.js:287
+msgid "Edit the desired menu"
+msgstr ""
+
+#: blocks/build/settings/admin.js:1
+#: blocks/src/settings/index.js:288
+msgid "In the \"Restrict With Stripe\" panel, select the \"Stripe Customer Portal\" menu item and click \"Add to Menu\""
 msgstr ""
 
 #: blocks/build/settings/admin.js:1
 #: blocks/src/settings/index.js:289
+msgid "Click \"Save Menu\""
+msgstr ""
+
+#: blocks/build/settings/admin.js:1
+#: blocks/src/settings/index.js:294
+msgid "Example of adding the Stripe Customer Portal menu item to a nav menu location."
+msgstr ""
+
+#: blocks/build/settings/admin.js:1
+#: blocks/src/settings/index.js:299
+msgid "Use the \"Stripe Customer Portal\" Block"
+msgstr ""
+
+#: blocks/build/settings/admin.js:1
+#: blocks/src/settings/index.js:301
+msgid "Edit the desired page"
+msgstr ""
+
+#: blocks/build/settings/admin.js:1
+#: blocks/src/settings/index.js:302
+msgid "Insert the \"Stripe Customer Portal\" block"
+msgstr ""
+
+#: blocks/build/settings/admin.js:1
+#: blocks/src/settings/index.js:308
+msgid "Example of the Stripe Customer Portal block on the Edit Page screen."
+msgstr ""
+
+#: blocks/build/settings/admin.js:1
+#: blocks/src/settings/index.js:312
 msgid "Customize Advanced Settings"
 msgstr ""
 
 #: blocks/build/settings/admin.js:1
-#: blocks/src/settings/index.js:290
+#: blocks/src/settings/index.js:313
 msgid "Confirm advanced settings for default behavior (optional)."
 msgstr ""
 
 #: blocks/build/settings/admin.js:1
-#: blocks/src/settings/index.js:292
+#: blocks/src/settings/index.js:315
 msgid "Show a content excerpt on restricted posts or pages"
 msgstr ""
 
 #: blocks/build/settings/admin.js:1
-#: blocks/src/settings/index.js:297
+#: blocks/src/settings/index.js:320
 msgid "Allow customers to choose a password during registration"
 msgstr ""
 
 #: blocks/build/settings/admin.js:1
-#: blocks/src/settings/index.js:320
+#: blocks/src/settings/index.js:343
 msgid "Settings Saved"
 msgstr ""
 
 #: blocks/build/settings/admin.js:1
-#: blocks/src/settings/index.js:329
+#: blocks/src/settings/index.js:352
 msgid "Save Failed"
 msgstr ""
 
 #: blocks/build/settings/admin.js:1
-#: blocks/src/settings/index.js:338
+#: blocks/src/settings/index.js:361
 msgid "Save"
 msgstr ""
 
