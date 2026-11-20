@@ -59,6 +59,11 @@ function rwstripe_handle_connect_to_stripe_response() {
 		return;
 	}
 
+	// Only handle responses to a Connect or Disconnect request started from our settings page.
+	if ( ! isset( $_REQUEST['rwstripe_connect_nonce'] ) || ! wp_verify_nonce( sanitize_key( $_REQUEST['rwstripe_connect_nonce'] ), 'rwstripe_connect' ) ) {
+		return;
+	}
+
 	if ( isset( $_REQUEST['pmpro_stripe_connected'] )  ) {
 		if ( 'false' === $_REQUEST['pmpro_stripe_connected'] && isset( $_REQUEST['error_message'] ) ) {
 			$error = sanitize_text_field( $_REQUEST['error_message'] );
